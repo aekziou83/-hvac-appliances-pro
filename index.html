@@ -357,7 +357,6 @@
 
         <div class="search-filters">
             
-            <!-- 1. القائمة المخصصة لنوع الجهاز -->
             <div class="custom-select-container" id="device-container">
                 <div class="select-box" onclick="toggleDropdown('device-list', 'device-container')">
                     <div class="select-content">
@@ -374,7 +373,6 @@
                 </ul>
             </div>
 
-            <!-- 2. القائمة المخصصة للماركات -->
             <div class="custom-select-container" id="brand-container">
                 <div class="select-box" onclick="toggleDropdown('brand-list', 'brand-container')">
                     <div class="select-content">
@@ -437,7 +435,6 @@
                 </ul>
             </div>
 
-            <!-- 3. القائمة المخصصة للتقنية -->
             <div class="custom-select-container" id="tech-wrapper">
                 <div class="select-box" onclick="toggleDropdown('tech-list', 'tech-wrapper')">
                     <div class="select-content">
@@ -453,7 +450,6 @@
                 </ul>
             </div>
 
-            <!-- 4. القائمة المخصصة للأشكال -->
             <div class="custom-select-container" id="shape-wrapper">
                 <div class="select-box" onclick="toggleDropdown('shape-list', 'shape-wrapper')">
                     <div class="select-content">
@@ -473,7 +469,6 @@
                 </ul>
             </div>
 
-            <!-- 5. منطقة البحث مع زر الميكروفون الأخضر -->
             <div class="search-input-area">
                 <div class="code-input-wrapper">
                     <span class="icon-emoji" style="color:var(--text-muted); font-size:1.4rem;">⌨️</span>
@@ -484,7 +479,6 @@
                 </button>
             </div>
 
-            <!-- شريط التسجيل المنبثق -->
             <div class="recording-overlay" id="recording-overlay">
                 <span class="record-time" id="record-timer">0:00</span>
                 <div class="record-wave"></div>
@@ -492,7 +486,6 @@
                     <button type="button" class="btn-cancel-record" id="cancel-record-btn" title="إلغاء">
                         <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </button>
-                    <!-- إرسال يدوي كإجراء احتياطي -->
                     <button type="button" class="btn-send-record" id="send-record-btn" title="إرسال (بحث)">
                         <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>
@@ -501,7 +494,6 @@
 
         </div>
 
-        <!-- مربع عرض نتيجة البحث -->
         <div class="result-message" id="result-message">
             <!-- سيتم حقن النتيجة هنا -->
         </div>
@@ -550,7 +542,7 @@
         function startVoiceSearch() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
-                alert("عذراً، متصفحك لا يدعم البحث الصوتي.");
+                alert(translations[currentLang].no_speech_support || "عذراً، متصفحك لا يدعم البحث الصوتي.");
                 return;
             }
 
@@ -572,6 +564,18 @@
                 isRecording = true;
                 hasProcessedVoice = false; 
                 document.getElementById('error-code').value = '';
+
+                let recordSeconds = 0;
+                const timerDisplay = document.getElementById('record-timer');
+                timerDisplay.innerText = "0:00";
+
+                clearInterval(recordInterval);
+                recordInterval = setInterval(() => {
+                    recordSeconds++;
+                    let mins = Math.floor(recordSeconds / 60);
+                    let secs = recordSeconds % 60;
+                    timerDisplay.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                }, 1000);
 
                 recognition.onresult = function(event) {
                     let interimTranscript = '';
@@ -622,6 +626,7 @@
 
         function stopRecordingUI() {
             isRecording = false;
+            clearInterval(recordInterval);
             clearTimeout(silenceTimer);
             document.getElementById('recording-overlay').classList.remove('active');
             document.getElementById('start-record-btn').style.display = 'flex';
@@ -645,7 +650,7 @@
         });
 
         // =========================================================================
-        // المترجم الخرافي (الضربة القاضية لمشاكل النطق)
+        // المترجم الخرافي (الضربة القاضية لمشاكل النطق مع التحديثات الجديدة)
         // =========================================================================
         function extractTechnicalCode(text) {
             let code = text.toLowerCase();
@@ -664,19 +669,29 @@
                 code = code.replace(new RegExp(`\\b${w}\\b`, "gi"), " "); 
             });
 
-            // 2. إصلاح المشاكل المعقدة جداً لجوجل
+            // 2. إصلاح المشاكل المعقدة جداً لجوجل (بما في ذلك الأخطاء الجديدة من الصور)
             const exactFixes = {
+                // مشاكل نطق الحروف
                 'كنت قاسي': 'ac', 'كانت قاسي': 'ac', 'قاسي': 'ac', 'casey': 'ac', 'كاتي': 'ac', 'كات': 'ac', 'ايه سي': 'ac', 'إيه سي': 'ac',
                 'aussi': 'oc', 'أصير': 'oc', 'اصير': 'oc', 'أوسي': 'oc', 'اوسي': 'oc', 'zero c': '0c', 'زيرو سي': '0c',
                 'ice': 'ec', 'اي سي': 'ec', 'إي سي': 'ec',
                 'دي سي': 'dc', 'بي إي': 'pe', 'بي اي': 'pe', 'تي إي': 'te', 'تي اي': 'te',
-                'أف إي': 'fe', 'اف اي': 'fe', 'إل إي': 'le', 'ال اي': 'le', 'إي وان': 'e1', 'اي وان': 'e1'
+                'أف إي': 'fe', 'اف اي': 'fe', 'إل إي': 'le', 'ال اي': 'le', 'إي وان': 'e1', 'اي وان': 'e1',
+                // الأخطاء الجديدة المكتشفة
+                'آسيا': 'ac', 'اسي': 'ac', 'أسي': 'ac', // لـ AC
+                'راسي': 'rc', 'رسي': 'rc', // لـ RC
+                'عاش': 'h', 'اتش': 'h', 'إتش': 'h', // لـ H
+                'عاصي': 'oc', 'أصي': 'oc', // لـ OC
+                'آسف': 'sf', 'اسف': 'sf', // لـ SF
+                'في': 'v', // لـ V 
+                'passer': 'pc', // لـ PC
+                'ici': 'ec' // لـ EC
             };
             for (const [bad, good] of Object.entries(exactFixes)) {
                 code = code.replace(new RegExp(`\\b${bad}\\b`, "gi"), good);
             }
 
-            // 3. تحويل الحروف العربية المفردة (تمت إضافة "اه" و "او" لحل مشكلتك الأخيرة)
+            // 3. تحويل الحروف العربية المفردة 
             const phonetics = {
                 'اه': 'e', 'إيه': 'e', 'ايه': 'e', 'إي': 'e', 'اي': 'e', 'إی': 'e', 'e': 'e', 'ae': 'e',
                 'أو': 'o', 'او': 'o', 'أوه': 'o', 'o': 'o',
