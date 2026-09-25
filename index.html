@@ -523,223 +523,31 @@
         // =========================================================
         const errorDatabase = [
             // سامسونج - غسالات صحون
-            { 
-                device: 'dw', brand: 'samsung', code: 'PC/PE', 
-                image: "images/samsung_diverter.jpg", schematic: "images/samsung_diverter_sch.png",
-                ar: { title: "عطل صمام التوجيه", desc: "🔴 <b>وصف العطل:</b> خلل في صمام تحويل مسار المياه (Diverter valve).<br><br>🔍 <b>المسببات المحتملة:</b> تلف محرك الصمام، كسر التروس الداخلية.<br><br>🛠️ <b>خطوات الفحص:</b> افصل التيار الكهربائي، قس مقاومة محرك الصمام." }, 
-                en: { title: "Diverter Valve Error", desc: "🔴 <b>Description:</b> Malfunction in the water diverter valve.<br><br>🔍 <b>Causes:</b> Valve motor failure, broken gears.<br><br>🛠️ <b>Action:</b> Check motor resistance and verify voltage." }, 
-                fr: { title: "Erreur vanne de séparation", desc: "🔴 <b>Description:</b> Défaut de la vanne de distribution d'eau.<br><br>🔍 <b>Causes:</b> Moteur défectueux, engrenages cassés.<br><br>🛠️ <b>Vérification:</b> Testez la résistance du moteur." },
-                es: { title: "Error de válvula desviadora", desc: "🔴 <b>Descripción:</b> Fallo en la válvula de desvío de agua.<br><br>🔍 <b>Causas:</b> Motor dañado, engranajes rotos.<br><br>🛠️ <b>Revisión:</b> Mida la resistencia del motor." },
-                ru: { title: "Ошибка распределительного клапана", desc: "🔴 <b>Описание:</b> Неисправность клапана потока воды.<br><br>🔍 <b>Причины:</b> Отказ мотора, поломка шестерен.<br><br>🛠️ <b>Проверка:</b> Проверьте сопротивление мотора." } 
-            },
-            { 
-                device: 'dw', brand: 'samsung', code: 'LC/LE', 
-                image: "images/samsung_leak.jpg", schematic: "",
-                ar: { title: "تسريب مياه", desc: "🔴 <b>وصف العطل:</b> تفعيل نظام الحماية بسبب اكتشاف مياه في القاعدة السفلية.<br><br>🔍 <b>المسببات المحتملة:</b> ثقب في الخراطيم، تسريب من مضخة الغسيل.<br><br>🛠️ <b>خطوات الفحص:</b> افصل الكهرباء فوراً، جفف حوض التجميع." }, 
-                en: { title: "Water Leak", desc: "🔴 <b>Description:</b> Flood protection activated due to water in the bottom base.<br><br>🔍 <b>Causes:</b> Punctured hoses, wash pump leak.<br><br>🛠️ <b>Action:</b> Disconnect power, dry the basin." }, 
-                fr: { title: "Fuite d'eau", desc: "🔴 <b>Description:</b> Protection activée à cause d'eau dans la base.<br><br>🔍 <b>Causes:</b> Tuyaux percés, fuite de pompe.<br><br>🛠️ <b>Vérification:</b> Coupez l'alimentation, séchez le bac." },
-                es: { title: "Fuga de agua", desc: "🔴 <b>Descripción:</b> Protección activada por agua en la base.<br><br>🔍 <b>Causas:</b> Mangueras perforadas, fuga en bomba.<br><br>🛠️ <b>Revisión:</b> Desconecte la energía, seque la bandeja." },
-                ru: { title: "Утечка воды", desc: "🔴 <b>Описание:</b> Защита от протечек (вода в поддоне).<br><br>🔍 <b>Причины:</b> Пробиты шланги, течь насоса.<br><br>🛠️ <b>Проверка:</b> Отключите питание, осушите поддон." } 
-            },
-            { 
-                device: 'dw', brand: 'samsung', code: '4C/4E', 
-                image: "images/samsung_inlet.jpg", schematic: "images/samsung_inlet_sch.png",
-                ar: { title: "فشل إمداد المياه", desc: "🔴 <b>وصف العطل:</b> الغسالة لا تمتلئ بالماء ضمن الوقت المحدد.<br><br>🔍 <b>المسببات المحتملة:</b> صنبور مغلق، انسداد فلتر صمام الدخول.<br><br>🛠️ <b>خطوات الفحص:</b> تأكد من ضغط الماء، نظف شبكة الفلتر." }, 
-                en: { title: "Water Supply Error", desc: "🔴 <b>Description:</b> Washer is not filling with water.<br><br>🔍 <b>Causes:</b> Closed tap, clogged inlet filter.<br><br>🛠️ <b>Action:</b> Check water pressure, clean filter screen." }, 
-                fr: { title: "Erreur d'alimentation", desc: "🔴 <b>Description:</b> Le lave-vaisselle ne se remplit pas à temps.<br><br>🔍 <b>Causes:</b> Robinet fermé, filtre bouché.<br><br>🛠️ <b>Vérification:</b> Vérifiez la pression, nettoyez le filtre." },
-                es: { title: "Error de suministro", desc: "🔴 <b>Descripción:</b> El lavavajillas no se llena de agua.<br><br>🔍 <b>Causas:</b> Grifo cerrado, filtro obstruido.<br><br>🛠️ <b>Revisión:</b> Verifique la presión, limpie el filtro." },
-                ru: { title: "Ошибка подачи воды", desc: "🔴 <b>Описание:</b> Машина не наполняется водой.<br><br>🔍 <b>Причины:</b> Кран закрыт, засорен фильтр.<br><br>🛠️ <b>Проверка:</b> Проверьте напор, очистите фильтр." } 
-            },
-            { 
-                device: 'dw', brand: 'samsung', code: '5C/5E', 
-                image: "", schematic: "",
-                ar: { title: "فشل تصريف المياه", desc: "🔴 <b>وصف العطل:</b> المياه المتسخة لا تخرج من حوض الغسيل.<br><br>🔍 <b>المسببات المحتملة:</b> انسداد فلتر المضخة، احتراق محرك التصريف.<br><br>🛠️ <b>خطوات الفحص:</b> افحص مسار الخرطوم، نظف الفلتر السفلي." }, 
-                en: { title: "Drainage Error", desc: "🔴 <b>Description:</b> Dirty water is not draining.<br><br>🔍 <b>Causes:</b> Clogged pump filter, burnt drain pump.<br><br>🛠️ <b>Action:</b> Check hose routing, clean bottom filter." }, 
-                fr: { title: "Erreur de vidange", desc: "🔴 <b>Description:</b> L'eau sale ne s'évacue pas.<br><br>🔍 <b>Causes:</b> Filtre bouché, pompe grillée.<br><br>🛠️ <b>Vérification:</b> Inspectez le tuyau, nettoyez le filtre." },
-                es: { title: "Error de drenaje", desc: "🔴 <b>Descripción:</b> El agua sucia no drena.<br><br>🔍 <b>Causas:</b> Filtro obstruido, bomba quemada.<br><br>🛠️ <b>Revisión:</b> Revise la manguera, limpie el filtro." },
-                ru: { title: "Ошибка слива", desc: "🔴 <b>Описание:</b> Грязная вода не сливается.<br><br>🔍 <b>Причины:</b> Засорен фильтр, сгорел насос.<br><br>🛠️ <b>Проверка:</b> Проверьте шланг, очистите фильтр." } 
-            },
-            { 
-                device: 'dw', brand: 'samsung', code: 'HC/HE', 
-                image: "", schematic: "",
-                ar: { title: "عطل نظام التسخين", desc: "🔴 <b>وصف العطل:</b> الماء لا يصل إلى درجة الحرارة المطلوبة.<br><br>🔍 <b>المسببات المحتملة:</b> احتراق السخان، تلف حساس الحرارة NTC.<br><br>🛠️ <b>خطوات الفحص:</b> قس مقاومة السخان (20-30 أوم)." }, 
-                en: { title: "Heating Error", desc: "🔴 <b>Description:</b> Water is not reaching target temperature.<br><br>🔍 <b>Causes:</b> Burnt heater element, faulty NTC sensor.<br><br>🛠️ <b>Action:</b> Measure heater resistance (20-30 ohms)." }, 
-                fr: { title: "Erreur de chauffage", desc: "🔴 <b>Description:</b> L'eau n'atteint pas la température requise.<br><br>🔍 <b>Causes:</b> Résistance grillée, sonde NTC défectueuse.<br><br>🛠️ <b>Vérification:</b> Mesurez la résistance (20-30 ohms)." },
-                es: { title: "Error de calentamiento", desc: "🔴 <b>Descripción:</b> El agua no alcanza la temperatura objetivo.<br><br>🔍 <b>Causas:</b> Calentador quemado, sensor NTC defectuoso.<br><br>🛠️ <b>Revisión:</b> Mida la resistencia (20-30 ohmios)." },
-                ru: { title: "Ошибка нагрева", desc: "🔴 <b>Описание:</b> Вода не достигает нужной температуры.<br><br>🔍 <b>Причины:</b> Сгорел ТЭН, неисправен датчик NTC.<br><br>🛠️ <b>Проверка:</b> Измерьте сопротивление ТЭНа." } 
-            },
-            { 
-                device: 'dw', brand: 'samsung', code: '3C/3E', 
-                image: "", schematic: "",
-                ar: { title: "عطل المضخة الرئيسية", desc: "🔴 <b>وصف العطل:</b> توقف مضخة الغسيل الرئيسية.<br><br>🔍 <b>المسببات المحتملة:</b> احتراق ملفات المحرك، جسم صلب يعيق المروحة.<br><br>🛠️ <b>خطوات الفحص:</b> فك المضخة وتأكد من دورانها بسلاسة." }, 
-                en: { title: "Main Pump Error", desc: "🔴 <b>Description:</b> Main wash pump stopped.<br><br>🔍 <b>Causes:</b> Burnt motor coils, jammed impeller.<br><br>🛠️ <b>Action:</b> Remove pump to check for jams." }, 
-                fr: { title: "Erreur de pompe principale", desc: "🔴 <b>Description:</b> La pompe de lavage principale ne tourne plus.<br><br>🔍 <b>Causes:</b> Bobines grillées, turbine bloquée.<br><br>🛠️ <b>Vérification:</b> Démontez la pompe, vérifiez la turbine." },
-                es: { title: "Error de bomba principal", desc: "🔴 <b>Descripción:</b> La bomba de lavado principal se detuvo.<br><br>🔍 <b>Causas:</b> Bobinas quemadas, impulsor atascado.<br><br>🛠️ <b>Revisión:</b> Retire la bomba, revise el impulsor." },
-                ru: { title: "Ошибка главного насоса", desc: "🔴 <b>Описание:</b> Главный моющий насос не качает.<br><br>🔍 <b>Причины:</b> Сгорела обмотка, заклинило крыльчатку.<br><br>🛠️ <b>Проверка:</b> Снимите насос, проверьте на заклинивание." } 
-            },
-            { 
-                device: 'dw', brand: 'samsung', code: 'BC2/BE2', 
-                image: "", schematic: "",
-                ar: { title: "تعليق الأزرار", desc: "🔴 <b>وصف العطل:</b> زر مضغوط باستمرار لأكثر من 30 ثانية.<br><br>🔍 <b>المسببات المحتملة:</b> أوساخ، تلف سويتش اللوحة.<br><br>🛠️ <b>خطوات الفحص:</b> اضغط على جميع الأزرار للتأكد من حركتها." }, 
-                en: { title: "Button Stuck", desc: "🔴 <b>Description:</b> Button held down for over 30 seconds.<br><br>🔍 <b>Causes:</b> Dirt, faulty tactile switch.<br><br>🛠️ <b>Action:</b> Press all buttons to ensure free movement." }, 
-                fr: { title: "Bouton coincé", desc: "🔴 <b>Description:</b> Bouton enfoncé plus de 30 secondes.<br><br>🔍 <b>Causes:</b> Saleté, micro-interrupteur HS.<br><br>🛠️ <b>Vérification:</b> Pressez tous les boutons pour débloquer." },
-                es: { title: "Botón atascado", desc: "🔴 <b>Descripción:</b> Botón presionado por más de 30 segundos.<br><br>🔍 <b>Causas:</b> Suciedad, interruptor defectuoso.<br><br>🛠️ <b>Revisión:</b> Presione todos los botones, limpie el panel." },
-                ru: { title: "Кнопка застряла", desc: "🔴 <b>Описание:</b> Кнопка зажата более 30 секунд.<br><br>🔍 <b>Причины:</b> Грязь, неисправный переключатель.<br><br>🛠️ <b>Проверка:</b> Нажмите все кнопки для проверки хода." } 
-            },
-            { 
-                device: 'dw', brand: 'samsung', code: '1C/1E', 
-                image: "", schematic: "",
-                ar: { title: "حساس مستوى الماء", desc: "🔴 <b>وصف العطل:</b> قراءة غير صحيحة لمستوى الماء.<br><br>🔍 <b>المسببات المحتملة:</b> تلف حساس الضغط، انسداد الأنبوب الهوائي.<br><br>🛠️ <b>خطوات الفحص:</b> افحص الأنبوب المتصل بالحساس." }, 
-                en: { title: "Water Level Sensor", desc: "🔴 <b>Description:</b> Incorrect water level readings.<br><br>🔍 <b>Causes:</b> Faulty pressure switch, clogged air hose.<br><br>🛠️ <b>Action:</b> Check air hose for blockages." }, 
-                fr: { title: "Capteur de niveau d'eau", desc: "🔴 <b>Description:</b> Mauvaise lecture du niveau d'eau.<br><br>🔍 <b>Causes:</b> Pressostat HS, tuyau d'air bouché.<br><br>🛠️ <b>Vérification:</b> Inspectez le tuyau d'air." },
-                es: { title: "Sensor de nivel de agua", desc: "🔴 <b>Descripción:</b> Lectura incorrecta del nivel de agua.<br><br>🔍 <b>Causas:</b> Presostato defectuoso, manguera obstruida.<br><br>🛠️ <b>Revisión:</b> Revise la manguera de aire." },
-                ru: { title: "Датчик уровня воды", desc: "🔴 <b>Описание:</b> Неправильные показания уровня воды.<br><br>🔍 <b>Причины:</b> Неисправен прессостат, забит шланг.<br><br>🛠️ <b>Проверка:</b> Проверьте воздушный шланг." } 
-            },
-            { 
-                device: 'dw', brand: 'samsung', code: 'OC/OE', 
-                image: "", schematic: "",
-                ar: { title: "تجاوز مستوى الماء", desc: "🔴 <b>وصف العطل:</b> دخول كمية ماء زائدة (Overflow).<br><br>🔍 <b>المسببات المحتملة:</b> صمام دخول الماء عالق ولا يغلق.<br><br>🛠️ <b>خطوات الفحص:</b> افصل الغسالة، إذا استمر الماء بالدخول فالصمام تالف." }, 
-                en: { title: "Overflow Error", desc: "🔴 <b>Description:</b> Excess water entering the tub.<br><br>🔍 <b>Causes:</b> Water inlet valve stuck open mechanically.<br><br>🛠️ <b>Action:</b> Unplug washer. If water enters, replace valve." }, 
-                fr: { title: "Débordement", desc: "🔴 <b>Description:</b> Trop d'eau entre dans la cuve.<br><br>🔍 <b>Causes:</b> Électrovanne bloquée ouverte mécaniquement.<br><br>🛠️ <b>Vérification:</b> Débranchez. Si l'eau coule, remplacez la vanne." },
-                es: { title: "Desbordamiento", desc: "🔴 <b>Descripción:</b> Exceso de agua en la cuba.<br><br>🔍 <b>Causas:</b> Válvula atascada abierta mecánicamente.<br><br>🛠️ <b>Revisión:</b> Desenchufe. Si el agua entra, reemplace la válvula." },
-                ru: { title: "Перелив воды", desc: "🔴 <b>Описание:</b> Избыток воды в баке.<br><br>🔍 <b>Причины:</b> Впускной клапан механически застрял.<br><br>🛠️ <b>Проверка:</b> Отключите. Если вода идет, клапан под замену." } 
-            },
-            { 
-                device: 'dw', brand: 'samsung', code: 'AC', 
-                image: "", schematic: "",
-                ar: { title: "فشل الاتصال", desc: "🔴 <b>وصف العطل:</b> فقدان التواصل بين الكروت الإلكترونية.<br><br>🔍 <b>المسببات المحتملة:</b> قطع في الكابل الرابط، أو تلف اللوحة.<br><br>🛠️ <b>خطوات الفحص:</b> نظف كونكتورات الكابل، وافحص استمرارية الأسلاك." }, 
-                en: { title: "Communication Error", desc: "🔴 <b>Description:</b> Loss of communication between PCBs.<br><br>🔍 <b>Causes:</b> Cut wiring harness, or failed board.<br><br>🛠️ <b>Action:</b> Clean connectors, check wire continuity." }, 
-                fr: { title: "Erreur de communication", desc: "🔴 <b>Description:</b> Perte de com entre les cartes.<br><br>🔍 <b>Causes:</b> Faisceau coupé ou carte défectueuse.<br><br>🛠️ <b>Vérification:</b> Nettoyez les connecteurs, testez la continuité." },
-                es: { title: "Error de comunicación", desc: "🔴 <b>Descripción:</b> Pérdida de comunicación entre placas.<br><br>🔍 <b>Causas:</b> Cableado cortado o placa dañada.<br><br>🛠️ <b>Revisión:</b> Limpie conectores, verifique continuidad." },
-                ru: { title: "Ошибка связи", desc: "🔴 <b>Описание:</b> Потеря связи между платами.<br><br>🔍 <b>Причины:</b> Обрыв шлейфа или неисправность платы.<br><br>🛠️ <b>Проверка:</b> Очистите контакты, прозвоните провода." } 
-            },
-
-            // ---------------------------------------------------------
-            // 2. LG - Dishwasher
-            // ---------------------------------------------------------
-            { 
-                device: 'dw', brand: 'lg', code: 'OE', 
-                image: "", schematic: "",
-                ar: { title: "فشل التصريف", desc: "🔴 <b>وصف العطل:</b> عجز عن تفريغ المياه المتسخة.<br><br>🔍 <b>المسببات المحتملة:</b> انسداد الفلتر السفلي، تلف مضخة التصريف.<br><br>🛠️ <b>خطوات الفحص:</b> نظف الفلتر، تأكد من تصريف الأنابيب الخارجية." }, 
-                en: { title: "Drain Error", desc: "🔴 <b>Description:</b> Unable to drain water.<br><br>🔍 <b>Causes:</b> Clogged filter, faulty drain pump.<br><br>🛠️ <b>Action:</b> Clean filter, check plumbing." }, 
-                fr: { title: "Erreur de vidange", desc: "🔴 <b>Description:</b> Vidange impossible.<br><br>🔍 <b>Causes:</b> Filtre bouché, pompe défectueuse.<br><br>🛠️ <b>Vérification:</b> Nettoyez le filtre, vérifiez l'évacuation." },
-                es: { title: "Error de drenaje", desc: "🔴 <b>Descripción:</b> Imposible drenar el agua.<br><br>🔍 <b>Causas:</b> Filtro obstruido, bomba defectuosa.<br><br>🛠️ <b>Revisión:</b> Limpie el filtro, revise tuberías." },
-                ru: { title: "Ошибка слива", desc: "🔴 <b>Описание:</b> Невозможно слить воду.<br><br>🔍 <b>Причины:</b> Засорен фильтр, неисправен насос.<br><br>🛠️ <b>Проверка:</b> Очистите фильтр, проверьте сток." } 
-            },
-            { 
-                device: 'dw', brand: 'lg', code: 'IE', 
-                image: "", schematic: "",
-                ar: { title: "فشل إمداد المياه", desc: "🔴 <b>وصف العطل:</b> الماء لا يدخل بالسرعة الكافية.<br><br>🔍 <b>المسببات المحتملة:</b> ضعف ضغط الماء، انسداد فلتر الصمام.<br><br>🛠️ <b>خطوات الفحص:</b> افتح الصنبور بالكامل، نظف شبكة الفلتر." }, 
-                en: { title: "Water Inlet Error", desc: "🔴 <b>Description:</b> Water not entering fast enough.<br><br>🔍 <b>Causes:</b> Low pressure, clogged inlet filter.<br><br>🛠️ <b>Action:</b> Fully open tap, clean filter screen." }, 
-                fr: { title: "Erreur d'entrée d'eau", desc: "🔴 <b>Description:</b> L'eau n'entre pas assez vite.<br><br>🔍 <b>Causes:</b> Faible pression, filtre bouché.<br><br>🛠️ <b>Vérification:</b> Ouvrez le robinet, nettoyez le filtre." },
-                es: { title: "Error de entrada de agua", desc: "🔴 <b>Descripción:</b> El agua no entra lo suficientemente rápido.<br><br>🔍 <b>Causas:</b> Baja presión, filtro obstruido.<br><br>🛠️ <b>Revisión:</b> Abra el grifo por completo, limpie la malla." },
-                ru: { title: "Ошибка залива воды", desc: "🔴 <b>Описание:</b> Вода поступает слишком медленно.<br><br>🔍 <b>Причины:</b> Слабый напор, засор фильтра.<br><br>🛠️ <b>Проверка:</b> Отключите. Если вода идет, клапан под замену." } 
-            },
-            { 
-                device: 'dw', brand: 'lg', code: 'E1/EI', 
-                image: "", schematic: "",
-                ar: { title: "تسريب مياه", desc: "🔴 <b>وصف العطل:</b> تفعيل حساس الأمان (عوامة القاعدة).<br><br>🔍 <b>المسببات المحتملة:</b> رغوة زائدة، تسريب ميكانيكي.<br><br>🛠️ <b>خطوات الفحص:</b> أمل الغسالة لتفريغ الماء، وابحث عن مصدر التنقيط." }, 
-                en: { title: "Water Leak (E1/EI)", desc: "🔴 <b>Description:</b> Safety float switch activated.<br><br>🔍 <b>Causes:</b> Excess foam, mechanical leak.<br><br>🛠️ <b>Action:</b> Tilt washer to drain, trace the drip." }, 
-                fr: { title: "Fuite d'eau (E1/EI)", desc: "🔴 <b>Description:</b> Flotteur de sécurité activé.<br><br>🔍 <b>Causes:</b> Excès de mousse, fuite mécanique.<br><br>🛠️ <b>Vérification:</b> Inclinez pour vider, cherchez la fuite." },
-                es: { title: "Fuga de agua (E1/EI)", desc: "🔴 <b>Descripción:</b> Flotador de seguridad activado.<br><br>🔍 <b>Causas:</b> Exceso de espuma, fuga mecánica.<br><br>🛠️ <b>Revisión:</b> Incline para vaciar y busque el goteo." },
-                ru: { title: "Утечка воды (E1/EI)", desc: "🔴 <b>Описание:</b> Сработал поплавок безопасности.<br><br>🔍 <b>Причины:</b> Избыток пены, механическая утечка.<br><br>🛠️ <b>Проверка:</b> Наклоните для слива и найдите течь." } 
-            },
-            { 
-                device: 'dw', brand: 'lg', code: 'FE', 
-                image: "", schematic: "",
-                ar: { title: "تجاوز مستوى الماء", desc: "🔴 <b>وصف العطل:</b> دخول كمية ماء زائدة (Overfill).<br><br>🔍 <b>المسببات المحتملة:</b> صمام دخول المياه عالق ولا يغلق.<br><br>🛠️ <b>خطوات الفحص:</b> افصل الكهرباء، إذا استمر تدفق الماء يجب استبدال الصمام." }, 
-                en: { title: "Overfill Error", desc: "🔴 <b>Description:</b> Washer filling with too much water.<br><br>🔍 <b>Causes:</b> Water inlet valve stuck open.<br><br>🛠️ <b>Action:</b> Unplug washer. If water flows, replace valve." }, 
-                fr: { title: "Erreur de débordement", desc: "🔴 <b>Description:</b> Se remplit avec trop d'eau.<br><br>🔍 <b>Causes:</b> Électrovanne bloquée ouverte.<br><br>🛠️ <b>Vérification:</b> Débranchez. Si l'eau coule, remplacez la vanne." },
-                es: { title: "Error de sobrellenado", desc: "🔴 <b>Descripción:</b> Exceso de agua en el lavavajillas.<br><br>🔍 <b>Causas:</b> Válvula de entrada atascada abierta.<br><br>🛠️ <b>Revisión:</b> Desenchufe. Si el agua fluye, reemplace válvula." },
-                ru: { title: "Ошибка переполнения", desc: "🔴 <b>Описание:</b> Машина переполняется водой.<br><br>🔍 <b>Причины:</b> Впускной клапан заклинил открытым.<br><br>🛠️ <b>Проверка:</b> Отключите. Если вода течет, замените клапан." } 
-            },
-            { 
-                device: 'dw', brand: 'lg', code: 'HE', 
-                image: "", schematic: "",
-                ar: { title: "عطل نظام التسخين", desc: "🔴 <b>وصف العطل:</b> فشل السخان في رفع درجة الحرارة.<br><br>🔍 <b>المسببات المحتملة:</b> تلف السخان، تلف الريلاي.<br><br>🛠️ <b>خطوات الفحص:</b> افحص مقاومة السخان وتأكد من سلامة ريلاي الكارت." }, 
-                en: { title: "Heating Error", desc: "🔴 <b>Description:</b> Heater failed to raise temperature.<br><br>🔍 <b>Causes:</b> Faulty electric heater, faulty relay.<br><br>🛠️ <b>Action:</b> Inspect heater resistance and verify relay." }, 
-                fr: { title: "Erreur de chauffage", desc: "🔴 <b>Description:</b> Le chauffage n'atteint pas la température.<br><br>🔍 <b>Causes:</b> Résistance HS, relais défectueux.<br><br>🛠️ <b>Vérification:</b> Mesurez la résistance et inspectez le relais." },
-                es: { title: "Error de calentamiento", desc: "🔴 <b>Descripción:</b> El calentador no subió la temperatura.<br><br>🔍 <b>Causas:</b> Calentador dañado, relé defectuoso.<br><br>🛠️ <b>Revisión:</b> Mida la resistencia y verifique el relé." },
-                ru: { title: "Ошибка нагрева", desc: "🔴 <b>Описание:</b> ТЭН не нагревает воду.<br><br>🔍 <b>Причины:</b> Неисправен ТЭН, сгорело реле.<br><br>🛠️ <b>Проверка:</b> Измерьте сопротивление ТЭНа и проверьте реле." } 
-            },
-            { 
-                device: 'dw', brand: 'lg', code: 'TE', 
-                image: "", schematic: "",
-                ar: { title: "عطل حساس الحرارة", desc: "🔴 <b>وصف العطل:</b> قراءة غير طبيعية لدرجة الحرارة.<br><br>🔍 <b>المسببات المحتملة:</b> تلف حساس الحرارة، قطع في الأسلاك.<br><br>🛠️ <b>خطوات الفحص:</b> افحص الحساس بالمالتيميتر." }, 
-                en: { title: "Thermistor Error", desc: "🔴 <b>Description:</b> Abnormal water temperature reading.<br><br>🔍 <b>Causes:</b> Faulty thermistor, broken wiring.<br><br>🛠️ <b>Action:</b> Inspect thermistor with multimeter." }, 
-                fr: { title: "Erreur de thermistance", desc: "🔴 <b>Description:</b> Lecture de température anormale.<br><br>🔍 <b>Causes:</b> Sonde thermistance défectueuse, fils coupés.<br><br>🛠️ <b>Vérification:</b> Testez la sonde au multimètre." },
-                es: { title: "Error de termistor", desc: "🔴 <b>Descripción:</b> Lectura anormal de temperatura.<br><br>🔍 <b>Causas:</b> Sensor defectuoso, cableado roto.<br><br>🛠️ <b>Revisión:</b> Inspeccione el termistor con un multímetro." },
-                ru: { title: "Ошибка термистора", desc: "🔴 <b>Описание:</b> Ненормальные показания температуры.<br><br>🔍 <b>Причины:</b> Неисправен термистор, обрыв проводки.<br><br>🛠️ <b>Проверка:</b> Проверьте термистор мультиметром." } 
-            },
-            { 
-                device: 'dw', brand: 'lg', code: 'LE', 
-                image: "", schematic: "",
-                ar: { title: "عطل محرك الغسيل", desc: "🔴 <b>وصف العطل:</b> مشكلة تمنع محرك الغسيل من الدوران.<br><br>🔍 <b>المسببات المحتملة:</b> جسم صلب يعيق المروحة، تلف المحرك.<br><br>🛠️ <b>خطوات الفحص:</b> فك المضخة لتنظيف المروحة." }, 
-                en: { title: "Motor Error", desc: "🔴 <b>Description:</b> Issue preventing wash motor from spinning.<br><br>🔍 <b>Causes:</b> Jammed impeller, motor failure.<br><br>🛠️ <b>Action:</b> Remove pump to clear impeller." }, 
-                fr: { title: "Erreur moteur", desc: "🔴 <b>Description:</b> Le moteur de lavage ne tourne pas.<br><br>🔍 <b>Causes:</b> Turbine bloquée, moteur HS.<br><br>🛠️ <b>Vérification:</b> Démontez pour nettoyer la turbine." },
-                es: { title: "Error de motor", desc: "🔴 <b>Descripción:</b> Problema que impide girar al motor.<br><br>🔍 <b>Causas:</b> Impulsor atascado, fallo del motor.<br><br>🛠️ <b>Revisión:</b> Retire la bomba para limpiar el impulsor." },
-                ru: { title: "Ошибка двигателя", desc: "🔴 <b>Описание:</b> Моющий двигатель не вращается.<br><br>🔍 <b>Причины:</b> Заклинило крыльчатку, отказ мотора.<br><br>🛠️ <b>Проверка:</b> Снимите насос для очистки." } 
-            },
-            { 
-                device: 'dw', brand: 'lg', code: 'PF', 
-                image: "", schematic: "",
-                ar: { title: "انقطاع التيار", desc: "🔴 <b>وصف العطل:</b> حدث انقطاع للتيار أثناء تشغيل دورة الغسيل.<br><br>🛠️ <b>الإجراء:</b> أعد تشغيل الغسالة لبدء دورة جديدة." }, 
-                en: { title: "Power Failure", desc: "🔴 <b>Description:</b> Power outage occurred during the cycle.<br><br>🛠️ <b>Action:</b> Restart the washer." }, 
-                fr: { title: "Panne de courant", desc: "🔴 <b>Description:</b> Coupure de courant pendant le cycle.<br><br>🛠️ <b>Action:</b> Redémarrez le lave-vaisselle." },
-                es: { title: "Fallo de alimentación", desc: "🔴 <b>Descripción:</b> Corte de energía durante el ciclo.<br><br>🛠️ <b>Acción:</b> Reinicie la máquina." },
-                ru: { title: "Сбой питания", desc: "🔴 <b>Описание:</b> Сбой электропитания во время цикла.<br><br>🛠️ <b>Действие:</b> Перезапустите машину." } 
-            },
-            { 
-                device: 'dw', brand: 'lg', code: 'CD', 
-                image: "", schematic: "",
-                ar: { title: "تبريد وتجفيف", desc: "🔴 <b>ملاحظة:</b> ليس عطلاً، يشير لانتهاء الغسيل ومرحلة التبريد.<br><br>🛠️ <b>الإجراء:</b> يمكنك تفريغ الأطباق بأمان." }, 
-                en: { title: "Cool Dry", desc: "🔴 <b>Note:</b> Not an error, drying cycle is complete.<br><br>🛠️ <b>Action:</b> Safe to unload dishes." }, 
-                fr: { title: "Séchage", desc: "🔴 <b>Note:</b> Pas une erreur, phase de refroidissement.<br><br>🛠️ <b>Action:</b> Vous pouvez vider la vaisselle." },
-                es: { title: "Secado en frío", desc: "🔴 <b>Nota:</b> No es un error, ciclo completado.<br><br>🛠️ <b>Acción:</b> Puede retirar los platos." },
-                ru: { title: "Охлаждение", desc: "🔴 <b>Примечание:</b> Не ошибка, завершение сушки.<br><br>🛠️ <b>Действие:</b> Можно выгружать посуду." } 
-            },
-
-            // ---------------------------------------------------------
-            // 3. BOSCH - Dishwasher
-            // ---------------------------------------------------------
-            { 
-                device: 'dw', brand: 'bosch', code: 'E15', 
-                image: "", schematic: "",
-                ar: { title: "تسريب مياه (Aquastop)", desc: "🔴 <b>وصف العطل:</b> تفعيل الحماية لوجود ماء بالقاعدة.<br><br>🛠️ <b>خطوات الفحص:</b> أفرغ القاعدة وابحث عن تسريب." }, 
-                en: { title: "Water Leak (Aquastop)", desc: "🔴 <b>Description:</b> Water in base activating Aquastop.<br><br>🛠️ <b>Action:</b> Empty base, find leak." }, 
-                fr: { title: "Fuite d'eau (Aquastop)", desc: "🔴 <b>Description:</b> Eau dans la base, système activé.<br><br>🛠️ <b>Vérification:</b> Videz la base, cherchez la fuite." },
-                es: { title: "Fuga de agua (Aquastop)", desc: "🔴 <b>Descripción:</b> Agua en la base activa Aquastop.<br><br>🛠️ <b>Revisión:</b> Vacíe la base, busque la fuga." },
-                ru: { title: "Утечка воды (Aquastop)", desc: "🔴 <b>Описание:</b> Вода в поддоне активировала Аквастоп.<br><br>🛠️ <b>Проверка:</b> Осушите поддон, найдите утечку." } 
-            },
-
-            // ---------------------------------------------------------
-            // 4. الغسالات - WM
-            // ---------------------------------------------------------
-            { 
-                device: 'wm', brand: 'lg', code: 'LE', 
-                image: "", schematic: "",
-                ar: { title: "عطل المحرك", desc: "🔴 <b>وصف العطل:</b> توقف محرك Direct Drive عن الدوران.<br><br>🛠️ <b>خطوات الفحص:</b> افحص حمولة الغسالة وحساس Hall." }, 
-                en: { title: "Motor Error", desc: "🔴 <b>Description:</b> Direct Drive motor stopped spinning.<br><br>🛠️ <b>Action:</b> Reduce load, test Hall sensor." }, 
-                fr: { title: "Erreur moteur", desc: "🔴 <b>Description:</b> Le moteur Direct Drive ne tourne plus.<br><br>🛠️ <b>Vérification:</b> Réduisez la charge, testez capteur Hall." },
-                es: { title: "Error de motor", desc: "🔴 <b>Descripción:</b> El motor Direct Drive se detuvo.<br><br>🛠️ <b>Revisión:</b> Reduzca carga, pruebe sensor Hall." },
-                ru: { title: "Ошибка двигателя", desc: "🔴 <b>Описание:</b> Двигатель Direct Drive остановился.<br><br>🛠️ <b>Проверка:</b> Уменьшите загрузку, проверьте датчик Холла." } 
-            },
-
-            // ---------------------------------------------------------
-            // 5. المكيفات - AC
-            // ---------------------------------------------------------
-            { 
-                device: 'ac', brand: 'midea', code: 'EC', 
-                image: "", schematic: "",
-                ar: { title: "تسريب فريون", desc: "🔴 <b>وصف العطل:</b> اللوحة تكتشف انخفاضاً حاداً في الضغط.<br><br>🛠️ <b>خطوات الفحص:</b> ركب المانيفولد وافحص تسريب الغاز." }, 
-                en: { title: "Refrigerant Leak", desc: "🔴 <b>Description:</b> PCB detects abnormal drop in pressure.<br><br>🛠️ <b>Action:</b> Attach manifold, check for freon leak." }, 
-                fr: { title: "Fuite de gaz", desc: "🔴 <b>Description:</b> Baisse anormale de pression détectée.<br><br>🛠️ <b>Vérification:</b> Branchez le manifold, cherchez fuite." },
-                es: { title: "Fuga de gas", desc: "🔴 <b>Descripción:</b> Caída anormal de presión detectada.<br><br>🛠️ <b>Revisión:</b> Conecte múltiple, busque fuga." },
-                ru: { title: "Утечка фреона", desc: "🔴 <b>Описание:</b> Падение давления хладагента.<br><br>🛠️ <b>Проверка:</b> Подключите манометр, ищите утечку." } 
-            }
+            { device: 'dw', brand: 'samsung', code: 'PC/PE', image: "images/samsung_diverter.jpg", schematic: "images/samsung_diverter_sch.png", ar: { title: "عطل صمام التوجيه", desc: "🔴 <b>وصف العطل:</b> خلل في صمام تحويل مسار المياه (Diverter valve).<br><br>🔍 <b>المسببات المحتملة:</b> تلف محرك الصمام، كسر التروس الداخلية.<br><br>🛠️ <b>خطوات الفحص:</b> افصل التيار الكهربائي، قس مقاومة محرك الصمام." }, en: { title: "Diverter Valve Error", desc: "🔴 <b>Description:</b> Malfunction in the water diverter valve.<br><br>🔍 <b>Causes:</b> Valve motor failure, broken gears.<br><br>🛠️ <b>Action:</b> Check motor resistance and verify voltage." }, fr: { title: "Erreur vanne de séparation", desc: "🔴 <b>Description:</b> Défaut de la vanne de distribution d'eau.<br><br>🔍 <b>Causes:</b> Moteur défectueux, engrenages cassés.<br><br>🛠️ <b>Vérification:</b> Testez la résistance du moteur." }, es: { title: "Error de válvula desviadora", desc: "🔴 <b>Descripción:</b> Fallo en la válvula de desvío de agua.<br><br>🔍 <b>Causas:</b> Motor dañado, engranajes rotos.<br><br>🛠️ <b>Revisión:</b> Mida la resistencia del motor." }, ru: { title: "Ошибка распределительного клапана", desc: "🔴 <b>Описание:</b> Неисправность клапана потока воды.<br><br>🔍 <b>Причины:</b> Отказ мотора, поломка шестерен.<br><br>🛠️ <b>Проверка:</b> Проверьте сопротивление мотора." } },
+            { device: 'dw', brand: 'samsung', code: 'LC/LE', image: "images/samsung_leak.jpg", schematic: "", ar: { title: "تسريب مياه", desc: "🔴 <b>وصف العطل:</b> تفعيل نظام الحماية بسبب اكتشاف مياه في القاعدة السفلية.<br><br>🔍 <b>المسببات المحتملة:</b> ثقب في الخراطيم، تسريب من مضخة الغسيل.<br><br>🛠️ <b>خطوات الفحص:</b> افصل الكهرباء فوراً، جفف حوض التجميع." }, en: { title: "Water Leak", desc: "🔴 <b>Description:</b> Flood protection activated due to water in the bottom base.<br><br>🔍 <b>Causes:</b> Punctured hoses, wash pump leak.<br><br>🛠️ <b>Action:</b> Disconnect power, dry the basin." }, fr: { title: "Fuite d'eau", desc: "🔴 <b>Description:</b> Protection activée à cause d'eau dans la base.<br><br>🔍 <b>Causes:</b> Tuyaux percés, fuite de pompe.<br><br>🛠️ <b>Vérification:</b> Coupez l'alimentation, séchez le bac." }, es: { title: "Fuga de agua", desc: "🔴 <b>Descripción:</b> Protección activada por agua en la base.<br><br>🔍 <b>Causas:</b> Mangueras perforadas, fuga en bomba.<br><br>🛠️ <b>Revisión:</b> Desconecte la energía, seque la bandeja." }, ru: { title: "Утечка воды", desc: "🔴 <b>Описание:</b> Защита от протечек (вода в поддоне).<br><br>🔍 <b>Причины:</b> Пробиты шланги, течь насоса.<br><br>🛠️ <b>Проверка:</b> Отключите питание, осушите поддон." } },
+            { device: 'dw', brand: 'samsung', code: '4C/4E', image: "images/samsung_inlet.jpg", schematic: "images/samsung_inlet_sch.png", ar: { title: "فشل إمداد المياه", desc: "🔴 <b>وصف العطل:</b> الغسالة لا تمتلئ بالماء ضمن الوقت المحدد.<br><br>🔍 <b>المسببات المحتملة:</b> صنبور مغلق، انسداد فلتر صمام الدخول.<br><br>🛠️ <b>خطوات الفحص:</b> تأكد من ضغط الماء، نظف شبكة الفلتر." }, en: { title: "Water Supply Error", desc: "🔴 <b>Description:</b> Washer is not filling with water.<br><br>🔍 <b>Causes:</b> Closed tap, clogged inlet filter.<br><br>🛠️ <b>Action:</b> Check water pressure, clean filter screen." }, fr: { title: "Erreur d'alimentation", desc: "🔴 <b>Description:</b> Le lave-vaisselle ne se remplit pas à temps.<br><br>🔍 <b>Causes:</b> Robinet fermé, filtre bouché.<br><br>🛠️ <b>Vérification:</b> Vérifiez la pression, nettoyez le filtre." }, es: { title: "Error de suministro", desc: "🔴 <b>Descripción:</b> El lavavajillas no se llena de agua.<br><br>🔍 <b>Causas:</b> Grifo cerrado, filtro obstruido.<br><br>🛠️ <b>Revisión:</b> Verifique la presión, limpie el filtro." }, ru: { title: "Ошибка подачи воды", desc: "🔴 <b>Описание:</b> Машина не наполняется водой.<br><br>🔍 <b>Причины:</b> Кран закрыт, засорен фильтр.<br><br>🛠️ <b>Проверка:</b> Проверьте напор, очистите фильтр." } },
+            { device: 'dw', brand: 'samsung', code: '5C/5E', image: "", schematic: "", ar: { title: "فشل تصريف المياه", desc: "🔴 <b>وصف العطل:</b> المياه المتسخة لا تخرج من حوض الغسيل.<br><br>🔍 <b>المسببات المحتملة:</b> انسداد فلتر المضخة، احتراق محرك التصريف.<br><br>🛠️ <b>خطوات الفحص:</b> افحص مسار الخرطوم، نظف الفلتر السفلي." }, en: { title: "Drainage Error", desc: "🔴 <b>Description:</b> Dirty water is not draining.<br><br>🔍 <b>Causes:</b> Clogged pump filter, burnt drain pump.<br><br>🛠️ <b>Action:</b> Check hose routing, clean bottom filter." }, fr: { title: "Erreur de vidange", desc: "🔴 <b>Description:</b> L'eau sale ne s'évacue pas.<br><br>🔍 <b>Causes:</b> Filtre bouché, pompe grillée.<br><br>🛠️ <b>Vérification:</b> Inspectez le tuyau, nettoyez le filtre." }, es: { title: "Error de drenaje", desc: "🔴 <b>Descripción:</b> El agua sucia no drena.<br><br>🔍 <b>Causas:</b> Filtro obstruido, bomba quemada.<br><br>🛠️ <b>Revisión:</b> Revise la manguera, limpie el filtro." }, ru: { title: "Ошибка слива", desc: "🔴 <b>Описание:</b> Грязная вода не сливается.<br><br>🔍 <b>Причины:</b> Засорен фильтр, сгорел насос.<br><br>🛠️ <b>Проверка:</b> Проверьте шланг, очистите фильтр." } },
+            { device: 'dw', brand: 'samsung', code: 'HC/HE', image: "", schematic: "", ar: { title: "عطل نظام التسخين", desc: "🔴 <b>وصف العطل:</b> الماء لا يصل إلى درجة الحرارة المطلوبة.<br><br>🔍 <b>المسببات المحتملة:</b> احتراق السخان، تلف حساس الحرارة NTC.<br><br>🛠️ <b>خطوات الفحص:</b> قس مقاومة السخان (20-30 أوم)." }, en: { title: "Heating Error", desc: "🔴 <b>Description:</b> Water is not reaching target temperature.<br><br>🔍 <b>Causes:</b> Burnt heater element, faulty NTC sensor.<br><br>🛠️ <b>Action:</b> Measure heater resistance (20-30 ohms)." }, fr: { title: "Erreur de chauffage", desc: "🔴 <b>Description:</b> L'eau n'atteint pas la température requise.<br><br>🔍 <b>Causes:</b> Résistance grillée, sonde NTC défectueuse.<br><br>🛠️ <b>Vérification:</b> Mesurez la résistance (20-30 ohms)." }, es: { title: "Error de calentamiento", desc: "🔴 <b>Descripción:</b> El agua no alcanza la temperatura objetivo.<br><br>🔍 <b>Causas:</b> Calentador quemado, sensor NTC defectuoso.<br><br>🛠️ <b>Revisión:</b> Mida la resistencia (20-30 ohmios)." }, ru: { title: "Ошибка нагрева", desc: "🔴 <b>Описание:</b> Вода не достигает нужной температуры.<br><br>🔍 <b>Причины:</b> Сгорел ТЭН, неисправен датчик NTC.<br><br>🛠️ <b>Проверка:</b> Измерьте сопротивление ТЭНа." } },
+            { device: 'dw', brand: 'samsung', code: '3C/3E', image: "", schematic: "", ar: { title: "عطل المضخة الرئيسية", desc: "🔴 <b>وصف العطل:</b> توقف مضخة الغسيل الرئيسية.<br><br>🔍 <b>المسببات المحتملة:</b> احتراق ملفات المحرك، جسم صلب يعيق المروحة.<br><br>🛠️ <b>خطوات الفحص:</b> فك المضخة وتأكد من دورانها بسلاسة." }, en: { title: "Main Pump Error", desc: "🔴 <b>Description:</b> Main wash pump stopped.<br><br>🔍 <b>Causes:</b> Burnt motor coils, jammed impeller.<br><br>🛠️ <b>Action:</b> Remove pump to check for jams." }, fr: { title: "Erreur de pompe principale", desc: "🔴 <b>Description:</b> La pompe de lavage principale ne tourne plus.<br><br>🔍 <b>Causes:</b> Bobines grillées, turbine bloquée.<br><br>🛠️ <b>Vérification:</b> Démontez la pompe, vérifiez la turbine." }, es: { title: "Error de bomba principal", desc: "🔴 <b>Descripción:</b> La bomba de lavado principal se detuvo.<br><br>🔍 <b>Causas:</b> Bobinas quemadas, impulsor atascado.<br><br>🛠️ <b>Revisión:</b> Retire la bomba, revise el impulsor." }, ru: { title: "Ошибка главного насоса", desc: "🔴 <b>Описание:</b> Главный моющий насос не качает.<br><br>🔍 <b>Причины:</b> Сгорела обмотка, заклинило крыльчатку.<br><br>🛠️ <b>Проверка:</b> Снимите насос, проверьте на заклинивание." } },
+            { device: 'dw', brand: 'samsung', code: 'BC2/BE2', image: "", schematic: "", ar: { title: "تعليق الأزرار", desc: "🔴 <b>وصف العطل:</b> زر مضغوط باستمرار لأكثر من 30 ثانية.<br><br>🔍 <b>المسببات المحتملة:</b> أوساخ، تلف سويتش اللوحة.<br><br>🛠️ <b>خطوات الفحص:</b> اضغط على جميع الأزرار للتأكد من حركتها." }, en: { title: "Button Stuck", desc: "🔴 <b>Description:</b> Button held down for over 30 seconds.<br><br>🔍 <b>Causes:</b> Dirt, faulty tactile switch.<br><br>🛠️ <b>Action:</b> Press all buttons to ensure free movement." }, fr: { title: "Bouton coincé", desc: "🔴 <b>Description:</b> Bouton enfoncé plus de 30 secondes.<br><br>🔍 <b>Causes:</b> Saleté, micro-interrupteur HS.<br><br>🛠️ <b>Vérification:</b> Pressez tous les boutons pour débloquer." }, es: { title: "Botón atascado", desc: "🔴 <b>Descripción:</b> Botón presionado por más de 30 segundos.<br><br>🔍 <b>Causas:</b> Suciedad, interruptor defectuoso.<br><br>🛠️ <b>Revisión:</b> Presione todos los botones, limpie el panel." }, ru: { title: "Кнопка застряла", desc: "🔴 <b>Описание:</b> Кнопка зажата более 30 секунд.<br><br>🔍 <b>Причины:</b> Грязь, неисправный переключатель.<br><br>🛠️ <b>Проверка:</b> Нажмите все кнопки для проверки хода." } },
+            { device: 'dw', brand: 'samsung', code: '1C/1E', image: "", schematic: "", ar: { title: "حساس مستوى الماء", desc: "🔴 <b>وصف العطل:</b> قراءة غير صحيحة لمستوى الماء.<br><br>🔍 <b>المسببات المحتملة:</b> تلف حساس الضغط، انسداد الأنبوب الهوائي.<br><br>🛠️ <b>خطوات الفحص:</b> افحص الأنبوب المتصل بالحساس." }, en: { title: "Water Level Sensor", desc: "🔴 <b>Description:</b> Incorrect water level readings.<br><br>🔍 <b>Causes:</b> Faulty pressure switch, clogged air hose.<br><br>🛠️ <b>Action:</b> Check air hose for blockages." }, fr: { title: "Capteur de niveau d'eau", desc: "🔴 <b>Description:</b> Mauvaise lecture du niveau d'eau.<br><br>🔍 <b>Causes:</b> Pressostat HS, tuyau d'air bouché.<br><br>🛠️ <b>Vérification:</b> Inspectez le tuyau d'air." }, es: { title: "Sensor de nivel de agua", desc: "🔴 <b>Descripción:</b> Lectura incorrecta del nivel de agua.<br><br>🔍 <b>Causas:</b> Presostato defectuoso, manguera obstruida.<br><br>🛠️ <b>Revisión:</b> Revise la manguera de aire." }, ru: { title: "Датчик уровня воды", desc: "🔴 <b>Описание:</b> Неправильные показания уровня воды.<br><br>🔍 <b>Причины:</b> Неисправен прессостат, забит шланг.<br><br>🛠️ <b>Проверка:</b> Проверьте воздушный шланг." } },
+            { device: 'dw', brand: 'samsung', code: 'OC/OE', image: "", schematic: "", ar: { title: "تجاوز مستوى الماء", desc: "🔴 <b>وصف العطل:</b> دخول كمية ماء زائدة (Overflow).<br><br>🔍 <b>المسببات المحتملة:</b> صمام دخول الماء عالق ولا يغلق.<br><br>🛠️ <b>خطوات الفحص:</b> افصل الغسالة، إذا استمر الماء بالدخول فالصمام تالف." }, en: { title: "Overflow Error", desc: "🔴 <b>Description:</b> Excess water entering the tub.<br><br>🔍 <b>Causes:</b> Water inlet valve stuck open mechanically.<br><br>🛠️ <b>Action:</b> Unplug washer. If water enters, replace valve." }, fr: { title: "Débordement", desc: "🔴 <b>Description:</b> Trop d'eau entre dans la cuve.<br><br>🔍 <b>Causes:</b> Électrovanne bloquée ouverte mécaniquement.<br><br>🛠️ <b>Vérification:</b> Débranchez. Si l'eau coule, remplacez la vanne." }, es: { title: "Desbordamiento", desc: "🔴 <b>Descripción:</b> Exceso de agua en la cuba.<br><br>🔍 <b>Causas:</b> Válvula atascada abierta mecánicamente.<br><br>🛠️ <b>Revisión:</b> Desenchufe. Si el agua entra, reemplace la válvula." }, ru: { title: "Перелив воды", desc: "🔴 <b>Описание:</b> Избыток воды в баке.<br><br>🔍 <b>Причины:</b> Впускной клапан механически застрял.<br><br>🛠️ <b>Проверка:</b> Отключите. Если вода идет, клапан под замену." } },
+            { device: 'dw', brand: 'samsung', code: 'AC', image: "", schematic: "", ar: { title: "فشل الاتصال", desc: "🔴 <b>وصف العطل:</b> فقدان التواصل بين الكروت الإلكترونية.<br><br>🔍 <b>المسببات المحتملة:</b> قطع في الكابل الرابط، أو تلف اللوحة.<br><br>🛠️ <b>خطوات الفحص:</b> نظف كونكتورات الكابل، وافحص استمرارية الأسلاك." }, en: { title: "Communication Error", desc: "🔴 <b>Description:</b> Loss of communication between PCBs.<br><br>🔍 <b>Causes:</b> Cut wiring harness, or failed board.<br><br>🛠️ <b>Action:</b> Clean connectors, check wire continuity." }, fr: { title: "Erreur de communication", desc: "🔴 <b>Description:</b> Perte de com entre les cartes.<br><br>🔍 <b>Causes:</b> Faisceau coupé ou carte défectueuse.<br><br>🛠️ <b>Vérification:</b> Nettoyez les connecteurs, testez la continuité." }, es: { title: "Error de comunicación", desc: "🔴 <b>Descripción:</b> Pérdida de comunicación entre placas.<br><br>🔍 <b>Causas:</b> Cableado cortado o placa dañada.<br><br>🛠️ <b>Revisión:</b> Limpie conectores, verifique continuidad." }, ru: { title: "Ошибка связи", desc: "🔴 <b>Описание:</b> Потеря связи между платами.<br><br>🔍 <b>Причины:</b> Обрыв шлейфа или неисправность платы.<br><br>🛠️ <b>Проверка:</b> Очистите контакты, прозвоните провода." } },
+            { device: 'dw', brand: 'lg', code: 'OE', image: "", schematic: "", ar: { title: "فشل التصريف", desc: "🔴 <b>وصف العطل:</b> عجز عن تفريغ المياه المتسخة.<br><br>🔍 <b>المسببات المحتملة:</b> انسداد الفلتر السفلي، تلف مضخة التصريف.<br><br>🛠️ <b>خطوات الفحص:</b> نظف الفلتر، تأكد من تصريف الأنابيب الخارجية." }, en: { title: "Drain Error", desc: "🔴 <b>Description:</b> Unable to drain water.<br><br>🔍 <b>Causes:</b> Clogged filter, faulty drain pump.<br><br>🛠️ <b>Action:</b> Clean filter, check plumbing." }, fr: { title: "Erreur de vidange", desc: "🔴 <b>Description:</b> Vidange impossible.<br><br>🔍 <b>Causes:</b> Filtre bouché, pompe défectueuse.<br><br>🛠️ <b>Vérification:</b> Nettoyez le filtre, vérifiez l'évacuation." }, es: { title: "Error de drenaje", desc: "🔴 <b>Descripción:</b> Imposible drenar el agua.<br><br>🔍 <b>Causas:</b> Filtro obstruido, bomba defectuosa.<br><br>🛠️ <b>Revisión:</b> Limpie el filtro, revise tuberías." }, ru: { title: "Ошибка слива", desc: "🔴 <b>Описание:</b> Невозможно слить воду.<br><br>🔍 <b>Причины:</b> Засорен фильтр, неисправен насос.<br><br>🛠️ <b>Проверка:</b> Очистите фильтр, проверьте сток." } },
+            { device: 'dw', brand: 'lg', code: 'IE', image: "", schematic: "", ar: { title: "فشل إمداد المياه", desc: "🔴 <b>وصف العطل:</b> الماء لا يدخل بالسرعة الكافية.<br><br>🔍 <b>المسببات المحتملة:</b> ضعف ضغط الماء، انسداد فلتر الصمام.<br><br>🛠️ <b>خطوات الفحص:</b> افتح الصنبور بالكامل، نظف شبكة الفلتر." }, en: { title: "Water Inlet Error", desc: "🔴 <b>Description:</b> Water not entering fast enough.<br><br>🔍 <b>Causes:</b> Low pressure, clogged inlet filter.<br><br>🛠️ <b>Action:</b> Fully open tap, clean filter screen." }, fr: { title: "Erreur d'entrée d'eau", desc: "🔴 <b>Description:</b> L'eau n'entre pas assez vite.<br><br>🔍 <b>Causes:</b> Faible pression, filtre bouché.<br><br>🛠️ <b>Vérification:</b> Ouvrez le robinet, nettoyez le filtre." }, es: { title: "Error de entrada de agua", desc: "🔴 <b>Descripción:</b> El agua no entra lo suficientemente rápido.<br><br>🔍 <b>Causas:</b> Baja presión, filtro obstruido.<br><br>🛠️ <b>Revisión:</b> Abra el grifo por completo, limpie la malla." }, ru: { title: "Ошибка залива воды", desc: "🔴 <b>Описание:</b> Вода поступает слишком медленно.<br><br>🔍 <b>Причины:</b> Слабый напор, засор фильтра.<br><br>🛠️ <b>Проверка:</b> Отключите. Если вода идет, клапан под замену." } },
+            { device: 'dw', brand: 'lg', code: 'E1/EI', image: "", schematic: "", ar: { title: "تسريب مياه", desc: "🔴 <b>وصف العطل:</b> تفعيل حساس الأمان (عوامة القاعدة).<br><br>🔍 <b>المسببات المحتملة:</b> رغوة زائدة، تسريب ميكانيكي.<br><br>🛠️ <b>خطوات الفحص:</b> أمل الغسالة لتفريغ الماء، وابحث عن مصدر التنقيط." }, en: { title: "Water Leak (E1/EI)", desc: "🔴 <b>Description:</b> Safety float switch activated.<br><br>🔍 <b>Causes:</b> Excess foam, mechanical leak.<br><br>🛠️ <b>Action:</b> Tilt washer to drain, trace the drip." }, fr: { title: "Fuite d'eau (E1/EI)", desc: "🔴 <b>Description:</b> Flotteur de sécurité activé.<br><br>🔍 <b>Causes:</b> Excès de mousse, fuite mécanique.<br><br>🛠️ <b>Vérification:</b> Inclinez pour vider, cherchez la fuite." }, es: { title: "Fuga de agua (E1/EI)", desc: "🔴 <b>Descripción:</b> Flotador de seguridad activado.<br><br>🔍 <b>Causas:</b> Exceso de espuma, fuga mecánica.<br><br>🛠️ <b>Revisión:</b> Incline para vaciar y busque el goteo." }, ru: { title: "Утечка воды (E1/EI)", desc: "🔴 <b>Описание:</b> Сработал поплавок безопасности.<br><br>🔍 <b>Причины:</b> Избыток пены, механическая утечка.<br><br>🛠️ <b>Проверка:</b> Наклоните для слива и найдите течь." } },
+            { device: 'dw', brand: 'lg', code: 'FE', image: "", schematic: "", ar: { title: "تجاوز مستوى الماء", desc: "🔴 <b>وصف العطل:</b> دخول كمية ماء زائدة (Overfill).<br><br>🔍 <b>المسببات المحتملة:</b> صمام دخول المياه عالق ولا يغلق.<br><br>🛠️ <b>خطوات الفحص:</b> افصل الكهرباء، إذا استمر تدفق الماء يجب استبدال الصمام." }, en: { title: "Overfill Error", desc: "🔴 <b>Description:</b> Washer filling with too much water.<br><br>🔍 <b>Causes:</b> Water inlet valve stuck open.<br><br>🛠️ <b>Action:</b> Unplug washer. If water flows, replace valve." }, fr: { title: "Erreur de débordement", desc: "🔴 <b>Description:</b> Se remplit avec trop d'eau.<br><br>🔍 <b>Causes:</b> Électrovanne bloquée ouverte.<br><br>🛠️ <b>Vérification:</b> Débranchez. Si l'eau coule, remplacez la vanne." }, es: { title: "Error de sobrellenado", desc: "🔴 <b>Descripción:</b> Exceso de agua en el lavavajillas.<br><br>🔍 <b>Causas:</b> Válvula de entrada atascada abierta.<br><br>🛠️ <b>Revisión:</b> Desenchufe. Si el agua fluye, reemplace válvula." }, ru: { title: "Ошибка переполнения", desc: "🔴 <b>Описание:</b> Машина переполняется водой.<br><br>🔍 <b>Причины:</b> Впускной клапан заклинил открытым.<br><br>🛠️ <b>Проверка:</b> Отключите. Если вода течет, замените клапан." } },
+            { device: 'dw', brand: 'lg', code: 'HE', image: "", schematic: "", ar: { title: "عطل نظام التسخين", desc: "🔴 <b>وصف العطل:</b> فشل السخان في رفع درجة الحرارة.<br><br>🔍 <b>المسببات المحتملة:</b> تلف السخان، تلف الريلاي.<br><br>🛠️ <b>خطوات الفحص:</b> افحص مقاومة السخان وتأكد من سلامة ريلاي الكارت." }, en: { title: "Heating Error", desc: "🔴 <b>Description:</b> Heater failed to raise temperature.<br><br>🔍 <b>Causes:</b> Faulty electric heater, faulty relay.<br><br>🛠️ <b>Action:</b> Inspect heater resistance and verify relay." }, fr: { title: "Erreur de chauffage", desc: "🔴 <b>Description:</b> Le chauffage n'atteint pas la température.<br><br>🔍 <b>Causes:</b> Résistance HS, relais défectueux.<br><br>🛠️ <b>Vérification:</b> Mesurez la résistance et inspectez le relais." }, es: { title: "Error de calentamiento", desc: "🔴 <b>Descripción:</b> El calentador no subió la temperatura.<br><br>🔍 <b>Causas:</b> Calentador dañado, relé defectuoso.<br><br>🛠️ <b>Revisión:</b> Mida la resistencia y verifique el relé." }, ru: { title: "Ошибка нагрева", desc: "🔴 <b>Описание:</b> ТЭН не нагревает воду.<br><br>🔍 <b>Причины:</b> Неисправен ТЭН, сгорело реле.<br><br>🛠️ <b>Проверка:</b> Измерьте сопротивление ТЭНа и проверьте реле." } },
+            { device: 'dw', brand: 'lg', code: 'TE', image: "", schematic: "", ar: { title: "عطل حساس الحرارة", desc: "🔴 <b>وصف العطل:</b> قراءة غير طبيعية لدرجة الحرارة.<br><br>🔍 <b>المسببات المحتملة:</b> تلف حساس الحرارة، قطع في الأسلاك.<br><br>🛠️ <b>خطوات الفحص:</b> افحص الحساس بالمالتيميتر." }, en: { title: "Thermistor Error", desc: "🔴 <b>Description:</b> Abnormal water temperature reading.<br><br>🔍 <b>Causes:</b> Faulty thermistor, broken wiring.<br><br>🛠️ <b>Action:</b> Inspect thermistor with multimeter." }, fr: { title: "Erreur de thermistance", desc: "🔴 <b>Description:</b> Lecture de température anormale.<br><br>🔍 <b>Causes:</b> Sonde thermistance défectueuse, fils coupés.<br><br>🛠️ <b>Vérification:</b> Testez la sonde au multimètre." }, es: { title: "Error de termistor", desc: "🔴 <b>Descripción:</b> Lectura anormal de temperatura.<br><br>🔍 <b>Causas:</b> Sensor defectuoso, cableado roto.<br><br>🛠️ <b>Revisión:</b> Inspeccione el termistor con un multímetro." }, ru: { title: "Ошибка термистора", desc: "🔴 <b>Описание:</b> Ненормальные показания температуры.<br><br>🔍 <b>Причины:</b> Неисправен термистор, обрыв проводки.<br><br>🛠️ <b>Проверка:</b> Проверьте термистор мультиметром." } },
+            { device: 'dw', brand: 'lg', code: 'LE', image: "", schematic: "", ar: { title: "عطل محرك الغسيل", desc: "🔴 <b>وصف العطل:</b> مشكلة تمنع محرك الغسيل من الدوران.<br><br>🔍 <b>المسببات المحتملة:</b> جسم صلب يعيق المروحة، تلف المحرك.<br><br>🛠️ <b>خطوات الفحص:</b> فك المضخة لتنظيف المروحة." }, en: { title: "Motor Error", desc: "🔴 <b>Description:</b> Issue preventing wash motor from spinning.<br><br>🔍 <b>Causes:</b> Jammed impeller, motor failure.<br><br>🛠️ <b>Action:</b> Remove pump to clear impeller." }, fr: { title: "Erreur moteur", desc: "🔴 <b>Description:</b> Le moteur de lavage ne tourne pas.<br><br>🔍 <b>Causes:</b> Turbine bloquée, moteur HS.<br><br>🛠️ <b>Vérification:</b> Démontez pour nettoyer la turbine." }, es: { title: "Error de motor", desc: "🔴 <b>Descripción:</b> Problema que impide girar al motor.<br><br>🔍 <b>Causas:</b> Impulsor atascado, fallo del motor.<br><br>🛠️ <b>Revisión:</b> Retire la bomba para limpiar el impulsor." }, ru: { title: "Ошибка двигателя", desc: "🔴 <b>Описание:</b> Моющий двигатель не вращается.<br><br>🔍 <b>Причины:</b> Заклинило крыльчатку, отказ мотора.<br><br>🛠️ <b>Проверка:</b> Снимите насос для очистки." } },
+            { device: 'dw', brand: 'lg', code: 'PF', image: "", schematic: "", ar: { title: "انقطاع التيار", desc: "🔴 <b>وصف العطل:</b> حدث انقطاع للتيار أثناء تشغيل دورة الغسيل.<br><br>🛠️ <b>الإجراء:</b> أعد تشغيل الغسالة لبدء دورة جديدة." }, en: { title: "Power Failure", desc: "🔴 <b>Description:</b> Power outage occurred during the cycle.<br><br>🛠️ <b>Action:</b> Restart the washer." }, fr: { title: "Panne de courant", desc: "🔴 <b>Description:</b> Coupure de courant pendant le cycle.<br><br>🛠️ <b>Action:</b> Redémarrez le lave-vaisselle." }, es: { title: "Fallo de alimentación", desc: "🔴 <b>Descripción:</b> Corte de energía durante el ciclo.<br><br>🛠️ <b>Acción:</b> Reinicie la máquina." }, ru: { title: "Сбой питания", desc: "🔴 <b>Описание:</b> Сбой электропитания во время цикла.<br><br>🛠️ <b>Действие:</b> Перезапустите машину." } },
+            { device: 'dw', brand: 'lg', code: 'CD', image: "", schematic: "", ar: { title: "تبريد وتجفيف", desc: "🔴 <b>ملاحظة:</b> ليس عطلاً، يشير لانتهاء الغسيل ومرحلة التبريد.<br><br>🛠️ <b>الإجراء:</b> يمكنك تفريغ الأطباق بأمان." }, en: { title: "Cool Dry", desc: "🔴 <b>Note:</b> Not an error, drying cycle is complete.<br><br>🛠️ <b>Action:</b> Safe to unload dishes." }, fr: { title: "Séchage", desc: "🔴 <b>Note:</b> Pas une erreur, phase de refroidissement.<br><br>🛠️ <b>Action:</b> Vous pouvez vider la vaisselle." }, es: { title: "Secado en frío", desc: "🔴 <b>Nota:</b> No es un error, ciclo completado.<br><br>🛠️ <b>Acción:</b> Puede retirar los platos." }, ru: { title: "Охлаждение", desc: "🔴 <b>Примечание:</b> Не ошибка, завершение сушки.<br><br>🛠️ <b>Действие:</b> Можно выгружать посуду." } },
+            { device: 'dw', brand: 'bosch', code: 'E15', image: "", schematic: "", ar: { title: "تسريب مياه (Aquastop)", desc: "🔴 <b>وصف العطل:</b> تفعيل الحماية لوجود ماء بالقاعدة.<br><br>🛠️ <b>خطوات الفحص:</b> أفرغ القاعدة وابحث عن تسريب." }, en: { title: "Water Leak (Aquastop)", desc: "🔴 <b>Description:</b> Water in base activating Aquastop.<br><br>🛠️ <b>Action:</b> Empty base, find leak." }, fr: { title: "Fuite d'eau (Aquastop)", desc: "🔴 <b>Description:</b> Eau dans la base, système activé.<br><br>🛠️ <b>Vérification:</b> Videz la base, cherchez la fuite." }, es: { title: "Fuga de agua (Aquastop)", desc: "🔴 <b>Descripción:</b> Agua en la base activa Aquastop.<br><br>🛠️ <b>Revisión:</b> Vacíe la base, busque la fuga." }, ru: { title: "Утечка воды (Aquastop)", desc: "🔴 <b>Описание:</b> Вода в поддоне активировала Аквастоп.<br><br>🛠️ <b>Проверка:</b> Осушите поддон, найдите утечку." } },
+            { device: 'wm', brand: 'lg', code: 'LE', image: "", schematic: "", ar: { title: "عطل المحرك", desc: "🔴 <b>وصف العطل:</b> توقف محرك Direct Drive عن الدوران.<br><br>🛠️ <b>خطوات الفحص:</b> افحص حمولة الغسالة وحساس Hall." }, en: { title: "Motor Error", desc: "🔴 <b>Description:</b> Direct Drive motor stopped spinning.<br><br>🛠️ <b>Action:</b> Reduce load, test Hall sensor." }, fr: { title: "Erreur moteur", desc: "🔴 <b>Description:</b> Le moteur Direct Drive ne tourne plus.<br><br>🛠️ <b>Vérification:</b> Réduisez la charge, testez capteur Hall." }, es: { title: "Error de motor", desc: "🔴 <b>Descripción:</b> El motor Direct Drive se detuvo.<br><br>🛠️ <b>Revisión:</b> Reduzca carga, pruebe sensor Hall." }, ru: { title: "Ошибка двигателя", desc: "🔴 <b>Описание:</b> Двигатель Direct Drive остановился.<br><br>🛠️ <b>Проверка:</b> Уменьшите загрузку, проверьте датчик Холла." } },
+            { device: 'ac', brand: 'midea', code: 'EC', image: "", schematic: "", ar: { title: "تسريب فريون", desc: "🔴 <b>وصف العطل:</b> اللوحة تكتشف انخفاضاً حاداً في الضغط.<br><br>🛠️ <b>خطوات الفحص:</b> ركب المانيفولد وافحص تسريب الغاز." }, en: { title: "Refrigerant Leak", desc: "🔴 <b>Description:</b> PCB detects abnormal drop in pressure.<br><br>🛠️ <b>Action:</b> Attach manifold, check for freon leak." }, fr: { title: "Fuite de gaz", desc: "🔴 <b>Description:</b> Baisse anormale de pression détectée.<br><br>🛠️ <b>Vérification:</b> Branchez le manifold, cherchez fuite." }, es: { title: "Fuga de gas", desc: "🔴 <b>Descripción:</b> Caída anormal de presión detectada.<br><br>🛠️ <b>Revisión:</b> Conecte múltiple, busque fuga." }, ru: { title: "Утечка фреона", desc: "🔴 <b>Описание:</b> Падение давления хладагента.<br><br>🛠️ <b>Проверка:</b> Подключите манометр, ищите утечку." } }
         ];
 
-        // === منطق التسجيل الصوتي المتوافق مع الدارجة والأكواد التقنية ===
+        // === منطق التسجيل الصوتي الشامل والمترجم الذكي للهجات العربية ===
         let recognition = null;
         let isRecording = false;
         let recordInterval;
@@ -759,7 +567,7 @@
                 if(recognition) { recognition.stop(); }
                 recognition = new SpeechRecognition();
                 
-                // استخدام اللهجة الجزائرية كأساس للغة العربية لفهم أفضل للدارجة
+                // استخدام إعدادات اللغة بناءً على الاختيار
                 const langMap = { 'ar': 'ar-DZ', 'en': 'en-US', 'fr': 'fr-FR', 'es': 'es-ES', 'ru': 'ru-RU' };
                 recognition.lang = langMap[currentLang] || 'ar-DZ';
                 recognition.interimResults = true;
@@ -793,7 +601,6 @@
                             interimTranscript += event.results[i][0].transcript;
                         }
                     }
-                    // عرض النص المؤقت أثناء التحدث
                     document.getElementById('error-code').value = finalTranscript || interimTranscript;
                 };
 
@@ -804,7 +611,6 @@
 
                 recognition.onend = function() {
                     if (isRecording) {
-                        // عند انتهاء الكلام، نرسل النص للمعالجة الذكية
                         processVoiceCommand(document.getElementById('error-code').value);
                         stopRecordingUI();
                     }
@@ -828,7 +634,6 @@
             }
         }
 
-        // أزرار شريط التسجيل
         document.getElementById('cancel-record-btn').addEventListener('click', () => {
             document.getElementById('error-code').value = '';
             stopRecordingUI();
@@ -840,47 +645,73 @@
             if(transcript) processVoiceCommand(transcript);
         });
 
-        // === دالة استخلاص الكود الذكية (المترجم الصوتي) ===
+        // === دالة استخلاص الكود الذكية (Phonetic Dictionary للوطن العربي) ===
         function extractTechnicalCode(text, lang) {
             let code = text.toLowerCase();
             
-            // 1. إزالة الكلمات العادية لتنظيف النص
+            // 1. إزالة الكلمات العادية والدارجة لجميع الدول العربية
             const removeWords = [
-                "ابحث", "عن", "كود", "عطل", "رقم", "غسالة", "صحون", "ملابس", "مكيف", "ثلاجة", 
-                "air", "conditioner", "washer", "dishwasher", "fridge", "lave-vaisselle", 
-                "lave-linge", "climatiseur", "code", "erreur", "error", "samsung", "lg", "bosch", 
-                "midea", "condor", "beko", "سامسونج", "إل جي", "ال جي", "بوش", "ميديا", "كوندور", "بيكو",
-                "ماشينة", "ماعن", "فريجيدار", "كليماتيزور", "قش", "حوايج", "تاع"
+                // كلمات فصحى وعامة
+                "ابحث", "عن", "كود", "عطل", "رقم", "غسالة", "صحون", "ملابس", "مكيف", "ثلاجة", "تكييف", 
+                "عندي", "مشكلة", "في", "ايرور", "غلطة", "رمز",
+                // الدارجة الجزائرية والمغاربية
+                "ماشينة", "ماعن", "فريجيدار", "كليماتيزور", "قش", "حوايج", "تاع", "دير", "ديال", "واش", "كليم", "كونجيلاتور",
+                // اللهجة الشامية والمصرية والخليجية
+                "براد", "جلاية", "مواعين", "سبلت", "سبليت", "ماكينة", "اطباق", "بتاع", "حق", "شنو", "وش", "ايش",
+                // الماركات (نزيلها لنبقي فقط على رقم العطل)
+                "سامسونج", "سامسونغ", "إل جي", "ال جي", "بوش", "ميديا", "كوندور", "بيكو", "دايكن",
+                // لغات أجنبية
+                "code", "erreur", "error", "cherche", "lave", "vaisselle", "linge", "climatiseur", "frigo",
+                "samsung", "lg", "bosch", "midea", "condor", "beko", "air", "conditioner", "dishwasher", "washer"
             ];
             
             removeWords.forEach(w => {
                 const regex = new RegExp(`\\b${w}\\b`, "gi");
-                code = code.replace(regex, "");
+                code = code.replace(regex, " "); // استبدال بمسافة بدلاً من الحذف المباشر لتجنب التصاق الحروف
             });
 
-            // 2. الترجمة الصوتية (Phonetic Dictionary) للأكواد
-            // معالجة الأرقام المنطوقة
-            code = code.replace(/\bcinq\b/gi, '5').replace(/\bun\b/gi, '1').replace(/\bdeux\b/gi, '2').replace(/\btrois\b/gi, '3').replace(/\bquatre\b/gi, '4');
-            code = code.replace(/\bخمسة\b/gi, '5').replace(/\bواحد\b/gi, '1').replace(/\bاثنين\b|\bزوج\b/gi, '2').replace(/\bثلاثة\b/gi, '3').replace(/\bاربعة\b|\bرابعة\b/gi, '4');
-            
-            // معالجة الحروف التقنية التي يفهمها الميكروفون ككلمات (مثل نطق حرف C)
-            code = code.replace(/\bsi\b|\bci\b/gi, 'c'); // لحل مشكلة SI في الفرنسية[span_0](start_span)[span_0](end_span)
-            code = code.replace(/\bcé\b|\bse\b/gi, 'c');
-            code = code.replace(/\bo eu\b|\bo e\b/gi, 'oe');
-            
-            code = code.replace(/سي/g, 'c');
-            code = code.replace(/إي|اي|إی/g, 'e');
-            code = code.replace(/أو|او/g, 'o');
-            code = code.replace(/أف|اف/g, 'f');
-            code = code.replace(/أش|اش|إتش/g, 'h');
-            code = code.replace(/بي/g, 'p');
-            code = code.replace(/دي/g, 'd');
-            code = code.replace(/إل|ال/g, 'l');
+            // 2. إصلاحات مخصصة لأخطاء جوجل الشائعة
+            code = code.replace(/\baussi\b/gi, 'oc'); // حل خطأ AUSSI بالفرنسية
+            code = code.replace(/\bأصير\b|\bاصير\b/gi, 'oc'); // حل خطأ أصير بالعربية
+            code = code.replace(/\bأوسي\b|\bاوسي\b/gi, 'oc'); 
+            code = code.replace(/\bزيرو سي\b|\bzero c\b/gi, '0c');
+            code = code.replace(/\bإي سي\b|\bاي سي\b|\bايه سي\b|\bice\b/gi, 'ec');
+            code = code.replace(/\bدي سي\b|\bdc\b/gi, 'dc');
 
-            // 3. دمج الكلمة واستخلاص الحروف والأرقام فقط (مثال: "5 c" تصبح "5C")
+            // 3. تحويل الأرقام المنطوقة بجميع اللهجات إلى أرقام صحيحة
+            const numberMap = {
+                'واحد': '1', 'un': '1', 'one': '1', 'وحيد': '1',
+                'زوج': '2', 'اثنين': '2', 'اتنين': '2', 'جوج': '2', 'deux': '2', 'two': '2',
+                'ثلاثة': '3', 'تلاتة': '3', 'تلت': '3', 'trois': '3', 'three': '3',
+                'اربعة': '4', 'رابعة': '4', 'ربع': '4', 'quatre': '4', 'four': '4',
+                'خمسة': '5', 'خمس': '5', 'cinq': '5', 'five': '5',
+                'ستة': '6', 'ست': '6', 'six': '6',
+                'سبعة': '7', 'سبع': '7', 'sept': '7', 'seven': '7',
+                'ثمانية': '8', 'تمانية': '8', 'huit': '8', 'eight': '8',
+                'تسعة': '9', 'تسع': '9', 'neuf': '9', 'nine': '9',
+                'صفر': '0', 'زيرو': '0', 'zéro': '0', 'zero': '0'
+            };
+            for (const [word, digit] of Object.entries(numberMap)) {
+                const regex = new RegExp(`\\b${word}\\b`, "gi");
+                code = code.replace(regex, digit);
+            }
+
+            // 4. الترجمة الصوتية للحروف التقنية بالعربية (Phonetic spelling)
+            code = code.replace(/\bسي\b|\bسى\b|\bci\b|\bsi\b|\bcé\b|\bse\b/gi, 'c');
+            code = code.replace(/\bإي\b|\bاي\b|\bإی\b|\bايه\b/g, 'e');
+            code = code.replace(/\bأو\b|\bاو\b|\bأوه\b/g, 'o');
+            code = code.replace(/\bأف\b|\bاف\b|\bإف\b/g, 'f');
+            code = code.replace(/\bأش\b|\bاش\b|\bإتش\b|\bاتش\b/g, 'h');
+            code = code.replace(/\bبي\b/g, 'p');
+            code = code.replace(/\bدي\b/g, 'd');
+            code = code.replace(/\bإل\b|\bال\b/g, 'l');
+            code = code.replace(/\bتي\b|\bثي\b/g, 't');
+            code = code.replace(/\bإس\b|\bاس\b/g, 's');
+
+            // 5. دمج الكلمة النهائية
             code = code.replace(/\s+/g, '').toUpperCase();
             
-            // البحث عن نمط كود تقني (من حرف إلى 5 حروف وأرقام)
+            // البحث عن النمط النهائي (من حرف إلى 5 حروف وأرقام)
             const match = code.match(/[A-Z0-9]{1,5}/);
             return match ? match[0] : code;
         }
@@ -898,11 +729,19 @@
                 }
             };
 
-            // 1. استخراج نوع الجهاز (بما في ذلك الدارجة الجزائرية)
-            if (/صحون|dish|vaisselle|vajillas|посудо/.test(lowerTranscript) || /ماعن|لماسن/i.test(lowerTranscript)) clickOption('device-list', 'dw');
-            else if (/ملابس|washing|linge|lavadora|стирал/.test(lowerTranscript) || /قش|حوايج/i.test(lowerTranscript)) clickOption('device-list', 'wm');
-            else if (/مكيف|تكييف|air|climatiseur|acondicionado|кондицион/.test(lowerTranscript) || /كليماتيزور|كليم/i.test(lowerTranscript)) clickOption('device-list', 'ac');
-            else if (/ثلاجة|fridge|réfrigérateur|refrigerador|холодиль/.test(lowerTranscript) || /فريجيدار/i.test(lowerTranscript)) clickOption('device-list', 'fridge');
+            // 1. استخراج نوع الجهاز بناءً على مصطلحات جميع الدول العربية
+            if (/صحون|dish|vaisselle|vajillas|посудо|ماعن|مواعين|جلاية|اطباق/.test(lowerTranscript)) {
+                clickOption('device-list', 'dw');
+            }
+            else if (/ملابس|washing|linge|lavadora|стирал|قش|حوايج|صابونة|ماكينة غسيل/.test(lowerTranscript)) {
+                clickOption('device-list', 'wm');
+            }
+            else if (/مكيف|تكييف|air|climatiseur|acondicionado|кондицион|كليم|سبلت|سبليت/.test(lowerTranscript)) {
+                clickOption('device-list', 'ac');
+            }
+            else if (/ثلاجة|fridge|réfrigérateur|refrigerador|холодиль|فريجيدار|براد|فريزر|كونجيلاتور/.test(lowerTranscript)) {
+                clickOption('device-list', 'fridge');
+            }
 
             // 2. استخراج الماركة
             if (/samsung|سامسونج|سامسونغ/.test(lowerTranscript)) clickOption('brand-list', 'samsung');
@@ -915,7 +754,7 @@
             // 3. استخراج الكود التقني الصافي
             const finalCode = extractTechnicalCode(lowerTranscript, currentLang);
             
-            // وضع الكود النهائي في مربع البحث وتشغيل دالة البحث
+            // وضع الكود النهائي في مربع البحث وتشغيل البحث
             document.getElementById('error-code').value = finalCode;
             searchErrorCode();
         }
@@ -1018,11 +857,9 @@
             }
         }
 
-        // تشغيل البحث عند الكتابة
         document.getElementById('error-code').addEventListener('input', searchErrorCode);
         document.getElementById('btn-search-trigger').addEventListener('click', searchErrorCode);
 
-        // التحكم بالقوائم المنسدلة
         function toggleDropdown(listId, containerId) {
             document.querySelectorAll('.select-options').forEach(el => { if (el.id !== listId) el.classList.remove('show'); });
             document.querySelectorAll('.custom-select-container').forEach(el => { if (el.id !== containerId) el.classList.remove('active'); });
@@ -1067,178 +904,12 @@
             }
         });
 
-        // القاموس
         const translations = {
-            ar: {
-                title: "الموسوعة الفنية لأعطال التكييف والأجهزة المنزلية",
-                subtitle: "البحث الفوري وإدارة قاعدة بيانات الأعطال ميدانياً",
-                dev_name: "تطوير وبرمجة هندسية: م. أحمد زينور 🇩🇿",
-                dev_group: "مجموعة: إتقان في التبريد والتدفئة M.D.F.CH.É.É",
-                btn_facebook: " صفحة المطور على فيسبوك",
-                btn_guide: " الدليل الهندسي وشرح البرنامج",
-                btn_whatsapp: " تواصل عبر واتساب",
-                btn_add_text: " إضافة كود جديد",
-                btn_search_text: " شاشة البحث",
-                opt_ac: "مكيف هواء (Air Conditioner)",
-                opt_wm: "غسالة ملابس (Washing Machine)",
-                opt_dw: "غسالة صحون (Dishwasher)",
-                opt_fridge: "ثلاجة منزلية (Refrigerator)",
-                opt_all_brands: "جميع الماركات",
-                opt_all_tech: "جميع التقنيات",
-                opt_inverter: "أنفرتر (Inverter)",
-                opt_onoff: "عادي (On/Off)",
-                opt_all_shapes: "جميع الأشكال / الموديلات",
-                opt_wall: "جداري عادي (Split Wall)",
-                opt_cassette: "كاسيت سقفي (Cassette)",
-                opt_floor: "عمودي خزانة (Floor-Standing)",
-                opt_plafonnier: "سقفي أرضي (Plafonnier)",
-                opt_portable: "متنقل منزلي (Portable)",
-                opt_vrv: "مركزي (VRV / VRF)",
-                placeholder: "اكتب رمز الخطأ مباشرة هنا (مثال: CH01...)",
-                result: "لم يتم العثور على تشخيص مطابق. يمكنك إضافة هذا الكود عبر زر 'إضافة كود جديد'.",
-                error_code_prefix: "كود العطل:",
-                btn_add_database: "➕ أضف هذا الكود للموسوعة",
-                no_image: "صورة العطل غير متوفرة",
-                no_schematic: "المخطط غير متوفر",
-                select_brand_first: "يرجى تحديد الماركة أولاً لتجنب التشخيص الخاطئ.",
-                no_speech_support: "عذراً، متصفحك لا يدعم ميزة البحث الصوتي."
-            },
-            en: {
-                title: "HVAC & Home Appliances Encyclopedia",
-                subtitle: "Instant search & field management of fault database",
-                dev_name: "Engineering & Development: Eng. Ahmed Zinnour 🇩🇿",
-                dev_group: "Group: Mastery in HVAC M.D.F.CH.É.É",
-                btn_facebook: " Developer's Facebook Page",
-                btn_guide: " Engineering Guide & Features",
-                btn_whatsapp: " Contact via WhatsApp",
-                btn_add_text: " Add New Code",
-                btn_search_text: " Search Screen",
-                opt_ac: "Air Conditioner",
-                opt_wm: "Washing Machine",
-                opt_dw: "Dishwasher",
-                opt_fridge: "Refrigerator",
-                opt_all_brands: "All Brands",
-                opt_all_tech: "All Technologies",
-                opt_inverter: "Inverter",
-                opt_onoff: "Standard (On/Off)",
-                opt_all_shapes: "All Shapes / Models",
-                opt_wall: "Split Wall",
-                opt_cassette: "Cassette",
-                opt_floor: "Floor-Standing",
-                opt_plafonnier: "Ceiling/Floor",
-                opt_portable: "Portable",
-                opt_vrv: "VRV / VRF",
-                placeholder: "Type error code here (e.g., CH01...)",
-                result: "No matching diagnosis found. You can add this code via the 'Add New Code' button.",
-                error_code_prefix: "Error Code:",
-                btn_add_database: "➕ Add to Database",
-                no_image: "Image not available",
-                no_schematic: "Schematic not available",
-                select_brand_first: "Please select a brand first to avoid misdiagnosis.",
-                no_speech_support: "Sorry, your browser does not support voice search."
-            },
-            fr: {
-                title: "Encyclopédie de Climatisation & Électroménager",
-                subtitle: "Recherche immédiate et gestion de la base de données",
-                dev_name: "Développement & Ingénierie: Ing. Ahmed Zinnour 🇩🇿",
-                dev_group: "Groupe: Maîtrise en Climatisation M.D.F.CH.É.É",
-                btn_facebook: " Page Facebook du Développeur",
-                btn_guide: " Guide d'Ingénierie",
-                btn_whatsapp: " Contact via WhatsApp",
-                btn_add_text: " Ajouter un Nouveau Code",
-                btn_search_text: " Écran de Recherche",
-                opt_ac: "Climatiseur",
-                opt_wm: "Lave-linge",
-                opt_dw: "Lave-vaisselle",
-                opt_fridge: "Réfrigérateur",
-                opt_all_brands: "Toutes les Marques",
-                opt_all_tech: "Toutes les Technologies",
-                opt_inverter: "Inverter",
-                opt_onoff: "Classique (On/Off)",
-                opt_all_shapes: "Toutes les Formes / Modèles",
-                opt_wall: "Mural (Split Wall)",
-                opt_cassette: "Cassette",
-                opt_floor: "Armoire (Floor-Standing)",
-                opt_plafonnier: "Plafonnier",
-                opt_portable: "Portable",
-                opt_vrv: "VRV / VRF",
-                placeholder: "Tapez le code d'erreur ici (ex: CH01...)",
-                result: "Aucun diagnostic correspondant trouvé. Vous pouvez l'ajouter via le bouton.",
-                error_code_prefix: "Code d'erreur:",
-                btn_add_database: "➕ Ajouter à la base",
-                no_image: "Image indisponible",
-                no_schematic: "Schéma indisponible",
-                select_brand_first: "Veuillez d'abord sélectionner une marque.",
-                no_speech_support: "Désolé, votre navigateur ne prend pas en charge la recherche vocale."
-            },
-            es: {
-                title: "Enciclopedia de Climatización y Electrodomésticos",
-                subtitle: "Búsqueda instantánea y gestión de base de datos",
-                dev_name: "Desarrollo e Ingeniería: Ing. Ahmed Zinnour 🇩🇿",
-                dev_group: "Grupo: Dominio en Climatización M.D.F.CH.É.É",
-                btn_facebook: " Facebook del Desarrollador",
-                btn_guide: " Guía de Ingeniería",
-                btn_whatsapp: " Contacto vía WhatsApp",
-                btn_add_text: " Agregar Nuevo Código",
-                btn_search_text: " Pantalla de Búsqueda",
-                opt_ac: "Aire Acondicionado",
-                opt_wm: "Lavadora",
-                opt_dw: "Lavavajillas",
-                opt_fridge: "Refrigerador",
-                opt_all_brands: "Todas las Marcas",
-                opt_all_tech: "Todas las Tecnologías",
-                opt_inverter: "Inverter",
-                opt_onoff: "Clásico (On/Off)",
-                opt_all_shapes: "Todas las Formas / Modelos",
-                opt_wall: "Pared (Split Wall)",
-                opt_cassette: "Cassette",
-                opt_floor: "Gabinete (Floor-Standing)",
-                opt_plafonnier: "Plafón",
-                opt_portable: "Portátil",
-                opt_vrv: "VRV / VRF",
-                placeholder: "Escriba el código de error aquí (ej: CH01...)",
-                result: "No se encontró ningún diagnóstico. Puede agregarlo a través del botón.",
-                error_code_prefix: "Código de error:",
-                btn_add_database: "➕ Agregar a la base",
-                no_image: "Imagen no disponible",
-                no_schematic: "Esquema no disponible",
-                select_brand_first: "Por favor seleccione una marca primero.",
-                no_speech_support: "Lo siento, su navegador no admite la búsqueda por voz."
-            },
-            ru: {
-                title: "Энциклопедия кондиционирования и Бытовой Техники",
-                subtitle: "Мгновенный поиск в базе данных",
-                dev_name: "Инженерная разработка: инж. Ахмед Зиннур 🇩🇿",
-                dev_group: "Группа: Мастерство в кондиционировании M.D.F.CH.É.É",
-                btn_facebook: " Страница Facebook",
-                btn_guide: " Инженерное руководство",
-                btn_whatsapp: " Связаться в WhatsApp",
-                btn_add_text: " Добавить новый код",
-                btn_search_text: " Экран поиска",
-                opt_ac: "Кондиционер",
-                opt_wm: "Стиральная машина",
-                opt_dw: "Посудомоечная машина",
-                opt_fridge: "Холодильник",
-                opt_all_brands: "Все бренды",
-                opt_all_tech: "Все технологии",
-                opt_inverter: "Инвертор",
-                opt_onoff: "Стандартный (On/Off)",
-                opt_all_shapes: "Все типы / Модели",
-                opt_wall: "Настенный",
-                opt_cassette: "Кассетный",
-                opt_floor: "Колонный",
-                opt_plafonnier: "Напольно-потолочный",
-                opt_portable: "Мобильный",
-                opt_vrv: "VRV / VRF",
-                placeholder: "Введите код ошибки прямо здесь...",
-                result: "Диагноз не найден. Вы можете добавить этот код с помощью кнопки.",
-                error_code_prefix: "Код ошибки:",
-                btn_add_database: "➕ Добавить в базу",
-                no_image: "Изображение недоступно",
-                no_schematic: "Схема недоступна",
-                select_brand_first: "Пожалуйста, сначала выберите бренд.",
-                no_speech_support: "Извините, ваш браузер не поддерживает голосовой поиск."
-            }
+            ar: { title: "الموسوعة الفنية لأعطال التكييف والأجهزة المنزلية", subtitle: "البحث الفوري وإدارة قاعدة بيانات الأعطال ميدانياً", dev_name: "تطوير وبرمجة هندسية: م. أحمد زينور 🇩🇿", dev_group: "مجموعة: إتقان في التبريد والتدفئة M.D.F.CH.É.É", btn_facebook: " صفحة المطور على فيسبوك", btn_guide: " الدليل الهندسي وشرح البرنامج", btn_whatsapp: " تواصل عبر واتساب", btn_add_text: " إضافة كود جديد", btn_search_text: " شاشة البحث", opt_ac: "مكيف هواء (Air Conditioner)", opt_wm: "غسالة ملابس (Washing Machine)", opt_dw: "غسالة صحون (Dishwasher)", opt_fridge: "ثلاجة منزلية (Refrigerator)", opt_all_brands: "جميع الماركات", opt_all_tech: "جميع التقنيات", opt_inverter: "أنفرتر (Inverter)", opt_onoff: "عادي (On/Off)", opt_all_shapes: "جميع الأشكال / الموديلات", opt_wall: "جداري عادي (Split Wall)", opt_cassette: "كاسيت سقفي (Cassette)", opt_floor: "عمودي خزانة (Floor-Standing)", opt_plafonnier: "سقفي أرضي (Plafonnier)", opt_portable: "متنقل منزلي (Portable)", opt_vrv: "مركزي (VRV / VRF)", placeholder: "اكتب رمز الخطأ مباشرة هنا (مثال: CH01...)", result: "لم يتم العثور على تشخيص مطابق. يمكنك إضافة هذا الكود عبر زر 'إضافة كود جديد'.", error_code_prefix: "كود العطل:", btn_add_database: "➕ أضف هذا الكود للموسوعة", no_image: "صورة العطل غير متوفرة", no_schematic: "المخطط غير متوفر", select_brand_first: "يرجى تحديد الماركة أولاً لتجنب التشخيص الخاطئ.", no_speech_support: "عذراً، متصفحك لا يدعم ميزة البحث الصوتي." },
+            en: { title: "HVAC & Home Appliances Encyclopedia", subtitle: "Instant search & field management of fault database", dev_name: "Engineering & Development: Eng. Ahmed Zinnour 🇩🇿", dev_group: "Group: Mastery in HVAC M.D.F.CH.É.É", btn_facebook: " Developer's Facebook Page", btn_guide: " Engineering Guide & Features", btn_whatsapp: " Contact via WhatsApp", btn_add_text: " Add New Code", btn_search_text: " Search Screen", opt_ac: "Air Conditioner", opt_wm: "Washing Machine", opt_dw: "Dishwasher", opt_fridge: "Refrigerator", opt_all_brands: "All Brands", opt_all_tech: "All Technologies", opt_inverter: "Inverter", opt_onoff: "Standard (On/Off)", opt_all_shapes: "All Shapes / Models", opt_wall: "Split Wall", opt_cassette: "Cassette", opt_floor: "Floor-Standing", opt_plafonnier: "Ceiling/Floor", opt_portable: "Portable", opt_vrv: "VRV / VRF", placeholder: "Type error code here (e.g., CH01...)", result: "No matching diagnosis found. You can add this code via the 'Add New Code' button.", error_code_prefix: "Error Code:", btn_add_database: "➕ Add to Database", no_image: "Image not available", no_schematic: "Schematic not available", select_brand_first: "Please select a brand first to avoid misdiagnosis.", no_speech_support: "Sorry, your browser does not support voice search." },
+            fr: { title: "Encyclopédie de Climatisation & Électroménager", subtitle: "Recherche immédiate et gestion de la base de données", dev_name: "Développement & Ingénierie: Ing. Ahmed Zinnour 🇩🇿", dev_group: "Groupe: Maîtrise en Climatisation M.D.F.CH.É.É", btn_facebook: " Page Facebook du Développeur", btn_guide: " Guide d'Ingénierie", btn_whatsapp: " Contact via WhatsApp", btn_add_text: " Ajouter un Nouveau Code", btn_search_text: " Écran de Recherche", opt_ac: "Climatiseur", opt_wm: "Lave-linge", opt_dw: "Lave-vaisselle", opt_fridge: "Réfrigérateur", opt_all_brands: "Toutes les Marques", opt_all_tech: "Toutes les Technologies", opt_inverter: "Inverter", opt_onoff: "Classique (On/Off)", opt_all_shapes: "Toutes les Formes / Modèles", opt_wall: "Mural (Split Wall)", opt_cassette: "Cassette", opt_floor: "Armoire (Floor-Standing)", opt_plafonnier: "Plafonnier", opt_portable: "Portable", opt_vrv: "VRV / VRF", placeholder: "Tapez le code d'erreur ici (ex: CH01...)", result: "Aucun diagnostic correspondant trouvé. Vous pouvez l'ajouter via le bouton.", error_code_prefix: "Code d'erreur:", btn_add_database: "➕ Ajouter à la base", no_image: "Image indisponible", no_schematic: "Schéma indisponible", select_brand_first: "Veuillez d'abord sélectionner une marque.", no_speech_support: "Désolé, votre navigateur ne prend pas en charge la recherche vocale." },
+            es: { title: "Enciclopedia de Climatización y Electrodomésticos", subtitle: "Búsqueda instantánea y gestión de base de datos", dev_name: "Desarrollo e Ingeniería: Ing. Ahmed Zinnour 🇩🇿", dev_group: "Grupo: Dominio en Climatización M.D.F.CH.É.É", btn_facebook: " Facebook del Desarrollador", btn_guide: " Guía de Ingeniería", btn_whatsapp: " Contacto vía WhatsApp", btn_add_text: " Agregar Nuevo Código", btn_search_text: " Pantalla de Búsqueda", opt_ac: "Aire Acondicionado", opt_wm: "Lavadora", opt_dw: "Lavavajillas", opt_fridge: "Refrigerador", opt_all_brands: "Todas las Marcas", opt_all_tech: "Todas las Tecnologías", opt_inverter: "Inverter", opt_onoff: "Clásico (On/Off)", opt_all_shapes: "Todas las Formas / Modelos", opt_wall: "Pared (Split Wall)", opt_cassette: "Cassette", opt_floor: "Gabinete (Floor-Standing)", opt_plafonnier: "Plafón", opt_portable: "Portátil", opt_vrv: "VRV / VRF", placeholder: "Escriba el código de error aquí (ej: CH01...)", result: "No se encontró ningún diagnóstico. Puede agregarlo a través del botón.", error_code_prefix: "Código de error:", btn_add_database: "➕ Agregar a la base", no_image: "Imagen no disponible", no_schematic: "Esquema no disponible", select_brand_first: "Por favor seleccione una marca primero.", no_speech_support: "Lo siento, su navegador no admite la búsqueda por voz." },
+            ru: { title: "Энциклопедия кондиционирования и Бытовой Техники", subtitle: "Мгновенный поиск в базе данных", dev_name: "Инженерная разработка: инж. Ахмед Зиннур 🇩🇿", dev_group: "Группа: Мастерство в кондиционировании M.D.F.CH.É.É", btn_facebook: " Страница Facebook", btn_guide: " Инженерное руководство", btn_whatsapp: " Связаться в WhatsApp", btn_add_text: " Добавить новый код", btn_search_text: " Экран поиска", opt_ac: "Кондиционер", opt_wm: "Стиральная машина", opt_dw: "Посудомоечная машина", opt_fridge: "Холодильник", opt_all_brands: "Все бренды", opt_all_tech: "Все технологии", opt_inverter: "Инвертор", opt_onoff: "Стандартный (On/Off)", opt_all_shapes: "Все типы / Модели", opt_wall: "Настенный", opt_cassette: "Кассетный", opt_floor: "Колонный", opt_plafonnier: "Напольно-потолочный", opt_portable: "Мобильный", opt_vrv: "VRV / VRF", placeholder: "Введите код ошибки прямо здесь...", result: "Диагноз не найден. Вы можете добавить этот код с помощью кнопки.", error_code_prefix: "Код ошибки:", btn_add_database: "➕ Добавить в базу", no_image: "Изображение недоступно", no_schematic: "Схема недоступна", select_brand_first: "Пожалуйста, сначала выберите бренд.", no_speech_support: "Извините, ваш браузер не поддерживает голосовой поиск." }
         };
 
         const langButtons = document.querySelectorAll('.lang-btn');
