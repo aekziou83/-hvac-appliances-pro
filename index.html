@@ -492,7 +492,7 @@
                     <button type="button" class="btn-cancel-record" id="cancel-record-btn" title="إلغاء">
                         <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </button>
-                    <!-- إرسال يدوي كإجراء احتياطي -->
+                    <!-- إرسال يدوي احتياطي -->
                     <button type="button" class="btn-send-record" id="send-record-btn" title="إرسال (بحث)">
                         <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>
@@ -540,7 +540,7 @@
         ];
 
         // =========================================================================
-        // ميزة البحث الصوتي التلقائي السريع مع إصلاح مشكلة التجمد
+        // ميزة البحث الصوتي (نظام فرنسي ذكي لتجاوز كابوس اللغة العربية)
         // =========================================================================
         let recognition = null;
         let isRecording = false;
@@ -559,8 +559,10 @@
                 if(recognition) { recognition.stop(); }
                 recognition = new SpeechRecognition();
                 
-                const langMap = { 'ar': 'ar-DZ', 'en': 'en-US', 'fr': 'fr-FR', 'es': 'es-ES', 'ru': 'ru-RU' };
-                recognition.lang = langMap[currentLang] || 'ar-DZ';
+                // الحل الجذري: إجبار الميكروفون على اللغة الفرنسية حتى لو كانت الواجهة عربية!
+                // هذا يضمن أن تنطق حروفاً مثل "A C" فيكتبها "AC" بدلاً من "قاسي".
+                const langMap = { 'ar': 'fr-FR', 'en': 'en-US', 'fr': 'fr-FR', 'es': 'es-ES', 'ru': 'ru-RU' };
+                recognition.lang = langMap[currentLang] || 'fr-FR';
                 
                 recognition.continuous = false; 
                 recognition.interimResults = true;
@@ -601,6 +603,7 @@
 
                     clearTimeout(silenceTimer);
                     
+                    // المستشعر: 1.2 ثانية صمت تعني إغلاق وبحث تلقائي فوري
                     silenceTimer = setTimeout(() => {
                         if (isRecording && !hasProcessedVoice && document.getElementById('error-code').value.trim() !== '') {
                             hasProcessedVoice = true; 
@@ -658,82 +661,81 @@
         });
 
         // =========================================================================
-        // المترجم الخرافي (Phonetic AI Filter) 
+        // فلتر الذكاء الاصطناعي (الفلتر الجبار لتنظيف الأكواد)
         // =========================================================================
         function extractTechnicalCode(text) {
             let code = text.toLowerCase();
             
-            // 1. تدمير كل الكلمات الجانبية والدارجة 
-            const removeWords = [
-                "ابحث", "عن", "كود", "عطل", "رقم", "غسالة", "صحون", "ملابس", "مكيف", "ثلاجة", "تكييف", 
-                "عندي", "مشكلة", "في", "ايرور", "غلطة", "رمز", "ماشينة", "ماعن", "فريجيدار", "كليماتيزور", 
-                "قش", "حوايج", "تاع", "دير", "ديال", "واش", "كليم", "كونجيلاتور", "براد", "جلاية", "مواعين", 
-                "سبلت", "سبليت", "ماكينة", "اطباق", "بتاع", "حق", "شنو", "وش", "ايش", "سامسونج", "سامسونغ", 
-                "إل جي", "ال جي", "بوش", "ميديا", "كوندور", "بيكو", "دايكن", "code", "erreur", "error", 
-                "cherche", "lave", "vaisselle", "linge", "climatiseur", "frigo"
-            ];
-            
-            removeWords.forEach(w => {
-                code = code.replace(new RegExp(`\\b${w}\\b`, "gi"), " "); 
-            });
-
-            // 2. إصلاح الأخطاء المعقدة التي ظهرت في الصور
-            const exactFixes = {
-                'كنت قاسي': 'ac', 'كانت قاسي': 'ac', 'قاسي': 'ac', 'casey': 'ac', 'كاتي': 'ac', 'كات': 'ac', 'ايه سي': 'ac', 'إيه سي': 'ac',
-                'aussi': 'oc', 'أصير': 'oc', 'اصير': 'oc', 'أوسي': 'oc', 'اوسي': 'oc', 'عاصي': 'oc', 'أصي': 'oc', 'zero c': '0c', 'زيرو سي': '0c',
-                'ice': 'ec', 'اي سي': 'ec', 'إي سي': 'ec', 'ici': 'ec',
+            // 1. إصلاح متعدد الكلمات (Multi-word fixes) يتم تطبيقه أولاً
+            const multiWordFixes = {
+                'كنت قاسي': 'ac', 'كانت قاسي': 'ac', 'ايه سي': 'ac', 'إيه سي': 'ac', 
+                'ال او': 'lc', 'ال اي': 'le', 'إل إي': 'le', 'ال سي': 'lc', 'إل سي': 'lc',
+                'اش سي': 'hc', 'إتش سي': 'hc', 'عش سي': 'hc', 'عاش سي': 'hc', 'أش سي': 'hc', 'هاش سي': 'hc',
+                'zero c': '0c', 'زيرو سي': '0c', 'اي سي': 'ec', 'إي سي': 'ec',
                 'دي سي': 'dc', 'بي إي': 'pe', 'بي اي': 'pe', 'تي إي': 'te', 'تي اي': 'te',
-                'أف إي': 'fe', 'اف اي': 'fe', 'إل إي': 'le', 'ال اي': 'le', 'إي وان': 'e1', 'اي وان': 'e1',
-                'آسيا': 'ac', 'اسي': 'ac', 'أسي': 'ac',
-                'راسي': 'rc', 'رسي': 'rc', 
-                'عاش': 'h', 'اتش': 'h', 'إتش': 'h', 
-                'آسف': 'sf', 'اسف': 'sf', 
-                'passer': 'pc'
+                'أف إي': 'fe', 'اف اي': 'fe', 'إي وان': 'e1', 'اي وان': 'e1',
+                'elle e': 'le', 'elle c': 'lc', 'hache c': 'hc', 'ach c': 'hc', 'cinq c': '5c', 'trois c': '3c'
             };
-            for (const [bad, good] of Object.entries(exactFixes)) {
-                code = code.replace(new RegExp(`\\b${bad}\\b`, "gi"), good);
+            for (const [bad, good] of Object.entries(multiWordFixes)) {
+                code = code.split(bad).join(good); 
             }
 
-            // 3. تحويل الحروف العربية المفردة 
-            const phonetics = {
+            // 2. تقسيم النص إلى كلمات للفلترة الدقيقة
+            let words = code.split(/\s+/);
+            
+            const singleWordFixes = {
+                'الو': 'le', 'الي': 'le', 'قاسي': 'ac', 'casey': 'ac', 'كاتي': 'ac', 'كات': 'ac', 'آسيا': 'ac', 'اسي': 'ac', 'أسي': 'ac',
+                'aussi': 'oc', 'أصير': 'oc', 'اصير': 'oc', 'أوسي': 'oc', 'اوسي': 'oc', 'عاصي': 'oc', 'أصي': 'oc',
+                'ice': 'ec', 'ici': 'ec', 'إيسي': 'ec',
+                'راسي': 'rc', 'رسي': 'rc', 'عاش': 'h', 'اتش': 'h', 'إتش': 'h', 'أش': 'hc', 'اش': 'hc',
+                'آسف': 'sf', 'اسف': 'sf', 'passer': 'pc', 'باسي': 'pc',
                 'اه': 'e', 'إيه': 'e', 'ايه': 'e', 'إي': 'e', 'اي': 'e', 'إی': 'e', 'e': 'e', 'ae': 'e',
                 'أو': 'o', 'او': 'o', 'أوه': 'o', 'o': 'o',
                 'سي': 'c', 'سى': 'c', 'ci': 'c', 'si': 'c', 'cé': 'c', 'se': 'c', 'c': 'c',
                 'أف': 'f', 'اف': 'f', 'إف': 'f', 'f': 'f', 'في': 'v', 'v': 'v',
-                'أش': 'h', 'اش': 'h', 'إتش': 'h', 'اتش': 'h', 'h': 'h',
-                'بي': 'p', 'p': 'p',
-                'دي': 'd', 'd': 'd',
-                'إل': 'l', 'ال': 'l', 'l': 'l',
-                'تي': 't', 'ثي': 't', 't': 't',
-                'إس': 's', 'اس': 's', 's': 's'
+                'بي': 'p', 'p': 'p', 'دي': 'd', 'd': 'd', 'إل': 'l', 'ال': 'l', 'l': 'l',
+                'تي': 't', 'ثي': 't', 't': 't', 'إس': 's', 'اس': 's', 's': 's'
             };
-            for (const [word, letter] of Object.entries(phonetics)) {
-                code = code.replace(new RegExp(`\\b${word}\\b`, "gi"), letter);
-            }
 
-            // 4. تحويل الأرقام المنطوقة 
-            const numbers = {
+            const numberWords = {
                 'واحد': '1', 'un': '1', 'one': '1', 'وان': '1',
                 'زوج': '2', 'اثنين': '2', 'اتنين': '2', 'جوج': '2', 'deux': '2', 'two': '2', 'تو': '2',
                 'ثلاثة': '3', 'تلاتة': '3', 'تلت': '3', 'trois': '3', 'three': '3', 'ثري': '3',
                 'اربعة': '4', 'رابعة': '4', 'ربع': '4', 'quatre': '4', 'four': '4', 'فور': '4',
-                'خمسة': '5', 'خمس': '5', 'cinq': '5', 'five': '5', 'فايف': '5',
+                'خمسة': '5', 'خمس': '5', 'cinq': '5', 'five': '5', 'فايف': '5', 'سانك': '5', 'سينك': '5',
                 'ستة': '6', 'ست': '6', 'six': '6', 'سيكس': '6',
                 'سبعة': '7', 'سبع': '7', 'sept': '7', 'seven': '7', 'سفن': '7',
                 'ثمانية': '8', 'تمانية': '8', 'huit': '8', 'eight': '8', 'ايت': '8',
                 'تسعة': '9', 'تسع': '9', 'neuf': '9', 'nine': '9', 'ناين': '9',
                 'صفر': '0', 'زيرو': '0', 'zéro': '0', 'zero': '0'
             };
-            for (const [word, digit] of Object.entries(numbers)) {
-                code = code.replace(new RegExp(`\\b${word}\\b`, "gi"), digit);
+
+            const ignoreWords = new Set([
+                "ابحث", "عن", "كود", "عطل", "رقم", "غسالة", "صحون", "ملابس", "مكيف", "ثلاجة", "تكييف", 
+                "عندي", "مشكلة", "في", "ايرور", "غلطة", "رمز", "ماشينة", "ماعن", "فريجيدار", "كليماتيزور", 
+                "قش", "حوايج", "تاع", "دير", "ديال", "واش", "كليم", "كونجيلاتور", "براد", "جلاية", "مواعين", 
+                "سبلت", "سبليت", "ماكينة", "اطباق", "بتاع", "حق", "شنو", "وش", "ايش", "سامسونج", "سامسونغ", 
+                "إل جي", "ال جي", "بوش", "ميديا", "كوندور", "بيكو", "دايكن", "code", "erreur", "error", 
+                "cherche", "lave", "vaisselle", "linge", "climatiseur", "frigo", "rassala", "machina"
+            ]);
+
+            let finalChars = [];
+            for (let w of words) {
+                if (ignoreWords.has(w)) continue;
+                if (singleWordFixes[w]) {
+                    finalChars.push(singleWordFixes[w]);
+                } else if (numberWords[w]) {
+                    finalChars.push(numberWords[w]);
+                } else {
+                    finalChars.push(w);
+                }
             }
 
-            // 5. التدمير النهائي لأي حرف عربي متبقي 
-            code = code.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+            // الدمج والتدمير النهائي لأي حرف غير تقني (عربي)
+            let cleanStr = finalChars.join('').replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
             
-            // استخراج أول كود مطابق
-            const match = code.match(/[A-Z0-9]{1,6}/);
-            return match ? match[0] : code;
+            const match = cleanStr.match(/[A-Z0-9]{1,6}/);
+            return match ? match[0] : cleanStr;
         }
 
         function processVoiceCommand(transcript) {
@@ -749,7 +751,6 @@
                 }
             };
 
-            // التحديد التلقائي للجهاز والماركة
             if (/صحون|dish|vaisselle|vajillas|посудо|ماعن|مواعين|جلاية|اطباق/.test(lowerTranscript)) clickOption('device-list', 'dw');
             else if (/ملابس|washing|linge|lavadora|стирал|قش|حوايج|صابونة|ماكينة غسيل/.test(lowerTranscript)) clickOption('device-list', 'wm');
             else if (/مكيف|تكييف|air|climatiseur|acondicionado|кондицион|كليم|سبلت|سبليت/.test(lowerTranscript)) clickOption('device-list', 'ac');
@@ -762,7 +763,6 @@
             else if (/condor|كوندور/.test(lowerTranscript)) clickOption('brand-list', 'condor');
             else if (/beko|بيكو/.test(lowerTranscript)) clickOption('brand-list', 'beko');
 
-            // استخراج الكود الصافي بفضل الفلتر 
             const finalCode = extractTechnicalCode(lowerTranscript);
             document.getElementById('error-code').value = finalCode;
             
