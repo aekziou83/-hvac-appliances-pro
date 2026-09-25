@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الموسوعة الفنية لأعطال التكييف والأجهزة المنزلية</title>
+    
+    <style>
+        /* إعدادات الألوان الاحترافية (Premium Dark) */
+        :root {
+            --bg-color: #020617;
+            --surface: rgba(15, 23, 42, 0.7);
+            --surface-border: rgba(56, 189, 248, 0.2);
+            --primary: #0ea5e9;
+            --primary-glow: rgba(14, 165, 233, 0.5);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: rgba(2, 6, 23, 0.8);
+            --mic-green: #4ade80; 
+            --record-bg: #111827; 
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #1e293b 0%, var(--bg-color) 100%);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px 10px;
+        }
+
+        .app-container {
+            max-width: 500px;
+            width: 100%;
+            background: var(--surface);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--surface-border);
+            border-radius: 28px;
+            padding: 35px 25px;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative; 
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .main-header h1 {
+            background: linear-gradient(135deg, #7dd3fc, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.7rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            font-weight: 900;
+        }
+
+        .main-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .developer-section {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(145deg, rgba(30,41,59,0.7) 0%, rgba(2,6,23,0.7) 100%);
+            padding: 22px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .developer-section::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .dev-text {
+            color: #f1f5f9;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .dev-text:nth-child(2) {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .dev-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-link {
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-fb { background: linear-gradient(135deg, #3b82f6, #1d4ed8); box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
+        .btn-guide { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 4px 15px rgba(16,185,129,0.3); }
+        .btn-wa { background: linear-gradient(135deg, #22c55e, #15803d); box-shadow: 0 4px 15px rgba(34,197,94,0.3); }
+
+        .language-switcher {
+            display: flex;
+            background-color: rgba(15, 23, 42, 0.8);
+            border-radius: 40px;
+            padding: 6px;
+            margin: 0 auto 30px auto;
+            width: fit-content;
+            gap: 5px;
+            direction: ltr;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--primary), #3b82f6);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .top-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .btn-add, .btn-search-tab {
+            flex: 1;
+            border: none;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .btn-search-tab { background: linear-gradient(135deg, var(--primary), #2563eb); color: white; }
+
+        /* القوائم المنسدلة */
+        .search-filters { display: flex; flex-direction: column; gap: 16px; position: relative; }
+        .custom-select-container { width: 100%; position: relative; }
+        .select-box {
+            background-color: var(--input-bg); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px; height: 60px; display: flex; justify-content: space-between;
+            align-items: center; padding: 0 20px; cursor: pointer; transition: all 0.3s ease;
+        }
+        .select-box:hover { border-color: var(--primary); background-color: rgba(15, 23, 42, 0.9); }
+        .select-content { display: flex; align-items: center; gap: 12px; color: white; font-size: 1.1rem; font-weight: 600; }
+        .icon-emoji { font-size: 1.3rem; width: 30px; text-align: center; display: inline-block; }
+        .select-box .arrow { color: var(--text-muted); transition: transform 0.3s ease; font-size: 0.9rem; }
+        .custom-select-container.active .select-box { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15); }
+        .custom-select-container.active .arrow { transform: rotate(180deg); }
+        .select-options {
+            position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px);
+            border: 1px solid var(--surface-border); border-radius: 16px;
+            max-height: 280px; overflow-y: auto; z-index: 100; display: none;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6); list-style: none; padding: 8px;
+        }
+        .select-options.show { display: block; animation: slideDown 0.2s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .select-options li { padding: 12px 15px; display: flex; align-items: center; gap: 12px; cursor: pointer; border-radius: 10px; color: white; font-size: 1.05rem; transition: all 0.2s; }
+        .select-options li:hover { background: var(--primary-glow); }
+        .select-options::-webkit-scrollbar { width: 6px; }
+        .select-options::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .select-options::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        /* منطقة إدخال الكود وزر الميكروفون */
+        .search-input-area {
+            position: relative; display: flex; align-items: center; gap: 10px;
+        }
+
+        .code-input-wrapper {
+            background: linear-gradient(to right, rgba(2,6,23,0.9), rgba(15,23,42,0.8));
+            border: 2px solid var(--primary); border-radius: 16px; display: flex;
+            align-items: center; height: 60px; padding: 0 15px; flex-grow: 1;
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.2); transition: all 0.3s ease;
+        }
+        
+        .custom-input { width: 100%; background: transparent; border: none; color: white; font-size: 1.15rem; outline: none; font-weight: bold; margin: 0 10px;}
+        html[dir="rtl"] .custom-input { text-align: right; direction: rtl; }
+        html[dir="ltr"] .custom-input { text-align: left; direction: ltr; }
+        .custom-input::placeholder { color: #475569; font-weight: normal; font-size: 1.05rem; }
+
+        .btn-mic-main {
+            background-color: var(--mic-green);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(74, 222, 128, 0.3);
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+            outline: none;
+        }
+        .btn-mic-main:active { transform: scale(0.95); }
+        .btn-mic-main svg { width: 24px; height: 24px; fill: #000; }
+
+        /* شريط التسجيل المنبثق */
+        .recording-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background-color: var(--record-bg);
+            border-radius: 16px;
+            height: 60px;
+            display: none; 
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            z-index: 10;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+        }
+        .recording-overlay.active { display: flex; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .record-time { color: white; font-size: 1.2rem; font-family: monospace; }
+        .record-wave { 
+            flex-grow: 1; margin: 0 15px; height: 20px; 
+            background: repeating-linear-gradient(90deg, #6b7280 0px, #6b7280 2px, transparent 2px, transparent 6px);
+            opacity: 0.5; animation: wave-move 1s infinite linear;
+        }
+        @keyframes wave-move { from { background-position: 0 0; } to { background-position: 24px 0; } }
+        
+        .record-actions { display: flex; align-items: center; gap: 15px; }
+        
+        .btn-cancel-record { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 5px; outline: none;}
+        .btn-cancel-record svg { width: 24px; height: 24px; fill: #f87171; } 
+        
+        .btn-send-record { 
+            background-color: var(--mic-green); border: none; width: 40px; height: 40px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; outline: none;
+        }
+        .btn-send-record svg { width: 20px; height: 20px; fill: #000; transform: translateX(-2px); }
+
+        .result-message {
+            background: rgba(2, 6, 23, 0.6); border: 1px solid var(--primary); border-radius: 16px;
+            margin-top: 30px; padding: 25px 20px; text-align: right; color: white;
+            line-height: 1.7; font-size: 1.1rem; display: none; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        html[dir="ltr"] .result-message { text-align: left; }
+        .result-title { color: var(--primary); font-weight: bold; font-size: 1.3rem; margin-bottom: 10px; border-bottom: 1px solid rgba(14, 165, 233, 0.3); padding-bottom: 10px; }
+        
+        .media-container {
+            display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;
+        }
+        .media-box {
+            flex: 1; min-width: 120px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2);
+            border-radius: 12px; padding: 15px; text-align: center; color: var(--text-muted); font-size: 0.9rem;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px;
+        }
+        .media-box img { max-width: 100%; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        
+        <header class="main-header">
+            <h1 data-i18n="title">الموسوعة الفنية لأعطال التكييف والأجهزة المنزلية</h1>
+            <p data-i18n="subtitle">البحث الفوري وإدارة قاعدة بيانات الأعطال ميدانياً</p>
+        </header>
+
+        <div class="developer-section">
+            <p class="dev-text" data-i18n="dev_name">تطوير وبرمجة هندسية: م. أحمد زينور 🇩🇿</p>
+            <p class="dev-text" data-i18n="dev_group">مجموعة: إتقان في التبريد والتدفئة M.D.F.CH.É.É</p>
+            
+            <div class="dev-buttons">
+                <a href="https://www.facebook.com/share/1EneAzPHSi/?mibextid=wwXIfr" target="_blank" class="btn-link btn-fb" data-i18n="btn_facebook">🌐 صفحة المطور على فيسبوك</a>
+                <a href="#" target="_blank" class="btn-link btn-guide" data-i18n="btn_guide">📖 الدليل الهندسي وشرح البرنامج</a>
+                <a href="https://wa.me/213770227904" target="_blank" class="btn-link btn-wa" data-i18n="btn_whatsapp">💬 تواصل عبر واتساب</a>
+            </div>
+        </div>
+
+        <div class="language-switcher">
+            <button class="lang-btn" data-lang="fr">FR</button>
+            <button class="lang-btn active" data-lang="ar">عربي</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="es">ES</button>
+            <button class="lang-btn" data-lang="ru">RU</button>
+        </div>
+
+        <div class="top-buttons">
+            <button class="btn-add" data-i18n="btn_add" onclick="alert('نافذة إضافة الأكواد قيد التطوير')">➕ إضافة كود جديد</button>
+            <button class="btn-search-tab" data-i18n="btn_search" id="btn-search-trigger">🔍 شاشة البحث</button>
+        </div>
+
+        <div class="search-filters">
+            
+            <!-- 1. القائمة المخصصة لنوع الجهاز -->
+            <div class="custom-select-container" id="device-container">
+                <div class="select-box" onclick="toggleDropdown('device-list', 'device-container')">
+                    <div class="select-content">
+                        <span class="icon-emoji" id="device-icon">❄️</span>
+                        <span id="device-selected-text" data-i18n="opt_ac">مكيف هواء (Air Conditioner)</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <ul class="select-options" id="device-list">
+                    <li onclick="selectOption('device', 'ac', '❄️', 'opt_ac')"><span class="icon-emoji">❄️</span> <span data-i18n="opt_ac">مكيف هواء (Air Conditioner)</span></li>
+                    <li onclick="selectOption('device', 'wm', '👕', 'opt_wm')"><span class="icon-emoji">👕</span> <span data-i18n="opt_wm">غسالة ملابس (Washing Machine)</span></li>
+                    <li onclick="selectOption('device', 'dw', '🍽️', 'opt_dw')"><span class="icon-emoji">🍽️</span> <span data-i18n="opt_dw">غسالة صحون (Dishwasher)</span></li>
+                    <li onclick="selectOption('device', 'fridge', '🧊', 'opt_fridge')"><span class="icon-emoji">🧊</span> <span data-i18n="opt_fridge">ثلاجة منزلية (Refrigerator)</span></li>
+                </ul>
+            </div>
+
+            <!-- 2. القائمة المخصصة للماركات -->
+            <div class="custom-select-container" id="brand-container">
+                <div class="select-box" onclick="toggleDropdown('brand-list', 'brand-container')">
+                    <div class="select-content">
+                        <span class="icon-emoji" id="brand-icon">🏷️</span>
+                        <span id="brand-selected-text" data-i18n="opt_all_brands">جميع الماركات</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <ul class="select-options" id="brand-list">
+                    <li onclick="selectOption('brand', 'all', '🏷️', 'opt_all_brands')"><span class="icon-emoji">🏷️</span> <span data-i18n="opt_all_brands">جميع الماركات</span></li>
+                    <li onclick="selectOption('brand', 'midea', '🔖', '', 'Midea (ميديا)')"><span class="icon-emoji">🔖</span> <span>Midea (ميديا)</span></li>
+                    <li onclick="selectOption('brand', 'condor', '🔖', '', 'Condor (كوندور)')"><span class="icon-emoji">🔖</span> <span>Condor (كوندور)</span></li>
+                    <li onclick="selectOption('brand', 'gree', '🔖', '', 'Gree (جري)')"><span class="icon-emoji">🔖</span> <span>Gree (جري)</span></li>
+                    <li onclick="selectOption('brand', 'lg', '🔖', '', 'LG (إل جي)')"><span class="icon-emoji">🔖</span> <span>LG (إل جي)</span></li>
+                    <li onclick="selectOption('brand', 'samsung', '🔖', '', 'Samsung (سامسونج)')"><span class="icon-emoji">🔖</span> <span>Samsung (سامسونج)</span></li>
+                    <li onclick="selectOption('brand', 'daikin', '🔖', '', 'Daikin (دايكن)')"><span class="icon-emoji">🔖</span> <span>Daikin (دايكن)</span></li>
+                    <li onclick="selectOption('brand', 'carrier', '🔖', '', 'Carrier (كاريير)')"><span class="icon-emoji">🔖</span> <span>Carrier (كاريير)</span></li>
+                    <li onclick="selectOption('brand', 'mitsubishi', '🔖', '', 'Mitsubishi (ميتسوبيشي)')"><span class="icon-emoji">🔖</span> <span>Mitsubishi (ميتسوبيشي)</span></li>
+                    <li onclick="selectOption('brand', 'hitachi', '🔖', '', 'Hitachi (هيتاشي)')"><span class="icon-emoji">🔖</span> <span>Hitachi (هيتاشي)</span></li>
+                    <li onclick="selectOption('brand', 'panasonic', '🔖', '', 'Panasonic (باناسونيك)')"><span class="icon-emoji">🔖</span> <span>Panasonic (باناسونيك)</span></li>
+                    <li onclick="selectOption('brand', 'toshiba', '🔖', '', 'Toshiba (توشيبا)')"><span class="icon-emoji">🔖</span> <span>Toshiba (توشيبا)</span></li>
+                    <li onclick="selectOption('brand', 'fujitsu', '🔖', '', 'Fujitsu (فوجيتسو)')"><span class="icon-emoji">🔖</span> <span>Fujitsu (فوجيتسو)</span></li>
+                    <li onclick="selectOption('brand', 'general', '🔖', '', 'O General (أو جنرال)')"><span class="icon-emoji">🔖</span> <span>O General (أو جنرال)</span></li>
+                    <li onclick="selectOption('brand', 'york', '🔖', '', 'York (يورك)')"><span class="icon-emoji">🔖</span> <span>York (يورك)</span></li>
+                    <li onclick="selectOption('brand', 'trane', '🔖', '', 'Trane (ترين)')"><span class="icon-emoji">🔖</span> <span>Trane (ترين)</span></li>
+                    <li onclick="selectOption('brand', 'airwell', '🔖', '', 'Airwell (إيرويل)')"><span class="icon-emoji">🔖</span> <span>Airwell (إيرويل)</span></li>
+                    <li onclick="selectOption('brand', 'sharp', '🔖', '', 'Sharp (شارب)')"><span class="icon-emoji">🔖</span> <span>Sharp (شارب)</span></li>
+                    <li onclick="selectOption('brand', 'bosch', '🔖', '', 'Bosch (بوش)')"><span class="icon-emoji">🔖</span> <span>Bosch (بوش)</span></li>
+                    <li onclick="selectOption('brand', 'whirlpool', '🔖', '', 'Whirlpool (ويرلبول)')"><span class="icon-emoji">🔖</span> <span>Whirlpool (ويرلبول)</span></li>
+                    <li onclick="selectOption('brand', 'ariston', '🔖', '', 'Ariston (أريستون)')"><span class="icon-emoji">🔖</span> <span>Ariston (أريستون)</span></li>
+                    <li onclick="selectOption('brand', 'electrolux', '🔖', '', 'Electrolux (إلكترولوكس)')"><span class="icon-emoji">🔖</span> <span>Electrolux (إلكترولوكس)</span></li>
+                    <li onclick="selectOption('brand', 'zanussi', '🔖', '', 'Zanussi (زانوسي)')"><span class="icon-emoji">🔖</span> <span>Zanussi (زانوسي)</span></li>
+                    <li onclick="selectOption('brand', 'indesit', '🔖', '', 'Indesit (إنديست)')"><span class="icon-emoji">🔖</span> <span>Indesit (إنديست)</span></li>
+                    <li onclick="selectOption('brand', 'beko', '🔖', '', 'Beko (بيكو)')"><span class="icon-emoji">🔖</span> <span>Beko (بيكو)</span></li>
+                    <li onclick="selectOption('brand', 'haier', '🔖', '', 'Haier (هاير)')"><span class="icon-emoji">🔖</span> <span>Haier (هاير)</span></li>
+                    <li onclick="selectOption('brand', 'hisense', '🔖', '', 'Hisense (هايسنس)')"><span class="icon-emoji">🔖</span> <span>Hisense (هايسنس)</span></li>
+                    <li onclick="selectOption('brand', 'tcl', '🔖', '', 'TCL (تي سي إل)')"><span class="icon-emoji">🔖</span> <span>TCL (تي سي إل)</span></li>
+                    <li onclick="selectOption('brand', 'aux', '🔖', '', 'AUX (أوكس)')"><span class="icon-emoji">🔖</span> <span>AUX (أوكس)</span></li>
+                    <li onclick="selectOption('brand', 'chigo', '🔖', '', 'Chigo (تشيجو)')"><span class="icon-emoji">🔖</span> <span>Chigo (تشيجو)</span></li>
+                    <li onclick="selectOption('brand', 'galanz', '🔖', '', 'Galanz (جالانز)')"><span class="icon-emoji">🔖</span> <span>Galanz (جالانز)</span></li>
+                    <li onclick="selectOption('brand', 'daewoo', '🔖', '', 'Daewoo (دايو)')"><span class="icon-emoji">🔖</span> <span>Daewoo (دايو)</span></li>
+                    <li onclick="selectOption('brand', 'iris', '🔖', '', 'Iris (إيريس)')"><span class="icon-emoji">🔖</span> <span>Iris (إيريس)</span></li>
+                    <li onclick="selectOption('brand', 'eniem', '🔖', '', 'ENIEM (إنيام)')"><span class="icon-emoji">🔖</span> <span>ENIEM (إنيام)</span></li>
+                    <li onclick="selectOption('brand', 'cristor', '🔖', '', 'Cristor (كريستور)')"><span class="icon-emoji">🔖</span> <span>Cristor (كريستور)</span></li>
+                    <li onclick="selectOption('brand', 'geant', '🔖', '', 'Géant (جيون)')"><span class="icon-emoji">🔖</span> <span>Géant (جيون)</span></li>
+                    <li onclick="selectOption('brand', 'stream', '🔖', '', 'Stream (ستريم)')"><span class="icon-emoji">🔖</span> <span>Stream (ستريم)</span></li>
+                    <li onclick="selectOption('brand', 'raylan', '🔖', '', 'Raylan (رايلان)')"><span class="icon-emoji">🔖</span> <span>Raylan (رايلان)</span></li>
+                    <li onclick="selectOption('brand', 'maxwell', '🔖', '', 'Maxwell (ماكسويل)')"><span class="icon-emoji">🔖</span> <span>Maxwell (ماكسويل)</span></li>
+                    <li onclick="selectOption('brand', 'brandt', '🔖', '', 'Brandt (براندت)')"><span class="icon-emoji">🔖</span> <span>Brandt (براندت)</span></li>
+                    <li onclick="selectOption('brand', 'thomson', '🔖', '', 'Thomson (طومسون)')"><span class="icon-emoji">🔖</span> <span>Thomson (طومسون)</span></li>
+                    <li onclick="selectOption('brand', 'arthur_martin', '🔖', '', 'Arthur Martin (آرثر مارتن)')"><span class="icon-emoji">🔖</span> <span>Arthur Martin (آرثر مارتن)</span></li>
+                    <li onclick="selectOption('brand', 'continental', '🔖', '', 'Continental (كونتيننتال)')"><span class="icon-emoji">🔖</span> <span>Continental (كونتيننتال)</span></li>
+                    <li onclick="selectOption('brand', 'kiowa', '🔖', '', 'Kiowa (كيووا)')"><span class="icon-emoji">🔖</span> <span>Kiowa (كيووا)</span></li>
+                    <li onclick="selectOption('brand', 'starlight', '🔖', '', 'Starlight (ستارلايت)')"><span class="icon-emoji">🔖</span> <span>Starlight (ستارلايت)</span></li>
+                    <li onclick="selectOption('brand', 'cobra', '🔖', '', 'Cobra (كوبرا)')"><span class="icon-emoji">🔖</span> <span>Cobra (كوبرا)</span></li>
+                    <li onclick="selectOption('brand', 'sonashi', '🔖', '', 'Sonashi (سوناشي)')"><span class="icon-emoji">🔖</span> <span>Sonashi (سوناشي)</span></li>
+                    <li onclick="selectOption('brand', 'fagor', '🔖', '', 'Fagor (فاجور)')"><span class="icon-emoji">🔖</span> <span>Fagor (فاجور)</span></li>
+                    <li onclick="selectOption('brand', 'candy', '🔖', '', 'Candy (كاندي)')"><span class="icon-emoji">🔖</span> <span>Candy (كاندي)</span></li>
+                    <li onclick="selectOption('brand', 'hoover', '🔖', '', 'Hoover (هوفر)')"><span class="icon-emoji">🔖</span> <span>Hoover (هوفر)</span></li>
+                </ul>
+            </div>
+
+            <!-- 3. القائمة المخصصة للتقنية -->
+            <div class="custom-select-container" id="tech-wrapper">
+                <div class="select-box" onclick="toggleDropdown('tech-list', 'tech-wrapper')">
+                    <div class="select-content">
+                        <span class="icon-emoji" id="tech-icon">⚙️</span>
+                        <span id="tech-selected-text" data-i18n="opt_all_tech">جميع التقنيات (All Technologies)</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <ul class="select-options" id="tech-list">
+                    <li onclick="selectOption('tech', 'all_tech', '⚙️', 'opt_all_tech')"><span class="icon-emoji">⚙️</span> <span data-i18n="opt_all_tech">جميع التقنيات (All Technologies)</span></li>
+                    <li onclick="selectOption('tech', 'inverter', '⚡', 'opt_inverter')"><span class="icon-emoji">⚡</span> <span data-i18n="opt_inverter">أنفرتر (Inverter)</span></li>
+                    <li onclick="selectOption('tech', 'onoff', '🔌', 'opt_onoff')"><span class="icon-emoji">🔌</span> <span data-i18n="opt_onoff">عادي (On/Off)</span></li>
+                </ul>
+            </div>
+
+            <!-- 4. القائمة المخصصة للأشكال -->
+            <div class="custom-select-container" id="shape-wrapper">
+                <div class="select-box" onclick="toggleDropdown('shape-list', 'shape-wrapper')">
+                    <div class="select-content">
+                        <span class="icon-emoji" id="shape-icon">📦</span>
+                        <span id="shape-selected-text" data-i18n="opt_all_shapes">جميع الأشكال / الموديلات</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <ul class="select-options" id="shape-list">
+                    <li onclick="selectOption('shape', 'all_shapes', '📦', 'opt_all_shapes')"><span class="icon-emoji">📦</span> <span data-i18n="opt_all_shapes">جميع الأشكال / الموديلات</span></li>
+                    <li onclick="selectOption('shape', 'split_wall', '🟩', 'opt_wall')"><span class="icon-emoji">🟩</span> <span data-i18n="opt_wall">جداري عادي (Split Wall)</span></li>
+                    <li onclick="selectOption('shape', 'cassette', '🔲', 'opt_cassette')"><span class="icon-emoji">🔲</span> <span data-i18n="opt_cassette">كاسيت سقفي (Cassette)</span></li>
+                    <li onclick="selectOption('shape', 'floor_standing', '🗄️', 'opt_floor')"><span class="icon-emoji">🗄️</span> <span data-i18n="opt_floor">عمودي خزانة (Floor-Standing)</span></li>
+                    <li onclick="selectOption('shape', 'plafonnier', '☁️', 'opt_plafonnier')"><span class="icon-emoji">☁️</span> <span data-i18n="opt_plafonnier">سقفي أرضي (Plafonnier)</span></li>
+                    <li onclick="selectOption('shape', 'portable', '🧳', 'opt_portable')"><span class="icon-emoji">🧳</span> <span data-i18n="opt_portable">متنقل منزلي (Portable)</span></li>
+                    <li onclick="selectOption('shape', 'vrv_vrf', '🏢', 'opt_vrv')"><span class="icon-emoji">🏢</span> <span data-i18n="opt_vrv">مركزي (VRV / VRF)</span></li>
+                </ul>
+            </div>
+
+            <!-- 5. منطقة البحث مع زر الميكروفون الأخضر -->
+            <div class="search-input-area">
+                <div class="code-input-wrapper">
+                    <span class="icon-emoji" style="color:var(--primary);">⌨️</span>
+                    <input type="text" id="error-code" class="custom-input" placeholder="اكتب رمز الخطأ مباشرة هنا (مثال: CH01, EC...)">
+                </div>
+                <!-- زر الميكروفون الأخضر الجديد -->
+                <button type="button" class="btn-mic-main" id="start-record-btn" title="تسجيل صوتي" onclick="startVoiceSearch()">
+                    <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                </button>
+            </div>
+
+            <!-- شريط التسجيل المنبثق -->
+            <div class="recording-overlay" id="recording-overlay">
+                <span class="record-time" id="record-timer">0:00</span>
+                <div class="record-wave"></div>
+                <div class="record-actions">
+                    <button type="button" class="btn-cancel-record" id="cancel-record-btn" title="إلغاء">
+                        <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    </button>
+                    <!-- أيقونة الإيقاف المؤقت للزينة -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#f87171" style="opacity:0.8"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    <button type="button" class="btn-send-record" id="send-record-btn" title="إرسال (بحث)">
+                        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- مربع عرض نتيجة البحث -->
+        <div class="result-message" id="result-message">
+            <!-- سيتم حقن النتيجة هنا -->
+        </div>
+    </div>
+
+    <script>
+        let currentValues = { device: 'ac', brand: 'all', tech: 'all_tech', shape: 'all_shapes' };
+        let currentLang = 'ar';
+
+        // =========================================================
+        // قاعدة البيانات الشاملة
+        // =========================================================
+        const errorDatabase = [
+            // سامسونج - غسالات صحون
+            { 
+                device: 'dw', brand: 'samsung', code: 'PC/PE', 
+                image: "images/samsung_diverter.jpg", schematic: "images/samsung_diverter_sch.png",
+                ar: { title: "عطل صمام التوجيه", desc: "🔴 <b>وصف العطل:</b> خلل في صمام تحويل مسار المياه (Diverter valve).<br><br>🔍 <b>المسببات المحتملة:</b> تلف محرك الصمام، كسر التروس الداخلية.<br><br>🛠️ <b>خطوات الفحص:</b> افصل التيار الكهربائي، قس مقاومة محرك الصمام." }, 
+                en: { title: "Diverter Valve Error", desc: "🔴 <b>Description:</b> Malfunction in the water diverter valve.<br><br>🔍 <b>Causes:</b> Valve motor failure, broken gears.<br><br>🛠️ <b>Action:</b> Check motor resistance and verify voltage." }, 
+                fr: { title: "Erreur vanne de séparation", desc: "🔴 <b>Description:</b> Défaut de la vanne de distribution d'eau.<br><br>🔍 <b>Causes:</b> Moteur défectueux, engrenages cassés.<br><br>🛠️ <b>Vérification:</b> Testez la résistance du moteur." },
+                es: { title: "Error de válvula desviadora", desc: "🔴 <b>Descripción:</b> Fallo en la válvula de desvío de agua.<br><br>🔍 <b>Causas:</b> Motor dañado, engranajes rotos.<br><br>🛠️ <b>Revisión:</b> Mida la resistencia del motor." },
+                ru: { title: "Ошибка распределительного клапана", desc: "🔴 <b>Описание:</b> Неисправность клапана потока воды.<br><br>🔍 <b>Причины:</b> Отказ мотора, поломка шестерен.<br><br>🛠️ <b>Проверка:</b> Проверьте сопротивление мотора." } 
+            },
+            { 
+                device: 'dw', brand: 'samsung', code: 'LC/LE', 
+                image: "images/samsung_leak.jpg", schematic: "",
+                ar: { title: "تسريب مياه", desc: "🔴 <b>وصف العطل:</b> تفعيل نظام الحماية بسبب اكتشاف مياه في القاعدة السفلية.<br><br>🔍 <b>المسببات المحتملة:</b> ثقب في الخراطيم، تسريب من مضخة الغسيل.<br><br>🛠️ <b>خطوات الفحص:</b> افصل الكهرباء فوراً، جفف حوض التجميع." }, 
+                en: { title: "Water Leak", desc: "🔴 <b>Description:</b> Flood protection activated due to water in the bottom base.<br><br>🔍 <b>Causes:</b> Punctured hoses, wash pump leak.<br><br>🛠️ <b>Action:</b> Disconnect power, dry the basin." }, 
+                fr: { title: "Fuite d'eau", desc: "🔴 <b>Description:</b> Protection activée à cause d'eau dans la base.<br><br>🔍 <b>Causes:</b> Tuyaux percés, fuite de pompe.<br><br>🛠️ <b>Vérification:</b> Coupez l'alimentation, séchez le bac." },
+                es: { title: "Fuga de agua", desc: "🔴 <b>Descripción:</b> Protección activada por agua en la base.<br><br>🔍 <b>Causas:</b> Mangueras perforadas, fuga en bomba.<br><br>🛠️ <b>Revisión:</b> Desconecte la energía, seque la bandeja." },
+                ru: { title: "Утечка воды", desc: "🔴 <b>Описание:</b> Защита от протечек (вода в поддоне).<br><br>🔍 <b>Причины:</b> Пробиты шланги, течь насоса.<br><br>🛠️ <b>Проверка:</b> Отключите питание, осушите поддон." } 
+            },
+            { 
+                device: 'dw', brand: 'samsung', code: '4C/4E', 
+                image: "images/samsung_inlet.jpg", schematic: "images/samsung_inlet_sch.png",
+                ar: { title: "فشل إمداد المياه", desc: "🔴 <b>وصف العطل:</b> الغسالة لا تمتلئ بالماء ضمن الوقت المحدد.<br><br>🔍 <b>المسببات المحتملة:</b> صنبور مغلق، انسداد فلتر صمام الدخول.<br><br>🛠️ <b>خطوات الفحص:</b> تأكد من ضغط الماء، نظف شبكة الفلتر." }, 
+                en: { title: "Water Supply Error", desc: "🔴 <b>Description:</b> Washer is not filling with water.<br><br>🔍 <b>Causes:</b> Closed tap, clogged inlet filter.<br><br>🛠️ <b>Action:</b> Check water pressure, clean filter screen." }, 
+                fr: { title: "Erreur d'alimentation", desc: "🔴 <b>Description:</b> Le lave-vaisselle ne se remplit pas à temps.<br><br>🔍 <b>Causes:</b> Robinet fermé, filtre bouché.<br><br>🛠️ <b>Vérification:</b> Vérifiez la pression, nettoyez le filtre." },
+                es: { title: "Error de suministro", desc: "🔴 <b>Descripción:</b> El lavavajillas no se llena de agua.<br><br>🔍 <b>Causas:</b> Grifo cerrado, filtro obstruido.<br><br>🛠️ <b>Revisión:</b> Verifique la presión, limpie el filtro." },
+                ru: { title: "Ошибка подачи воды", desc: "🔴 <b>Описание:</b> Машина не наполняется водой.<br><br>🔍 <b>Причины:</b> Кран закрыт, засорен фильтр.<br><br>🛠️ <b>Проверка:</b> Проверьте напор, очистите фильтр." } 
+            },
+            { 
+                device: 'dw', brand: 'samsung', code: '5C/5E', 
+                image: "", schematic: "",
+                ar: { title: "فشل تصريف المياه", desc: "🔴 <b>وصف العطل:</b> المياه المتسخة لا تخرج من حوض الغسيل.<br><br>🔍 <b>المسببات المحتملة:</b> انسداد فلتر المضخة، احتراق محرك التصريف.<br><br>🛠️ <b>خطوات الفحص:</b> افحص مسار الخرطوم، نظف الفلتر السفلي." }, 
+                en: { title: "Drainage Error", desc: "🔴 <b>Description:</b> Dirty water is not draining.<br><br>🔍 <b>Causes:</b> Clogged pump filter, burnt drain pump.<br><br>🛠️ <b>Action:</b> Check hose routing, clean bottom filter." }, 
+                fr: { title: "Erreur de vidange", desc: "🔴 <b>Description:</b> L'eau sale ne s'évacue pas.<br><br>🔍 <b>Causes:</b> Filtre bouché, pompe grillée.<br><br>🛠️ <b>Vérification:</b> Inspectez le tuyau, nettoyez le filtre." },
+                es: { title: "Error de drenaje", desc: "🔴 <b>Descripción:</b> El agua sucia no drena.<br><br>🔍 <b>Causas:</b> Filtro obstruido, bomba quemada.<br><br>🛠️ <b>Revisión:</b> Revise la manguera, limpie el filtro." },
+                ru: { title: "Ошибка слива", desc: "🔴 <b>Описание:</b> Грязная вода не сливается.<br><br>🔍 <b>Причины:</b> Засорен фильтр, сгорел насос.<br><br>🛠️ <b>Проверка:</b> Проверьте шланг, очистите фильтр." } 
+            },
+            { 
+                device: 'dw', brand: 'samsung', code: 'HC/HE', 
+                image: "", schematic: "",
+                ar: { title: "عطل نظام التسخين", desc: "🔴 <b>وصف العطل:</b> الماء لا يصل إلى درجة الحرارة المطلوبة.<br><br>🔍 <b>المسببات المحتملة:</b> احتراق السخان، تلف حساس الحرارة NTC.<br><br>🛠️ <b>خطوات الفحص:</b> قس مقاومة السخان (20-30 أوم)." }, 
+                en: { title: "Heating Error", desc: "🔴 <b>Description:</b> Water is not reaching target temperature.<br><br>🔍 <b>Causes:</b> Burnt heater element, faulty NTC sensor.<br><br>🛠️ <b>Action:</b> Measure heater resistance (20-30 ohms)." }, 
+                fr: { title: "Erreur de chauffage", desc: "🔴 <b>Description:</b> L'eau n'atteint pas la température requise.<br><br>🔍 <b>Causes:</b> Résistance grillée, sonde NTC défectueuse.<br><br>🛠️ <b>Vérification:</b> Mesurez la résistance (20-30 ohms)." },
+                es: { title: "Error de calentamiento", desc: "🔴 <b>Descripción:</b> El agua no alcanza la temperatura objetivo.<br><br>🔍 <b>Causas:</b> Calentador quemado, sensor NTC defectuoso.<br><br>🛠️ <b>Revisión:</b> Mida la resistencia (20-30 ohmios)." },
+                ru: { title: "Ошибка нагрева", desc: "🔴 <b>Описание:</b> Вода не достигает нужной температуры.<br><br>🔍 <b>Причины:</b> Сгорел ТЭН, неисправен датчик NTC.<br><br>🛠️ <b>Проверка:</b> Измерьте сопротивление ТЭНа." } 
+            },
+            { 
+                device: 'dw', brand: 'samsung', code: '3C/3E', 
+                image: "", schematic: "",
+                ar: { title: "عطل المضخة الرئيسية", desc: "🔴 <b>وصف العطل:</b> توقف مضخة الغسيل الرئيسية.<br><br>🔍 <b>المسببات المحتملة:</b> احتراق ملفات المحرك، جسم صلب يعيق المروحة.<br><br>🛠️ <b>خطوات الفحص:</b> فك المضخة وتأكد من دورانها بسلاسة." }, 
+                en: { title: "Main Pump Error", desc: "🔴 <b>Description:</b> Main wash pump stopped.<br><br>🔍 <b>Causes:</b> Burnt motor coils, jammed impeller.<br><br>🛠️ <b>Action:</b> Remove pump to check for jams." }, 
+                fr: { title: "Erreur de pompe principale", desc: "🔴 <b>Description:</b> La pompe de lavage principale ne tourne plus.<br><br>🔍 <b>Causes:</b> Bobines grillées, turbine bloquée.<br><br>🛠️ <b>Vérification:</b> Démontez la pompe, vérifiez la turbine." },
+                es: { title: "Error de bomba principal", desc: "🔴 <b>Descripción:</b> La bomba de lavado principal se detuvo.<br><br>🔍 <b>Causas:</b> Bobinas quemadas, impulsor atascado.<br><br>🛠️ <b>Revisión:</b> Retire la bomba, revise el impulsor." },
+                ru: { title: "Ошибка главного насоса", desc: "🔴 <b>Описание:</b> Главный моющий насос не качает.<br><br>🔍 <b>Причины:</b> Сгорела обмотка, заклинило крыльчатку.<br><br>🛠️ <b>Проверка:</b> Снимите насос, проверьте на заклинивание." } 
+            },
+            { 
+                device: 'dw', brand: 'samsung', code: 'BC2/BE2', 
+                image: "", schematic: "",
+                ar: { title: "تعليق الأزرار", desc: "🔴 <b>وصف العطل:</b> زر مضغوط باستمرار لأكثر من 30 ثانية.<br><br>🔍 <b>المسببات المحتملة:</b> أوساخ، تلف سويتش اللوحة.<br><br>🛠️ <b>خطوات الفحص:</b> اضغط على جميع الأزرار للتأكد من حركتها." }, 
+                en: { title: "Button Stuck", desc: "🔴 <b>Description:</b> Button held down for over 30 seconds.<br><br>🔍 <b>Causes:</b> Dirt, faulty tactile switch.<br><br>🛠️ <b>Action:</b> Press all buttons to ensure free movement." }, 
+                fr: { title: "Bouton coincé", desc: "🔴 <b>Description:</b> Bouton enfoncé plus de 30 secondes.<br><br>🔍 <b>Causes:</b> Saleté, micro-interrupteur HS.<br><br>🛠️ <b>Vérification:</b> Pressez tous les boutons pour débloquer." },
+                es: { title: "Botón atascado", desc: "🔴 <b>Descripción:</b> Botón presionado por más de 30 segundos.<br><br>🔍 <b>Causas:</b> Suciedad, interruptor defectuoso.<br><br>🛠️ <b>Revisión:</b> Presione todos los botones, limpie el panel." },
+                ru: { title: "Кнопка застряла", desc: "🔴 <b>Описание:</b> Кнопка зажата более 30 секунд.<br><br>🔍 <b>Причины:</b> Грязь, неисправный переключатель.<br><br>🛠️ <b>Проверка:</b> Нажмите все кнопки для проверки хода." } 
+            },
+            { 
+                device: 'dw', brand: 'samsung', code: '1C/1E', 
+                image: "", schematic: "",
+                ar: { title: "حساس مستوى الماء", desc: "🔴 <b>وصف العطل:</b> قراءة غير صحيحة لمستوى الماء.<br><br>🔍 <b>المسببات المحتملة:</b> تلف حساس الضغط، انسداد الأنبوب الهوائي.<br><br>🛠️ <b>خطوات الفحص:</b> افحص الأنبوب المتصل بالحساس." }, 
+                en: { title: "Water Level Sensor", desc: "🔴 <b>Description:</b> Incorrect water level readings.<br><br>🔍 <b>Causes:</b> Faulty pressure switch, clogged air hose.<br><br>🛠️ <b>Action:</b> Check air hose for blockages." }, 
+                fr: { title: "Capteur de niveau d'eau", desc: "🔴 <b>Description:</b> Mauvaise lecture du niveau d'eau.<br><br>🔍 <b>Causes:</b> Pressostat HS, tuyau d'air bouché.<br><br>🛠️ <b>Vérification:</b> Inspectez le tuyau d'air." },
+                es: { title: "Sensor de nivel de agua", desc: "🔴 <b>Descripción:</b> Lectura incorrecta del nivel de agua.<br><br>🔍 <b>Causas:</b> Presostato defectuoso, manguera obstruida.<br><br>🛠️ <b>Revisión:</b> Revise la manguera de aire." },
+                ru: { title: "Датчик уровня воды", desc: "🔴 <b>Описание:</b> Неправильные показания уровня воды.<br><br>🔍 <b>Причины:</b> Неисправен прессостат, забит шланг.<br><br>🛠️ <b>Проверка:</b> Проверьте воздушный шланг." } 
+            },
+            { 
+                device: 'dw', brand: 'samsung', code: 'OC/OE', 
+                image: "", schematic: "",
+                ar: { title: "تجاوز مستوى الماء", desc: "🔴 <b>وصف العطل:</b> دخول كمية ماء زائدة (Overflow).<br><br>🔍 <b>المسببات المحتملة:</b> صمام دخول الماء عالق ولا يغلق.<br><br>🛠️ <b>خطوات الفحص:</b> افصل الغسالة، إذا استمر الماء بالدخول فالصمام تالف." }, 
+                en: { title: "Overflow Error", desc: "🔴 <b>Description:</b> Excess water entering the tub.<br><br>🔍 <b>Causes:</b> Water inlet valve stuck open mechanically.<br><br>🛠️ <b>Action:</b> Unplug washer. If water enters, replace valve." }, 
+                fr: { title: "Débordement", desc: "🔴 <b>Description:</b> Trop d'eau entre dans la cuve.<br><br>🔍 <b>Causes:</b> Électrovanne bloquée ouverte mécaniquement.<br><br>🛠️ <b>Vérification:</b> Débranchez. Si l'eau coule, remplacez la vanne." },
+                es: { title: "Desbordamiento", desc: "🔴 <b>Descripción:</b> Exceso de agua en la cuba.<br><br>🔍 <b>Causas:</b> Válvula atascada abierta mecánicamente.<br><br>🛠️ <b>Revisión:</b> Desenchufe. Si el agua entra, reemplace la válvula." },
+                ru: { title: "Перелив воды", desc: "🔴 <b>Описание:</b> Избыток воды в баке.<br><br>🔍 <b>Причины:</b> Впускной клапан механически застрял.<br><br>🛠️ <b>Проверка:</b> Отключите. Если вода идет, клапан под замену." } 
+            },
+            { 
+                device: 'dw', brand: 'samsung', code: 'AC', 
+                image: "", schematic: "",
+                ar: { title: "فشل الاتصال", desc: "🔴 <b>وصف العطل:</b> فقدان التواصل بين الكروت الإلكترونية.<br><br>🔍 <b>المسببات المحتملة:</b> قطع في الكابل الرابط، أو تلف اللوحة.<br><br>🛠️ <b>خطوات الفحص:</b> نظف كونكتورات الكابل، وافحص استمرارية الأسلاك." }, 
+                en: { title: "Communication Error", desc: "🔴 <b>Description:</b> Loss of communication between PCBs.<br><br>🔍 <b>Causes:</b> Cut wiring harness, or failed board.<br><br>🛠️ <b>Action:</b> Clean connectors, check wire continuity." }, 
+                fr: { title: "Erreur de communication", desc: "🔴 <b>Description:</b> Perte de com entre les cartes.<br><br>🔍 <b>Causes:</b> Faisceau coupé ou carte défectueuse.<br><br>🛠️ <b>Vérification:</b> Nettoyez les connecteurs, testez la continuité." },
+                es: { title: "Error de comunicación", desc: "🔴 <b>Descripción:</b> Pérdida de comunicación entre placas.<br><br>🔍 <b>Causas:</b> Cableado cortado o placa dañada.<br><br>🛠️ <b>Revisión:</b> Limpie conectores, verifique continuidad." },
+                ru: { title: "Ошибка связи", desc: "🔴 <b>Описание:</b> Потеря связи между платами.<br><br>🔍 <b>Причины:</b> Обрыв шлейфа или неисправность платы.<br><br>🛠️ <b>Проверка:</b> Очистите контакты, прозвоните провода." } 
+            },
+
+            // ---------------------------------------------------------
+            // 2. LG - Dishwasher
+            // ---------------------------------------------------------
+            { 
+                device: 'dw', brand: 'lg', code: 'OE', 
+                image: "", schematic: "",
+                ar: { title: "فشل التصريف", desc: "🔴 <b>وصف العطل:</b> عجز عن تفريغ المياه المتسخة.<br><br>🔍 <b>المسببات المحتملة:</b> انسداد الفلتر السفلي، تلف مضخة التصريف.<br><br>🛠️ <b>خطوات الفحص:</b> نظف الفلتر، تأكد من تصريف الأنابيب الخارجية." }, 
+                en: { title: "Drain Error", desc: "🔴 <b>Description:</b> Unable to drain water.<br><br>🔍 <b>Causes:</b> Clogged filter, faulty drain pump.<br><br>🛠️ <b>Action:</b> Clean filter, check plumbing." }, 
+                fr: { title: "Erreur de vidange", desc: "🔴 <b>Description:</b> Vidange impossible.<br><br>🔍 <b>Causes:</b> Filtre bouché, pompe défectueuse.<br><br>🛠️ <b>Vérification:</b> Nettoyez le filtre, vérifiez l'évacuation." },
+                es: { title: "Error de drenaje", desc: "🔴 <b>Descripción:</b> Imposible drenar el agua.<br><br>🔍 <b>Causas:</b> Filtro obstruido, bomba defectuosa.<br><br>🛠️ <b>Revisión:</b> Limpie el filtro, revise tuberías." },
+                ru: { title: "Ошибка слива", desc: "🔴 <b>Описание:</b> Невозможно слить воду.<br><br>🔍 <b>Причины:</b> Засорен фильтр, неисправен насос.<br><br>🛠️ <b>Проверка:</b> Очистите фильтр, проверьте сток." } 
+            },
+            { 
+                device: 'dw', brand: 'lg', code: 'IE', 
+                image: "", schematic: "",
+                ar: { title: "فشل إمداد المياه", desc: "🔴 <b>وصف العطل:</b> الماء لا يدخل بالسرعة الكافية.<br><br>🔍 <b>المسببات المحتملة:</b> ضعف ضغط الماء، انسداد فلتر الصمام.<br><br>🛠️ <b>خطوات الفحص:</b> افتح الصنبور بالكامل، نظف شبكة الفلتر." }, 
+                en: { title: "Water Inlet Error", desc: "🔴 <b>Description:</b> Water not entering fast enough.<br><br>🔍 <b>Causes:</b> Low pressure, clogged inlet filter.<br><br>🛠️ <b>Action:</b> Fully open tap, clean filter screen." }, 
+                fr: { title: "Erreur d'entrée d'eau", desc: "🔴 <b>Description:</b> L'eau n'entre pas assez vite.<br><br>🔍 <b>Causes:</b> Faible pression, filtre bouché.<br><br>🛠️ <b>Vérification:</b> Ouvrez le robinet, nettoyez le filtre." },
+                es: { title: "Error de entrada de agua", desc: "🔴 <b>Descripción:</b> El agua no entra lo suficientemente rápido.<br><br>🔍 <b>Causas:</b> Baja presión, filtro obstruido.<br><br>🛠️ <b>Revisión:</b> Abra el grifo por completo, limpie la malla." },
+                ru: { title: "Ошибка залива воды", desc: "🔴 <b>Описание:</b> Вода поступает слишком медленно.<br><br>🔍 <b>Причины:</b> Слабый напор, засор фильтра.<br><br>🛠️ <b>Проверка:</b> Откройте кран полностью, очистите сеточку." } 
+            },
+            { 
+                device: 'dw', brand: 'lg', code: 'E1/EI', 
+                image: "", schematic: "",
+                ar: { title: "تسريب مياه", desc: "🔴 <b>وصف العطل:</b> تفعيل حساس الأمان (عوامة القاعدة).<br><br>🔍 <b>المسببات المحتملة:</b> رغوة زائدة، تسريب ميكانيكي.<br><br>🛠️ <b>خطوات الفحص:</b> أمل الغسالة لتفريغ الماء، وابحث عن مصدر التنقيط." }, 
+                en: { title: "Water Leak (E1/EI)", desc: "🔴 <b>Description:</b> Safety float switch activated.<br><br>🔍 <b>Causes:</b> Excess foam, mechanical leak.<br><br>🛠️ <b>Action:</b> Tilt washer to drain, trace the drip." }, 
+                fr: { title: "Fuite d'eau (E1/EI)", desc: "🔴 <b>Description:</b> Flotteur de sécurité activé.<br><br>🔍 <b>Causes:</b> Excès de mousse, fuite mécanique.<br><br>🛠️ <b>Vérification:</b> Inclinez pour vider, cherchez la fuite." },
+                es: { title: "Fuga de agua (E1/EI)", desc: "🔴 <b>Descripción:</b> Flotador de seguridad activado.<br><br>🔍 <b>Causas:</b> Exceso de espuma, fuga mecánica.<br><br>🛠️ <b>Revisión:</b> Incline para vaciar y busque el goteo." },
+                ru: { title: "Утечка воды (E1/EI)", desc: "🔴 <b>Описание:</b> Сработал поплавок безопасности.<br><br>🔍 <b>Причины:</b> Избыток пены, механическая утечка.<br><br>🛠️ <b>Проверка:</b> Наклоните для слива и найдите течь." } 
+            },
+            { 
+                device: 'dw', brand: 'lg', code: 'FE', 
+                image: "", schematic: "",
+                ar: { title: "تجاوز مستوى الماء", desc: "🔴 <b>وصف العطل:</b> دخول كمية ماء زائدة (Overfill).<br><br>🔍 <b>المسببات المحتملة:</b> صمام دخول المياه عالق ولا يغلق.<br><br>🛠️ <b>خطوات الفحص:</b> افصل الكهرباء، إذا استمر تدفق الماء يجب استبدال الصمام." }, 
+                en: { title: "Overfill Error", desc: "🔴 <b>Description:</b> Washer filling with too much water.<br><br>🔍 <b>Causes:</b> Water inlet valve stuck open.<br><br>🛠️ <b>Action:</b> Unplug washer. If water flows, replace valve." }, 
+                fr: { title: "Erreur de débordement", desc: "🔴 <b>Description:</b> Se remplit avec trop d'eau.<br><br>🔍 <b>Causes:</b> Électrovanne bloquée ouverte.<br><br>🛠️ <b>Vérification:</b> Débranchez. Si l'eau coule, remplacez la vanne." },
+                es: { title: "Error de sobrellenado", desc: "🔴 <b>Descripción:</b> Exceso de agua en el lavavajillas.<br><br>🔍 <b>Causas:</b> Válvula de entrada atascada abierta.<br><br>🛠️ <b>Revisión:</b> Desenchufe. Si el agua fluye, reemplace válvula." },
+                ru: { title: "Ошибка переполнения", desc: "🔴 <b>Описание:</b> Машина переполняется водой.<br><br>🔍 <b>Причины:</b> Впускной клапан заклинил открытым.<br><br>🛠️ <b>Проверка:</b> Отключите. Если вода течет, замените клапан." } 
+            },
+            { 
+                device: 'dw', brand: 'lg', code: 'HE', 
+                image: "", schematic: "",
+                ar: { title: "عطل نظام التسخين", desc: "🔴 <b>وصف العطل:</b> فشل السخان في رفع درجة الحرارة.<br><br>🔍 <b>المسببات المحتملة:</b> تلف السخان، تلف الريلاي.<br><br>🛠️ <b>خطوات الفحص:</b> افحص مقاومة السخان وتأكد من سلامة ريلاي الكارت." }, 
+                en: { title: "Heating Error", desc: "🔴 <b>Description:</b> Heater failed to raise temperature.<br><br>🔍 <b>Causes:</b> Faulty electric heater, faulty relay.<br><br>🛠️ <b>Action:</b> Inspect heater resistance and verify relay." }, 
+                fr: { title: "Erreur de chauffage", desc: "🔴 <b>Description:</b> Le chauffage n'atteint pas la température.<br><br>🔍 <b>Causes:</b> Résistance HS, relais défectueux.<br><br>🛠️ <b>Vérification:</b> Mesurez la résistance et inspectez le relais." },
+                es: { title: "Error de calentamiento", desc: "🔴 <b>Descripción:</b> El calentador no subió la temperatura.<br><br>🔍 <b>Causas:</b> Calentador dañado, relé defectuoso.<br><br>🛠️ <b>Revisión:</b> Mida la resistencia y verifique el relé." },
+                ru: { title: "Ошибка нагрева", desc: "🔴 <b>Описание:</b> ТЭН не нагревает воду.<br><br>🔍 <b>Причины:</b> Неисправен ТЭН, сгорело реле.<br><br>🛠️ <b>Проверка:</b> Измерьте сопротивление ТЭНа и проверьте реле." } 
+            },
+            { 
+                device: 'dw', brand: 'lg', code: 'TE', 
+                image: "", schematic: "",
+                ar: { title: "عطل حساس الحرارة", desc: "🔴 <b>وصف العطل:</b> قراءة غير طبيعية لدرجة الحرارة.<br><br>🔍 <b>المسببات المحتملة:</b> تلف حساس الحرارة، قطع في الأسلاك.<br><br>🛠️ <b>خطوات الفحص:</b> افحص الحساس بالمالتيميتر." }, 
+                en: { title: "Thermistor Error", desc: "🔴 <b>Description:</b> Abnormal water temperature reading.<br><br>🔍 <b>Causes:</b> Faulty thermistor, broken wiring.<br><br>🛠️ <b>Action:</b> Inspect thermistor with multimeter." }, 
+                fr: { title: "Erreur de thermistance", desc: "🔴 <b>Description:</b> Lecture de température anormale.<br><br>🔍 <b>Causes:</b> Sonde thermistance défectueuse, fils coupés.<br><br>🛠️ <b>Vérification:</b> Testez la sonde au multimètre." },
+                es: { title: "Error de termistor", desc: "🔴 <b>Descripción:</b> Lectura anormal de temperatura.<br><br>🔍 <b>Causas:</b> Sensor defectuoso, cableado roto.<br><br>🛠️ <b>Revisión:</b> Inspeccione el termistor con un multímetro." },
+                ru: { title: "Ошибка термистора", desc: "🔴 <b>Описание:</b> Ненормальные показания температуры.<br><br>🔍 <b>Причины:</b> Неисправен термистор, обрыв проводки.<br><br>🛠️ <b>Проверка:</b> Проверьте термистор мультиметром." } 
+            },
+            { 
+                device: 'dw', brand: 'lg', code: 'LE', 
+                image: "", schematic: "",
+                ar: { title: "عطل محرك الغسيل", desc: "🔴 <b>وصف العطل:</b> مشكلة تمنع محرك الغسيل من الدوران.<br><br>🔍 <b>المسببات المحتملة:</b> جسم صلب يعيق المروحة، تلف المحرك.<br><br>🛠️ <b>خطوات الفحص:</b> فك المضخة لتنظيف المروحة." }, 
+                en: { title: "Motor Error", desc: "🔴 <b>Description:</b> Issue preventing wash motor from spinning.<br><br>🔍 <b>Causes:</b> Jammed impeller, motor failure.<br><br>🛠️ <b>Action:</b> Remove pump to clear impeller." }, 
+                fr: { title: "Erreur moteur", desc: "🔴 <b>Description:</b> Le moteur de lavage ne tourne pas.<br><br>🔍 <b>Causes:</b> Turbine bloquée, moteur HS.<br><br>🛠️ <b>Vérification:</b> Démontez pour nettoyer la turbine." },
+                es: { title: "Error de motor", desc: "🔴 <b>Descripción:</b> Problema que impide girar al motor.<br><br>🔍 <b>Causas:</b> Impulsor atascado, fallo del motor.<br><br>🛠️ <b>Revisión:</b> Retire la bomba para limpiar el impulsor." },
+                ru: { title: "Ошибка двигателя", desc: "🔴 <b>Описание:</b> Моющий двигатель не вращается.<br><br>🔍 <b>Причины:</b> Заклинило крыльчатку, отказ мотора.<br><br>🛠️ <b>Проверка:</b> Снимите насос для очистки." } 
+            },
+            { 
+                device: 'dw', brand: 'lg', code: 'PF', 
+                image: "", schematic: "",
+                ar: { title: "انقطاع التيار", desc: "🔴 <b>وصف العطل:</b> حدث انقطاع للتيار أثناء تشغيل دورة الغسيل.<br><br>🛠️ <b>الإجراء:</b> أعد تشغيل الغسالة لبدء دورة جديدة." }, 
+                en: { title: "Power Failure", desc: "🔴 <b>Description:</b> Power outage occurred during the cycle.<br><br>🛠️ <b>Action:</b> Restart the washer." }, 
+                fr: { title: "Panne de courant", desc: "🔴 <b>Description:</b> Coupure de courant pendant le cycle.<br><br>🛠️ <b>Action:</b> Redémarrez le lave-vaisselle." },
+                es: { title: "Fallo de alimentación", desc: "🔴 <b>Descripción:</b> Corte de energía durante el ciclo.<br><br>🛠️ <b>Acción:</b> Reinicie la máquina." },
+                ru: { title: "Сбой питания", desc: "🔴 <b>Описание:</b> Сбой электропитания во время цикла.<br><br>🛠️ <b>Действие:</b> Перезапустите машину." } 
+            },
+            { 
+                device: 'dw', brand: 'lg', code: 'CD', 
+                image: "", schematic: "",
+                ar: { title: "تبريد وتجفيف", desc: "🔴 <b>ملاحظة:</b> ليس عطلاً، يشير لانتهاء الغسيل ومرحلة التبريد.<br><br>🛠️ <b>الإجراء:</b> يمكنك تفريغ الأطباق بأمان." }, 
+                en: { title: "Cool Dry", desc: "🔴 <b>Note:</b> Not an error, drying cycle is complete.<br><br>🛠️ <b>Action:</b> Safe to unload dishes." }, 
+                fr: { title: "Séchage", desc: "🔴 <b>Note:</b> Pas une erreur, phase de refroidissement.<br><br>🛠️ <b>Action:</b> Vous pouvez vider la vaisselle." },
+                es: { title: "Secado en frío", desc: "🔴 <b>Nota:</b> No es un error, ciclo completado.<br><br>🛠️ <b>Acción:</b> Puede retirar los platos." },
+                ru: { title: "Охлаждение", desc: "🔴 <b>Примечание:</b> Не ошибка, завершение сушки.<br><br>🛠️ <b>Действие:</b> Можно выгружать посуду." } 
+            },
+
+            // ---------------------------------------------------------
+            // 3. BOSCH - Dishwasher
+            // ---------------------------------------------------------
+            { 
+                device: 'dw', brand: 'bosch', code: 'E15', 
+                image: "", schematic: "",
+                ar: { title: "تسريب مياه (Aquastop)", desc: "🔴 <b>وصف العطل:</b> تفعيل الحماية لوجود ماء بالقاعدة.<br><br>🛠️ <b>خطوات الفحص:</b> أفرغ القاعدة وابحث عن تسريب." }, 
+                en: { title: "Water Leak (Aquastop)", desc: "🔴 <b>Description:</b> Water in base activating Aquastop.<br><br>🛠️ <b>Action:</b> Empty base, find leak." }, 
+                fr: { title: "Fuite d'eau (Aquastop)", desc: "🔴 <b>Description:</b> Eau dans la base, système activé.<br><br>🛠️ <b>Vérification:</b> Videz la base, cherchez la fuite." },
+                es: { title: "Fuga de agua (Aquastop)", desc: "🔴 <b>Descripción:</b> Agua en la base activa Aquastop.<br><br>🛠️ <b>Revisión:</b> Vacíe la base, busque la fuga." },
+                ru: { title: "Утечка воды (Aquastop)", desc: "🔴 <b>Описание:</b> Вода в поддоне активировала Аквастоп.<br><br>🛠️ <b>Проверка:</b> Осушите поддон, найдите утечку." } 
+            },
+
+            // ---------------------------------------------------------
+            // 4. الغسالات - WM
+            // ---------------------------------------------------------
+            { 
+                device: 'wm', brand: 'lg', code: 'LE', 
+                image: "", schematic: "",
+                ar: { title: "عطل المحرك", desc: "🔴 <b>وصف العطل:</b> توقف محرك Direct Drive عن الدوران.<br><br>🛠️ <b>خطوات الفحص:</b> افحص حمولة الغسالة وحساس Hall." }, 
+                en: { title: "Motor Error", desc: "🔴 <b>Description:</b> Direct Drive motor stopped spinning.<br><br>🛠️ <b>Action:</b> Reduce load, test Hall sensor." }, 
+                fr: { title: "Erreur moteur", desc: "🔴 <b>Description:</b> Le moteur Direct Drive ne tourne plus.<br><br>🛠️ <b>Vérification:</b> Réduisez la charge, testez capteur Hall." },
+                es: { title: "Error de motor", desc: "🔴 <b>Descripción:</b> El motor Direct Drive se detuvo.<br><br>🛠️ <b>Revisión:</b> Reduzca carga, pruebe sensor Hall." },
+                ru: { title: "Ошибка двигателя", desc: "🔴 <b>Описание:</b> Двигатель Direct Drive остановился.<br><br>🛠️ <b>Проверка:</b> Уменьшите загрузку, проверьте датчик Холла." } 
+            },
+
+            // ---------------------------------------------------------
+            // 5. المكيفات - AC
+            // ---------------------------------------------------------
+            { 
+                device: 'ac', brand: 'midea', code: 'EC', 
+                image: "", schematic: "",
+                ar: { title: "تسريب فريون", desc: "🔴 <b>وصف العطل:</b> اللوحة تكتشف انخفاضاً حاداً في الضغط.<br><br>🛠️ <b>خطوات الفحص:</b> ركب المانيفولد وافحص تسريب الغاز." }, 
+                en: { title: "Refrigerant Leak", desc: "🔴 <b>Description:</b> PCB detects abnormal drop in pressure.<br><br>🛠️ <b>Action:</b> Attach manifold, check for freon leak." }, 
+                fr: { title: "Fuite de gaz", desc: "🔴 <b>Description:</b> Baisse anormale de pression détectée.<br><br>🛠️ <b>Vérification:</b> Branchez le manifold, cherchez fuite." },
+                es: { title: "Fuga de gas", desc: "🔴 <b>Descripción:</b> Caída anormal de presión detectada.<br><br>🛠️ <b>Revisión:</b> Conecte múltiple, busque fuga." },
+                ru: { title: "Утечка фреона", desc: "🔴 <b>Описание:</b> Падение давления хладагента.<br><br>🛠️ <b>Проверка:</b> Подключите манометр, ищите утечку." } 
+            }
+        ];
+
+        // === منطق التسجيل الصوتي المتوافق مع التصميم الجديد ومضاد الأخطاء ===
+        let recognition = null;
+        let isRecording = false;
+        let recordInterval;
+        let recordSeconds = 0;
+        let finalTranscript = '';
+
+        function startVoiceSearch() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                const noSupportMsg = translations[currentLang].no_speech_support || translations['ar'].no_speech_support;
+                alert(noSupportMsg);
+                return;
+            }
+
+            try {
+                if(recognition) { recognition.stop(); }
+                recognition = new SpeechRecognition();
+                const langMap = { 'ar': 'ar-SA', 'en': 'en-US', 'fr': 'fr-FR', 'es': 'es-ES', 'ru': 'ru-RU' };
+                recognition.lang = langMap[currentLang] || 'ar-SA';
+                recognition.interimResults = true;
+                recognition.maxAlternatives = 1;
+
+                const micBtnMain = document.getElementById('start-record-btn');
+                const overlay = document.getElementById('recording-overlay');
+                const timerDisplay = document.getElementById('record-timer');
+
+                isRecording = true;
+                recordSeconds = 0;
+                finalTranscript = '';
+                timerDisplay.innerText = "0:00";
+                micBtnMain.style.display = 'none';
+                overlay.classList.add('active');
+
+                clearInterval(recordInterval);
+                recordInterval = setInterval(() => {
+                    recordSeconds++;
+                    let mins = Math.floor(recordSeconds / 60);
+                    let secs = recordSeconds % 60;
+                    timerDisplay.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                }, 1000);
+
+                recognition.onresult = function(event) {
+                    let interimTranscript = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            finalTranscript += event.results[i][0].transcript;
+                        } else {
+                            interimTranscript += event.results[i][0].transcript;
+                        }
+                    }
+                    document.getElementById('error-code').value = finalTranscript || interimTranscript;
+                };
+
+                recognition.onerror = function(event) {
+                    stopRecordingUI();
+                    console.error("Speech error:", event.error);
+                    if (event.error === 'not-allowed') {
+                        alert('عذراً، المتصفح أو التطبيق يمنع تشغيل الميكروفون. يرجى إعطاء صلاحية الميكروفون (Microphone Permission) أو فتح الرابط عبر اتصال آمن (HTTPS).');
+                    } else if (event.error === 'network') {
+                        alert('عذراً، ميزة البحث الصوتي تحتاج إلى اتصال نشط بالإنترنت.');
+                    }
+                };
+
+                recognition.onend = function() {
+                    if (isRecording) {
+                        processVoiceCommand(document.getElementById('error-code').value);
+                        stopRecordingUI();
+                    }
+                };
+
+                recognition.start();
+
+            } catch(e) {
+                stopRecordingUI();
+                alert("حدث خطأ في تشغيل الميكروفون: " + e.message);
+            }
+        }
+
+        function stopRecordingUI() {
+            isRecording = false;
+            clearInterval(recordInterval);
+            document.getElementById('recording-overlay').classList.remove('active');
+            document.getElementById('start-record-btn').style.display = 'flex';
+            if(recognition) {
+                try { recognition.stop(); } catch(e){}
+            }
+        }
+
+        // أزرار شريط التسجيل
+        document.getElementById('cancel-record-btn').addEventListener('click', () => {
+            document.getElementById('error-code').value = '';
+            stopRecordingUI();
+        });
+
+        document.getElementById('send-record-btn').addEventListener('click', () => {
+            const transcript = document.getElementById('error-code').value;
+            stopRecordingUI();
+            if(transcript) processVoiceCommand(transcript);
+        });
+
+        function processVoiceCommand(transcript) {
+            transcript = transcript.toLowerCase();
+            
+            const clickOption = (listId, value) => {
+                const items = document.querySelectorAll(`#${listId} li`);
+                for (let item of items) {
+                    if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(`'${value}'`)) {
+                        item.click();
+                        break;
+                    }
+                }
+            };
+
+            // 1. استخراج نوع الجهاز
+            if (/صحون|dish|vaisselle|vajillas|посудомоечная/.test(transcript)) clickOption('device-list', 'dw');
+            else if (/ملابس|washing|linge|lavadora|стиральная/.test(transcript)) clickOption('device-list', 'wm');
+            else if (/مكيف|تكييف|air|climatiseur|acondicionado|кондиционер/.test(transcript)) clickOption('device-list', 'ac');
+            else if (/ثلاجة|fridge|réfrigérateur|refrigerador|холодильник/.test(transcript)) clickOption('device-list', 'fridge');
+
+            // 2. استخراج الماركة
+            if (/samsung|سامسونج/.test(transcript)) clickOption('brand-list', 'samsung');
+            else if (/lg|ال جي|إل جي/.test(transcript)) clickOption('brand-list', 'lg');
+            else if (/bosch|بوش/.test(transcript)) clickOption('brand-list', 'bosch');
+            else if (/midea|ميديا/.test(transcript)) clickOption('brand-list', 'midea');
+            else if (/condor|كوندور/.test(transcript)) clickOption('brand-list', 'condor');
+            else if (/beko|بيكو/.test(transcript)) clickOption('brand-list', 'beko');
+
+            // 3. تنظيف النص
+            let codePart = transcript;
+            const removeWords = ["ابحث", "عن", "كود", "عطل", "رقم", "غسالة", "صحون", "ملابس", "مكيف", "ثلاجة", "air", "conditioner", "washer", "dishwasher", "fridge", "lave-vaisselle", "lave-linge", "climatiseur", "lavavajillas", "lavadora", "refrigerador", "кондиционер", "стиральная", "посудомоечная", "холодильник", "samsung", "lg", "bosch", "midea", "condor", "beko", "سامسونج", "إل جي", "ال جي", "بوش", "ميديا", "كوندور", "بيكو", "تكييف", "code", "erreur", "error", "error code"];
+            
+            removeWords.forEach(w => {
+                const regex = new RegExp(w, "gi");
+                codePart = codePart.replace(regex, "");
+            });
+
+            const finalCode = codePart.replace(/\s+/g, '').toUpperCase();
+            document.getElementById('error-code').value = finalCode || transcript.replace(/\s+/g, '').toUpperCase();
+            
+            searchErrorCode();
+        }
+
+        // === دالة البحث الرئيسية ===
+        function searchErrorCode() {
+            const rawInput = document.getElementById('error-code').value.toUpperCase();
+            const searchInput = rawInput.replace(/\s+/g, '');
+            const resultBox = document.getElementById('result-message');
+            
+            if (searchInput === '') {
+                resultBox.style.display = 'none';
+                return;
+            }
+
+            if (currentValues.brand === 'all') {
+                resultBox.style.display = 'block';
+                const warningMsg = translations[currentLang].select_brand_first || translations['ar'].select_brand_first;
+                resultBox.innerHTML = `
+                    <div style="text-align: center;">
+                        <span style="font-size:2rem;">⚠️</span><br><br>
+                        <strong style="font-size: 1.1rem; color: #fcd34d;">${warningMsg}</strong>
+                    </div>
+                `;
+                resultBox.style.borderColor = "#f59e0b";
+                resultBox.style.backgroundColor = "rgba(245, 158, 11, 0.1)";
+                return;
+            }
+
+            const results = errorDatabase.filter(item => {
+                const cleanItemCode = item.code.toUpperCase().replace(/\s+/g, '');
+                const codesArray = cleanItemCode.split('/');
+                const matchCode = cleanItemCode === searchInput || codesArray.includes(searchInput);
+                const matchDevice = (item.device === currentValues.device || currentValues.device === 'all');
+                const matchBrand = (item.brand === currentValues.brand || currentValues.brand === 'all');
+                
+                return matchCode && matchDevice && matchBrand;
+            });
+
+            resultBox.style.display = 'block';
+
+            if (results.length > 0) {
+                const codePrefix = translations[currentLang].error_code_prefix;
+                const noImageTxt = translations[currentLang].no_image;
+                const noSchTxt = translations[currentLang].no_schematic;
+                
+                let combinedHtml = '';
+                
+                results.forEach((result, index) => {
+                    const langData = result[currentLang] || result['ar'];
+                    const brandDisplay = result.brand.toUpperCase();
+                    
+                    const imgHtml = result.image 
+                        ? `<img src="${result.image}" alt="Error Image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                           <div style="display:none; width:100%; height:100%; justify-content:center; align-items:center;">📷 ${noImageTxt}</div>` 
+                        : `📷 ${noImageTxt}`;
+                        
+                    const schHtml = result.schematic 
+                        ? `<img src="${result.schematic}" alt="Schematic" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                           <div style="display:none; width:100%; height:100%; justify-content:center; align-items:center;">🗺️ ${noSchTxt}</div>` 
+                        : `🗺️ ${noSchTxt}`;
+                        
+                    const separator = index > 0 ? `<hr style="border-color: rgba(56, 189, 248, 0.2); margin: 20px 0;">` : '';
+                    
+                    combinedHtml += `
+                        ${separator}
+                        <div class="result-title" dir="auto" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap:10px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span>⚠️ ${codePrefix} <strong style="font-family: monospace; font-size: 1.2em; color: white;">${result.code}</strong></span> 
+                            </div>
+                            <span style="background: rgba(14, 165, 233, 0.2); color: #38bdf8; padding: 4px 12px; border-radius: 8px; font-size: 0.85em; font-weight: bold;">🏷️ ${brandDisplay}</span>
+                        </div>
+                        <div dir="auto" style="color: #e2e8f0; font-weight: bold; margin-bottom: 15px; font-size: 1.1rem;">- ${langData.title}</div>
+                        
+                        <div class="media-container" dir="auto">
+                            <div class="media-box">${imgHtml}</div>
+                            <div class="media-box">${schHtml}</div>
+                        </div>
+                        
+                        <div dir="auto" style="margin-top: 20px; line-height:1.8; font-size: 1.05rem;">${langData.desc}</div>
+                    `;
+                });
+                
+                resultBox.innerHTML = combinedHtml;
+                resultBox.style.borderColor = "#10b981"; 
+                resultBox.style.backgroundColor = "rgba(16, 185, 129, 0.1)";
+            } else {
+                const notFoundMsg = translations[currentLang].result || translations['ar'].result;
+                const btnMsg = translations[currentLang].btn_add_database || translations['ar'].btn_add_database;
+                
+                resultBox.innerHTML = `
+                    <div style="text-align: center;">
+                        <span style="font-size:2rem;">🤷‍♂️</span><br><br>
+                        ${notFoundMsg}<br><br>
+                        <button style="background:var(--primary); color:white; border:none; padding:8px 15px; border-radius:10px; margin-top:10px; cursor:pointer;" onclick="alert('نافذة الإضافة قيد التطوير')">${btnMsg}</button>
+                    </div>
+                `;
+                resultBox.style.borderColor = "#f43f5e"; 
+                resultBox.style.backgroundColor = "rgba(244, 63, 94, 0.1)";
+            }
+        }
+
+        // تشغيل البحث عند الكتابة
+        document.getElementById('error-code').addEventListener('input', searchErrorCode);
+        document.getElementById('btn-search-trigger').addEventListener('click', searchErrorCode);
+
+        // التحكم بالقوائم المنسدلة
+        function toggleDropdown(listId, containerId) {
+            document.querySelectorAll('.select-options').forEach(el => { if (el.id !== listId) el.classList.remove('show'); });
+            document.querySelectorAll('.custom-select-container').forEach(el => { if (el.id !== containerId) el.classList.remove('active'); });
+            document.getElementById(listId).classList.toggle('show');
+            document.getElementById(containerId).classList.toggle('active');
+        }
+
+        function selectOption(type, value, emoji, i18nKey, rawText) {
+            currentValues[type] = value;
+            document.getElementById(`${type}-icon`).innerText = emoji;
+            const textElement = document.getElementById(`${type}-selected-text`);
+            
+            if (i18nKey) {
+                textElement.setAttribute('data-i18n', i18nKey);
+                if(translations[currentLang] && translations[currentLang][i18nKey]){
+                    textElement.innerText = translations[currentLang][i18nKey];
+                }
+            } else {
+                textElement.removeAttribute('data-i18n');
+                textElement.innerText = rawText;
+            }
+
+            document.getElementById(`${type}-list`).classList.remove('show');
+            document.getElementById(type === 'brand' ? 'brand-container' : type === 'device' ? 'device-container' : `${type}-wrapper`).classList.remove('active');
+
+            if (type === 'device') {
+                const techWrapper = document.getElementById('tech-wrapper');
+                const shapeWrapper = document.getElementById('shape-wrapper');
+                if (value === 'ac') {
+                    techWrapper.style.display = 'block'; shapeWrapper.style.display = 'block';
+                } else {
+                    techWrapper.style.display = 'none'; shapeWrapper.style.display = 'none';
+                }
+            }
+            searchErrorCode();
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.custom-select-container')) {
+                document.querySelectorAll('.select-options').forEach(el => el.classList.remove('show'));
+                document.querySelectorAll('.custom-select-container').forEach(el => el.classList.remove('active'));
+            }
+        });
+
+        // القاموس
+        const translations = {
+            ar: {
+                title: "الموسوعة الفنية لأعطال التكييف والأجهزة المنزلية",
+                subtitle: "البحث الفوري وإدارة قاعدة بيانات الأعطال ميدانياً",
+                dev_name: "تطوير وبرمجة هندسية: م. أحمد زينور 🇩🇿",
+                dev_group: "مجموعة: إتقان في التبريد والتدفئة M.D.F.CH.É.É",
+                btn_facebook: " صفحة المطور على فيسبوك",
+                btn_guide: " الدليل الهندسي وشرح البرنامج",
+                btn_whatsapp: " تواصل عبر واتساب",
+                btn_add: " إضافة كود جديد",
+                btn_search: " شاشة البحث",
+                opt_ac: "مكيف هواء (Air Conditioner)",
+                opt_wm: "غسالة ملابس (Washing Machine)",
+                opt_dw: "غسالة صحون (Dishwasher)",
+                opt_fridge: "ثلاجة منزلية (Refrigerator)",
+                opt_all_brands: "جميع الماركات",
+                opt_all_tech: "جميع التقنيات",
+                opt_inverter: "أنفرتر (Inverter)",
+                opt_onoff: "عادي (On/Off)",
+                opt_all_shapes: "جميع الأشكال / الموديلات",
+                opt_wall: "جداري عادي (Split Wall)",
+                opt_cassette: "كاسيت سقفي (Cassette)",
+                opt_floor: "عمودي خزانة (Floor-Standing)",
+                opt_plafonnier: "سقفي أرضي (Plafonnier)",
+                opt_portable: "متنقل منزلي (Portable)",
+                opt_vrv: "مركزي (VRV / VRF)",
+                placeholder: "اكتب رمز الخطأ مباشرة هنا (مثال: CH01, EC...)",
+                result: "لم يتم العثور على تشخيص مطابق. يمكنك إضافة هذا الكود عبر زر 'إضافة كود جديد'.",
+                error_code_prefix: "كود العطل:",
+                btn_add_database: "➕ أضف هذا الكود للموسوعة",
+                no_image: "صورة العطل غير متوفرة",
+                no_schematic: "المخطط غير متوفر",
+                select_brand_first: "يرجى تحديد الماركة أولاً لتجنب التشخيص الخاطئ.",
+                no_speech_support: "عذراً، متصفحك لا يدعم ميزة البحث الصوتي."
+            },
+            en: {
+                title: "HVAC & Home Appliances Encyclopedia",
+                subtitle: "Instant search & field management of fault database",
+                dev_name: "Engineering & Development: Eng. Ahmed Zinnour 🇩🇿",
+                dev_group: "Group: Mastery in HVAC M.D.F.CH.É.É",
+                btn_facebook: " Developer's Facebook Page",
+                btn_guide: " Engineering Guide & Features",
+                btn_whatsapp: " Contact via WhatsApp",
+                btn_add: " Add New Code",
+                btn_search: " Search Screen",
+                opt_ac: "Air Conditioner",
+                opt_wm: "Washing Machine",
+                opt_dw: "Dishwasher",
+                opt_fridge: "Refrigerator",
+                opt_all_brands: "All Brands",
+                opt_all_tech: "All Technologies",
+                opt_inverter: "Inverter",
+                opt_onoff: "Standard (On/Off)",
+                opt_all_shapes: "All Shapes / Models",
+                opt_wall: "Split Wall",
+                opt_cassette: "Cassette",
+                opt_floor: "Floor-Standing",
+                opt_plafonnier: "Ceiling/Floor",
+                opt_portable: "Portable",
+                opt_vrv: "VRV / VRF",
+                placeholder: "Type error code here (e.g., CH01, EC...)",
+                result: "No matching diagnosis found. You can add this code via the 'Add New Code' button.",
+                error_code_prefix: "Error Code:",
+                btn_add_database: "➕ Add to Database",
+                no_image: "Image not available",
+                no_schematic: "Schematic not available",
+                select_brand_first: "Please select a brand first to avoid misdiagnosis.",
+                no_speech_support: "Sorry, your browser does not support voice search."
+            },
+            fr: {
+                title: "Encyclopédie de Climatisation & Électroménager",
+                subtitle: "Recherche immédiate et gestion de la base de données",
+                dev_name: "Développement & Ingénierie: Ing. Ahmed Zinnour 🇩🇿",
+                dev_group: "Groupe: Maîtrise en Climatisation M.D.F.CH.É.É",
+                btn_facebook: " Page Facebook du Développeur",
+                btn_guide: " Guide d'Ingénierie",
+                btn_whatsapp: " Contact via WhatsApp",
+                btn_add: " Ajouter un Nouveau Code",
+                btn_search: " Écran de Recherche",
+                opt_ac: "Climatiseur",
+                opt_wm: "Lave-linge",
+                opt_dw: "Lave-vaisselle",
+                opt_fridge: "Réfrigérateur",
+                opt_all_brands: "Toutes les Marques",
+                opt_all_tech: "Toutes les Technologies",
+                opt_inverter: "Inverter",
+                opt_onoff: "Classique (On/Off)",
+                opt_all_shapes: "Toutes les Formes / Modèles",
+                opt_wall: "Mural (Split Wall)",
+                opt_cassette: "Cassette",
+                opt_floor: "Armoire (Floor-Standing)",
+                opt_plafonnier: "Plafonnier",
+                opt_portable: "Portable",
+                opt_vrv: "VRV / VRF",
+                placeholder: "Tapez le code d'erreur ici (ex: CH01, EC...)",
+                result: "Aucun diagnostic correspondant trouvé. Vous pouvez l'ajouter via le bouton.",
+                error_code_prefix: "Code d'erreur:",
+                btn_add_database: "➕ Ajouter à la base",
+                no_image: "Image indisponible",
+                no_schematic: "Schéma indisponible",
+                select_brand_first: "Veuillez d'abord sélectionner une marque.",
+                no_speech_support: "Désolé, votre navigateur ne prend pas en charge la recherche vocale."
+            },
+            es: {
+                title: "Enciclopedia de Climatización y Electrodomésticos",
+                subtitle: "Búsqueda instantánea y gestión de base de datos",
+                dev_name: "Desarrollo e Ingeniería: Ing. Ahmed Zinnour 🇩🇿",
+                dev_group: "Grupo: Dominio en Climatización M.D.F.CH.É.É",
+                btn_facebook: " Facebook del Desarrollador",
+                btn_guide: " Guía de Ingeniería",
+                btn_whatsapp: " Contacto vía WhatsApp",
+                btn_add: " Agregar Nuevo Código",
+                btn_search: " Pantalla de Búsqueda",
+                opt_ac: "Aire Acondicionado",
+                opt_wm: "Lavadora",
+                opt_dw: "Lavavajillas",
+                opt_fridge: "Refrigerador",
+                opt_all_brands: "Todas las Marcas",
+                opt_all_tech: "Todas las Tecnologías",
+                opt_inverter: "Inverter",
+                opt_onoff: "Clásico (On/Off)",
+                opt_all_shapes: "Todas las Formas / Modelos",
+                opt_wall: "Pared (Split Wall)",
+                opt_cassette: "Cassette",
+                opt_floor: "Gabinete (Floor-Standing)",
+                opt_plafonnier: "Plafón",
+                opt_portable: "Portátil",
+                opt_vrv: "VRV / VRF",
+                placeholder: "Escriba el código de error aquí (ej: CH01, EC...)",
+                result: "No se encontró ningún diagnóstico. Puede agregarlo a través del botón.",
+                error_code_prefix: "Código de error:",
+                btn_add_database: "➕ Agregar a la base",
+                no_image: "Imagen no disponible",
+                no_schematic: "Esquema no disponible",
+                select_brand_first: "Por favor seleccione una marca primero.",
+                no_speech_support: "Lo siento, su navegador no admite la búsqueda por voz."
+            },
+            ru: {
+                title: "Энциклопедия кондиционирования и Бытовой Техники",
+                subtitle: "Мгновенный поиск в базе данных",
+                dev_name: "Инженерная разработка: инж. Ахмед Зиннур 🇩🇿",
+                dev_group: "Группа: Мастерство в кондиционировании M.D.F.CH.É.É",
+                btn_facebook: " Страница Facebook",
+                btn_guide: " Инженерное руководство",
+                btn_whatsapp: " Связаться в WhatsApp",
+                btn_add: " Добавить новый код",
+                btn_search: " Экран поиска",
+                opt_ac: "Кондиционер",
+                opt_wm: "Стиральная машина",
+                opt_dw: "Посудомоечная машина",
+                opt_fridge: "Холодильник",
+                opt_all_brands: "Все бренды",
+                opt_all_tech: "Все технологии",
+                opt_inverter: "Инвертор",
+                opt_onoff: "Стандартный (On/Off)",
+                opt_all_shapes: "Все типы / Модели",
+                opt_wall: "Настенный",
+                opt_cassette: "Кассетный",
+                opt_floor: "Колонный",
+                opt_plafonnier: "Напольно-потолочный",
+                opt_portable: "Мобильный",
+                opt_vrv: "VRV / VRF",
+                placeholder: "Введите код ошибки прямо здесь...",
+                result: "Диагноз не найден. Вы можете добавить этот код с помощью кнопки.",
+                error_code_prefix: "Код ошибки:",
+                btn_add_database: "➕ Добавить в базу",
+                no_image: "Изображение недоступно",
+                no_schematic: "Схема недоступна",
+                select_brand_first: "Пожалуйста, сначала выберите бренд.",
+                no_speech_support: "Извините, ваш браузер не поддерживает голосовой поиск."
+            }
+        };
+
+        const langButtons = document.querySelectorAll('.lang-btn');
+        langButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                langButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                currentLang = this.getAttribute('data-lang');
+                document.documentElement.lang = currentLang;
+                document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[currentLang] && translations[currentLang][key]) {
+                        element.innerText = translations[currentLang][key];
+                    }
+                });
+
+                document.getElementById('error-code').placeholder = translations[currentLang].placeholder;
+                searchErrorCode(); // تحديث فوري للغة النتيجة المعروضة
+            });
+        });
+    </script>
+</body>
+</html>
