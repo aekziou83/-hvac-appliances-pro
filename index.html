@@ -8,16 +8,16 @@
     <style>
         /* إعدادات الألوان الاحترافية (Premium Dark) */
         :root {
-            --bg-color: #020617;
-            --surface: rgba(15, 23, 42, 0.7);
-            --surface-border: rgba(56, 189, 248, 0.2);
-            --primary: #0ea5e9;
-            --primary-glow: rgba(14, 165, 233, 0.5);
+            --bg-color: #0b1120;
+            --surface: #111827;
+            --surface-border: rgba(255, 255, 255, 0.05);
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.4);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --input-bg: rgba(2, 6, 23, 0.8);
+            --input-bg: #1e293b;
             --mic-green: #4ade80; 
-            --record-bg: #111827; 
+            --record-bg: #1e293b; 
         }
 
         * {
@@ -28,7 +28,7 @@
         }
 
         body {
-            background: radial-gradient(circle at top right, #1e293b 0%, var(--bg-color) 100%);
+            background-color: var(--bg-color);
             color: var(--text-main);
             display: flex;
             justify-content: center;
@@ -39,55 +39,41 @@
         .app-container {
             max-width: 500px;
             width: 100%;
-            background: var(--surface);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--surface-border);
+            background: var(--bg-color);
             border-radius: 28px;
-            padding: 35px 25px;
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+            padding: 25px 20px;
             position: relative; 
         }
 
+        /* رأس الصفحة */
         .main-header {
             text-align: center;
             margin-bottom: 25px;
         }
 
         .main-header h1 {
-            background: linear-gradient(135deg, #7dd3fc, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 1.7rem;
+            color: #60a5fa;
+            font-size: 1.6rem;
             margin-bottom: 12px;
             line-height: 1.4;
-            font-weight: 900;
+            font-weight: 800;
         }
 
         .main-header p {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 500;
         }
 
+        /* قسم المطور */
         .developer-section {
             text-align: center;
             margin-bottom: 30px;
-            background: linear-gradient(145deg, rgba(30,41,59,0.7) 0%, rgba(2,6,23,0.7) 100%);
+            background: #111827;
             padding: 22px;
             border-radius: 20px;
-            border: 1px solid rgba(56, 189, 248, 0.25);
+            border: 1px solid var(--surface-border);
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .developer-section::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%);
-            pointer-events: none;
         }
 
         .dev-text {
@@ -108,193 +94,228 @@
             flex-direction: column;
             gap: 12px;
             margin-top: 20px;
-            position: relative;
-            z-index: 2;
         }
 
         .btn-link {
             width: 100%;
-            padding: 15px;
+            padding: 16px 20px;
             border-radius: 14px;
             text-decoration: none;
             color: white;
             font-weight: bold;
             font-size: 0.95rem;
-            text-align: center;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            transition: transform 0.2s ease;
         }
+        
+        .btn-link:active { transform: scale(0.98); }
 
-        .btn-fb { background: linear-gradient(135deg, #3b82f6, #1d4ed8); box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
-        .btn-guide { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 4px 15px rgba(16,185,129,0.3); }
-        .btn-wa { background: linear-gradient(135deg, #22c55e, #15803d); box-shadow: 0 4px 15px rgba(34,197,94,0.3); }
+        .btn-fb { background: linear-gradient(90deg, #3b82f6, #2563eb); }
+        .btn-guide { background: linear-gradient(90deg, #10b981, #059669); }
+        .btn-wa { background: linear-gradient(90deg, #22c55e, #16a34a); }
 
+        /* مبدل اللغات */
         .language-switcher {
             display: flex;
-            background-color: rgba(15, 23, 42, 0.8);
+            background-color: #1e293b;
             border-radius: 40px;
             padding: 6px;
             margin: 0 auto 30px auto;
             width: fit-content;
             gap: 5px;
             direction: ltr;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .lang-btn {
             background: transparent;
             border: none;
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .lang-btn.active {
-            background: linear-gradient(135deg, var(--primary), #3b82f6);
+            background: var(--primary);
             color: white;
-            box-shadow: 0 4px 15px var(--primary-glow);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
+        /* أزرار البحث والإضافة العلوية */
         .top-buttons {
             display: flex;
             gap: 15px;
             margin-bottom: 25px;
         }
 
-        .btn-add, .btn-search-tab {
+        .top-buttons button {
             flex: 1;
             border: none;
-            padding: 16px;
+            padding: 18px 15px;
             border-radius: 16px;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             transition: all 0.3s ease;
         }
 
-        .btn-add { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .btn-search-tab { background: linear-gradient(135deg, var(--primary), #2563eb); color: white; }
+        .btn-add { 
+            background: rgba(16, 185, 129, 0.1); 
+            color: #34d399; 
+            border: 1px solid rgba(16, 185, 129, 0.2); 
+        }
+        .btn-search-tab { 
+            background: var(--primary); 
+            color: white; 
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
 
         /* القوائم المنسدلة */
-        .search-filters { display: flex; flex-direction: column; gap: 16px; position: relative; }
+        .search-filters { display: flex; flex-direction: column; gap: 14px; position: relative; }
         .custom-select-container { width: 100%; position: relative; }
+        
         .select-box {
-            background-color: var(--input-bg); border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px; height: 60px; display: flex; justify-content: space-between;
-            align-items: center; padding: 0 20px; cursor: pointer; transition: all 0.3s ease;
+            background-color: var(--surface); 
+            border: 1px solid var(--surface-border);
+            border-radius: 14px; 
+            height: 60px; 
+            display: flex; 
+            justify-content: space-between;
+            align-items: center; 
+            padding: 0 20px; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
         }
-        .select-box:hover { border-color: var(--primary); background-color: rgba(15, 23, 42, 0.9); }
-        .select-content { display: flex; align-items: center; gap: 12px; color: white; font-size: 1.1rem; font-weight: 600; }
-        .icon-emoji { font-size: 1.3rem; width: 30px; text-align: center; display: inline-block; }
-        .select-box .arrow { color: var(--text-muted); transition: transform 0.3s ease; font-size: 0.9rem; }
-        .custom-select-container.active .select-box { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15); }
-        .custom-select-container.active .arrow { transform: rotate(180deg); }
+        
+        .select-box:hover { border-color: rgba(255,255,255,0.2); }
+        .select-content { display: flex; align-items: center; gap: 12px; color: #e2e8f0; font-size: 1rem; font-weight: 600; }
+        .icon-emoji { font-size: 1.2rem; width: 25px; text-align: center; }
+        .select-box .arrow { color: var(--text-muted); font-size: 0.8rem; transition: transform 0.3s ease; }
+        
+        .custom-select-container.active .select-box { border-color: var(--primary); }
+        .custom-select-container.active .arrow { transform: rotate(180deg); color: var(--primary); }
+        
         .select-options {
             position: absolute; top: calc(100% + 8px); left: 0; right: 0;
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px);
-            border: 1px solid var(--surface-border); border-radius: 16px;
-            max-height: 280px; overflow-y: auto; z-index: 100; display: none;
+            background: #1e293b; 
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
+            max-height: 250px; overflow-y: auto; z-index: 100; display: none;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6); list-style: none; padding: 8px;
         }
         .select-options.show { display: block; animation: slideDown 0.2s ease; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .select-options li { padding: 12px 15px; display: flex; align-items: center; gap: 12px; cursor: pointer; border-radius: 10px; color: white; font-size: 1.05rem; transition: all 0.2s; }
-        .select-options li:hover { background: var(--primary-glow); }
-        .select-options::-webkit-scrollbar { width: 6px; }
-        .select-options::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
-        .select-options::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .select-options li { 
+            padding: 12px 15px; display: flex; align-items: center; gap: 12px; 
+            cursor: pointer; border-radius: 10px; color: #cbd5e1; font-size: 0.95rem; font-weight: 600; 
+        }
+        .select-options li:hover { background: rgba(255,255,255,0.05); color: white; }
+        
+        .select-options::-webkit-scrollbar { width: 5px; }
+        .select-options::-webkit-scrollbar-track { background: transparent; }
+        .select-options::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
 
         /* منطقة إدخال الكود وزر الميكروفون */
         .search-input-area {
-            position: relative; display: flex; align-items: center; gap: 10px;
+            position: relative; display: flex; align-items: center; gap: 12px; margin-top: 5px;
         }
 
         .code-input-wrapper {
-            background: linear-gradient(to right, rgba(2,6,23,0.9), rgba(15,23,42,0.8));
-            border: 2px solid var(--primary); border-radius: 16px; display: flex;
+            background: var(--surface);
+            border: 1px solid var(--primary); 
+            border-radius: 14px; display: flex;
             align-items: center; height: 60px; padding: 0 15px; flex-grow: 1;
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.2); transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
         }
         
-        .custom-input { width: 100%; background: transparent; border: none; color: white; font-size: 1.15rem; outline: none; font-weight: bold; margin: 0 10px;}
+        .custom-input { 
+            width: 100%; background: transparent; border: none; color: white; 
+            font-size: 1.1rem; outline: none; font-weight: bold; margin: 0 10px;
+        }
         html[dir="rtl"] .custom-input { text-align: right; direction: rtl; }
         html[dir="ltr"] .custom-input { text-align: left; direction: ltr; }
-        .custom-input::placeholder { color: #475569; font-weight: normal; font-size: 1.05rem; }
+        .custom-input::placeholder { color: #64748b; font-weight: normal; font-size: 0.95rem; }
 
         .btn-mic-main {
             background-color: var(--mic-green);
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(74, 222, 128, 0.3);
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
             transition: transform 0.2s ease;
             flex-shrink: 0;
             outline: none;
         }
-        .btn-mic-main:active { transform: scale(0.95); }
-        .btn-mic-main svg { width: 24px; height: 24px; fill: #000; }
+        .btn-mic-main:active { transform: scale(0.92); }
+        .btn-mic-main svg { width: 26px; height: 26px; fill: #000; }
 
         /* شريط التسجيل المنبثق */
         .recording-overlay {
             position: absolute;
             bottom: 0; left: 0; right: 0;
             background-color: var(--record-bg);
-            border-radius: 16px;
+            border: 1px solid var(--primary);
+            border-radius: 14px;
             height: 60px;
             display: none; 
             align-items: center;
             justify-content: space-between;
             padding: 0 15px;
             z-index: 10;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
-        .recording-overlay.active { display: flex; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .recording-overlay.active { display: flex; animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .record-time { color: white; font-size: 1.2rem; font-family: monospace; }
+        .record-time { color: white; font-size: 1.1rem; font-family: monospace; font-weight: bold; }
         .record-wave { 
-            flex-grow: 1; margin: 0 15px; height: 20px; 
-            background: repeating-linear-gradient(90deg, #6b7280 0px, #6b7280 2px, transparent 2px, transparent 6px);
-            opacity: 0.5; animation: wave-move 1s infinite linear;
+            flex-grow: 1; margin: 0 15px; height: 15px; 
+            background: repeating-linear-gradient(90deg, #3b82f6 0px, #3b82f6 3px, transparent 3px, transparent 8px);
+            opacity: 0.7; animation: wave-move 1s infinite linear;
         }
         @keyframes wave-move { from { background-position: 0 0; } to { background-position: 24px 0; } }
         
-        .record-actions { display: flex; align-items: center; gap: 15px; }
+        .record-actions { display: flex; align-items: center; gap: 12px; }
         
-        .btn-cancel-record { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 5px; outline: none;}
-        .btn-cancel-record svg { width: 24px; height: 24px; fill: #f87171; } 
+        .btn-cancel-record { background: rgba(248, 113, 113, 0.1); border-radius: 50%; width: 40px; height: 40px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; outline: none;}
+        .btn-cancel-record svg { width: 20px; height: 20px; fill: #f87171; } 
         
         .btn-send-record { 
             background-color: var(--mic-green); border: none; width: 40px; height: 40px; 
             border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; outline: none;
         }
-        .btn-send-record svg { width: 20px; height: 20px; fill: #000; transform: translateX(-2px); }
+        .btn-send-record svg { width: 20px; height: 20px; fill: #000; transform: translateX(-1px); }
 
+        /* منطقة عرض النتيجة */
         .result-message {
-            background: rgba(2, 6, 23, 0.6); border: 1px solid var(--primary); border-radius: 16px;
+            background: var(--surface); border: 1px solid var(--primary); border-radius: 16px;
             margin-top: 30px; padding: 25px 20px; text-align: right; color: white;
-            line-height: 1.7; font-size: 1.1rem; display: none; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            line-height: 1.7; font-size: 1rem; display: none; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
         html[dir="ltr"] .result-message { text-align: left; }
-        .result-title { color: var(--primary); font-weight: bold; font-size: 1.3rem; margin-bottom: 10px; border-bottom: 1px solid rgba(14, 165, 233, 0.3); padding-bottom: 10px; }
+        .result-title { color: var(--primary); font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; }
         
         .media-container {
             display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;
         }
         .media-box {
-            flex: 1; min-width: 120px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2);
-            border-radius: 12px; padding: 15px; text-align: center; color: var(--text-muted); font-size: 0.9rem;
+            flex: 1; min-width: 120px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.15);
+            border-radius: 12px; padding: 15px; text-align: center; color: var(--text-muted); font-size: 0.85rem;
             display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px;
         }
         .media-box img { max-width: 100%; border-radius: 8px; }
@@ -313,9 +334,15 @@
             <p class="dev-text" data-i18n="dev_group">مجموعة: إتقان في التبريد والتدفئة M.D.F.CH.É.É</p>
             
             <div class="dev-buttons">
-                <a href="https://www.facebook.com/share/1EneAzPHSi/?mibextid=wwXIfr" target="_blank" class="btn-link btn-fb" data-i18n="btn_facebook">🌐 صفحة المطور على فيسبوك</a>
-                <a href="#" target="_blank" class="btn-link btn-guide" data-i18n="btn_guide">📖 الدليل الهندسي وشرح البرنامج</a>
-                <a href="https://wa.me/213770227904" target="_blank" class="btn-link btn-wa" data-i18n="btn_whatsapp">💬 تواصل عبر واتساب</a>
+                <a href="https://www.facebook.com/share/1EneAzPHSi/?mibextid=wwXIfr" target="_blank" class="btn-link btn-fb">
+                    <span data-i18n="btn_facebook">صفحة المطور على فيسبوك</span> <span>🌐</span>
+                </a>
+                <a href="#" target="_blank" class="btn-link btn-guide">
+                    <span data-i18n="btn_guide">الدليل الهندسي وشرح البرنامج</span> <span>📖</span>
+                </a>
+                <a href="https://wa.me/213770227904" target="_blank" class="btn-link btn-wa">
+                    <span data-i18n="btn_whatsapp">تواصل عبر واتساب</span> <span>💬</span>
+                </a>
             </div>
         </div>
 
@@ -328,8 +355,12 @@
         </div>
 
         <div class="top-buttons">
-            <button class="btn-add" data-i18n="btn_add" onclick="alert('نافذة إضافة الأكواد قيد التطوير')">➕ إضافة كود جديد</button>
-            <button class="btn-search-tab" data-i18n="btn_search" id="btn-search-trigger">🔍 شاشة البحث</button>
+            <button class="btn-search-tab" data-i18n="btn_search" id="btn-search-trigger">
+                <span data-i18n="btn_search_text">شاشة البحث</span> <span>🔍</span>
+            </button>
+            <button class="btn-add" data-i18n="btn_add" onclick="alert('نافذة إضافة الأكواد قيد التطوير')">
+                <span data-i18n="btn_add_text">إضافة كود جديد</span> <span>➕</span>
+            </button>
         </div>
 
         <div class="search-filters">
@@ -453,10 +484,9 @@
             <!-- 5. منطقة البحث مع زر الميكروفون الأخضر -->
             <div class="search-input-area">
                 <div class="code-input-wrapper">
-                    <span class="icon-emoji" style="color:var(--primary);">⌨️</span>
-                    <input type="text" id="error-code" class="custom-input" placeholder="اكتب رمز الخطأ مباشرة هنا (مثال: CH01, EC...)">
+                    <span class="icon-emoji" style="color:var(--text-muted); font-size:1.4rem;">⌨️</span>
+                    <input type="text" id="error-code" class="custom-input" placeholder="اكتب رمز الخطأ مباشرة هنا (مثال: CH01...)">
                 </div>
-                <!-- زر الميكروفون الأخضر الجديد -->
                 <button type="button" class="btn-mic-main" id="start-record-btn" title="تسجيل صوتي" onclick="startVoiceSearch()">
                     <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
                 </button>
@@ -468,10 +498,8 @@
                 <div class="record-wave"></div>
                 <div class="record-actions">
                     <button type="button" class="btn-cancel-record" id="cancel-record-btn" title="إلغاء">
-                        <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </button>
-                    <!-- أيقونة الإيقاف المؤقت للزينة -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#f87171" style="opacity:0.8"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                     <button type="button" class="btn-send-record" id="send-record-btn" title="إرسال (بحث)">
                         <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>
@@ -605,7 +633,7 @@
                 en: { title: "Water Inlet Error", desc: "🔴 <b>Description:</b> Water not entering fast enough.<br><br>🔍 <b>Causes:</b> Low pressure, clogged inlet filter.<br><br>🛠️ <b>Action:</b> Fully open tap, clean filter screen." }, 
                 fr: { title: "Erreur d'entrée d'eau", desc: "🔴 <b>Description:</b> L'eau n'entre pas assez vite.<br><br>🔍 <b>Causes:</b> Faible pression, filtre bouché.<br><br>🛠️ <b>Vérification:</b> Ouvrez le robinet, nettoyez le filtre." },
                 es: { title: "Error de entrada de agua", desc: "🔴 <b>Descripción:</b> El agua no entra lo suficientemente rápido.<br><br>🔍 <b>Causas:</b> Baja presión, filtro obstruido.<br><br>🛠️ <b>Revisión:</b> Abra el grifo por completo, limpie la malla." },
-                ru: { title: "Ошибка залива воды", desc: "🔴 <b>Описание:</b> Вода поступает слишком медленно.<br><br>🔍 <b>Причины:</b> Слабый напор, засор фильтра.<br><br>🛠️ <b>Проверка:</b> Откройте кран полностью, очистите сеточку." } 
+                ru: { title: "Ошибка залива воды", desc: "🔴 <b>Описание:</b> Вода поступает слишком медленно.<br><br>🔍 <b>Причины:</b> Слабый напор, засор фильтра.<br><br>🛠️ <b>Проверка:</b> Отключите. Если вода идет, клапан под замену." } 
             },
             { 
                 device: 'dw', brand: 'lg', code: 'E1/EI', 
@@ -711,7 +739,7 @@
             }
         ];
 
-        // === منطق التسجيل الصوتي المتوافق مع التصميم الجديد ومضاد الأخطاء ===
+        // === منطق التسجيل الصوتي المتوافق مع الدارجة والأكواد التقنية ===
         let recognition = null;
         let isRecording = false;
         let recordInterval;
@@ -730,8 +758,10 @@
             try {
                 if(recognition) { recognition.stop(); }
                 recognition = new SpeechRecognition();
-                const langMap = { 'ar': 'ar-SA', 'en': 'en-US', 'fr': 'fr-FR', 'es': 'es-ES', 'ru': 'ru-RU' };
-                recognition.lang = langMap[currentLang] || 'ar-SA';
+                
+                // استخدام اللهجة الجزائرية كأساس للغة العربية لفهم أفضل للدارجة
+                const langMap = { 'ar': 'ar-DZ', 'en': 'en-US', 'fr': 'fr-FR', 'es': 'es-ES', 'ru': 'ru-RU' };
+                recognition.lang = langMap[currentLang] || 'ar-DZ';
                 recognition.interimResults = true;
                 recognition.maxAlternatives = 1;
 
@@ -763,21 +793,18 @@
                             interimTranscript += event.results[i][0].transcript;
                         }
                     }
+                    // عرض النص المؤقت أثناء التحدث
                     document.getElementById('error-code').value = finalTranscript || interimTranscript;
                 };
 
                 recognition.onerror = function(event) {
                     stopRecordingUI();
                     console.error("Speech error:", event.error);
-                    if (event.error === 'not-allowed') {
-                        alert('عذراً، المتصفح أو التطبيق يمنع تشغيل الميكروفون. يرجى إعطاء صلاحية الميكروفون (Microphone Permission) أو فتح الرابط عبر اتصال آمن (HTTPS).');
-                    } else if (event.error === 'network') {
-                        alert('عذراً، ميزة البحث الصوتي تحتاج إلى اتصال نشط بالإنترنت.');
-                    }
                 };
 
                 recognition.onend = function() {
                     if (isRecording) {
+                        // عند انتهاء الكلام، نرسل النص للمعالجة الذكية
                         processVoiceCommand(document.getElementById('error-code').value);
                         stopRecordingUI();
                     }
@@ -813,8 +840,53 @@
             if(transcript) processVoiceCommand(transcript);
         });
 
+        // === دالة استخلاص الكود الذكية (المترجم الصوتي) ===
+        function extractTechnicalCode(text, lang) {
+            let code = text.toLowerCase();
+            
+            // 1. إزالة الكلمات العادية لتنظيف النص
+            const removeWords = [
+                "ابحث", "عن", "كود", "عطل", "رقم", "غسالة", "صحون", "ملابس", "مكيف", "ثلاجة", 
+                "air", "conditioner", "washer", "dishwasher", "fridge", "lave-vaisselle", 
+                "lave-linge", "climatiseur", "code", "erreur", "error", "samsung", "lg", "bosch", 
+                "midea", "condor", "beko", "سامسونج", "إل جي", "ال جي", "بوش", "ميديا", "كوندور", "بيكو",
+                "ماشينة", "ماعن", "فريجيدار", "كليماتيزور", "قش", "حوايج", "تاع"
+            ];
+            
+            removeWords.forEach(w => {
+                const regex = new RegExp(`\\b${w}\\b`, "gi");
+                code = code.replace(regex, "");
+            });
+
+            // 2. الترجمة الصوتية (Phonetic Dictionary) للأكواد
+            // معالجة الأرقام المنطوقة
+            code = code.replace(/\bcinq\b/gi, '5').replace(/\bun\b/gi, '1').replace(/\bdeux\b/gi, '2').replace(/\btrois\b/gi, '3').replace(/\bquatre\b/gi, '4');
+            code = code.replace(/\bخمسة\b/gi, '5').replace(/\bواحد\b/gi, '1').replace(/\bاثنين\b|\bزوج\b/gi, '2').replace(/\bثلاثة\b/gi, '3').replace(/\bاربعة\b|\bرابعة\b/gi, '4');
+            
+            // معالجة الحروف التقنية التي يفهمها الميكروفون ككلمات (مثل نطق حرف C)
+            code = code.replace(/\bsi\b|\bci\b/gi, 'c'); // لحل مشكلة SI في الفرنسية[span_0](start_span)[span_0](end_span)
+            code = code.replace(/\bcé\b|\bse\b/gi, 'c');
+            code = code.replace(/\bo eu\b|\bo e\b/gi, 'oe');
+            
+            code = code.replace(/سي/g, 'c');
+            code = code.replace(/إي|اي|إی/g, 'e');
+            code = code.replace(/أو|او/g, 'o');
+            code = code.replace(/أف|اف/g, 'f');
+            code = code.replace(/أش|اش|إتش/g, 'h');
+            code = code.replace(/بي/g, 'p');
+            code = code.replace(/دي/g, 'd');
+            code = code.replace(/إل|ال/g, 'l');
+
+            // 3. دمج الكلمة واستخلاص الحروف والأرقام فقط (مثال: "5 c" تصبح "5C")
+            code = code.replace(/\s+/g, '').toUpperCase();
+            
+            // البحث عن نمط كود تقني (من حرف إلى 5 حروف وأرقام)
+            const match = code.match(/[A-Z0-9]{1,5}/);
+            return match ? match[0] : code;
+        }
+
         function processVoiceCommand(transcript) {
-            transcript = transcript.toLowerCase();
+            let lowerTranscript = transcript.toLowerCase();
             
             const clickOption = (listId, value) => {
                 const items = document.querySelectorAll(`#${listId} li`);
@@ -826,32 +898,25 @@
                 }
             };
 
-            // 1. استخراج نوع الجهاز
-            if (/صحون|dish|vaisselle|vajillas|посудомоечная/.test(transcript)) clickOption('device-list', 'dw');
-            else if (/ملابس|washing|linge|lavadora|стиральная/.test(transcript)) clickOption('device-list', 'wm');
-            else if (/مكيف|تكييف|air|climatiseur|acondicionado|кондиционер/.test(transcript)) clickOption('device-list', 'ac');
-            else if (/ثلاجة|fridge|réfrigérateur|refrigerador|холодильник/.test(transcript)) clickOption('device-list', 'fridge');
+            // 1. استخراج نوع الجهاز (بما في ذلك الدارجة الجزائرية)
+            if (/صحون|dish|vaisselle|vajillas|посудо/.test(lowerTranscript) || /ماعن|لماسن/i.test(lowerTranscript)) clickOption('device-list', 'dw');
+            else if (/ملابس|washing|linge|lavadora|стирал/.test(lowerTranscript) || /قش|حوايج/i.test(lowerTranscript)) clickOption('device-list', 'wm');
+            else if (/مكيف|تكييف|air|climatiseur|acondicionado|кондицион/.test(lowerTranscript) || /كليماتيزور|كليم/i.test(lowerTranscript)) clickOption('device-list', 'ac');
+            else if (/ثلاجة|fridge|réfrigérateur|refrigerador|холодиль/.test(lowerTranscript) || /فريجيدار/i.test(lowerTranscript)) clickOption('device-list', 'fridge');
 
             // 2. استخراج الماركة
-            if (/samsung|سامسونج/.test(transcript)) clickOption('brand-list', 'samsung');
-            else if (/lg|ال جي|إل جي/.test(transcript)) clickOption('brand-list', 'lg');
-            else if (/bosch|بوش/.test(transcript)) clickOption('brand-list', 'bosch');
-            else if (/midea|ميديا/.test(transcript)) clickOption('brand-list', 'midea');
-            else if (/condor|كوندور/.test(transcript)) clickOption('brand-list', 'condor');
-            else if (/beko|بيكو/.test(transcript)) clickOption('brand-list', 'beko');
+            if (/samsung|سامسونج|سامسونغ/.test(lowerTranscript)) clickOption('brand-list', 'samsung');
+            else if (/lg|ال جي|إل جي/.test(lowerTranscript)) clickOption('brand-list', 'lg');
+            else if (/bosch|بوش/.test(lowerTranscript)) clickOption('brand-list', 'bosch');
+            else if (/midea|ميديا/.test(lowerTranscript)) clickOption('brand-list', 'midea');
+            else if (/condor|كوندور/.test(lowerTranscript)) clickOption('brand-list', 'condor');
+            else if (/beko|بيكو/.test(lowerTranscript)) clickOption('brand-list', 'beko');
 
-            // 3. تنظيف النص
-            let codePart = transcript;
-            const removeWords = ["ابحث", "عن", "كود", "عطل", "رقم", "غسالة", "صحون", "ملابس", "مكيف", "ثلاجة", "air", "conditioner", "washer", "dishwasher", "fridge", "lave-vaisselle", "lave-linge", "climatiseur", "lavavajillas", "lavadora", "refrigerador", "кондиционер", "стиральная", "посудомоечная", "холодильник", "samsung", "lg", "bosch", "midea", "condor", "beko", "سامسونج", "إل جي", "ال جي", "بوش", "ميديا", "كوندور", "بيكو", "تكييف", "code", "erreur", "error", "error code"];
+            // 3. استخراج الكود التقني الصافي
+            const finalCode = extractTechnicalCode(lowerTranscript, currentLang);
             
-            removeWords.forEach(w => {
-                const regex = new RegExp(w, "gi");
-                codePart = codePart.replace(regex, "");
-            });
-
-            const finalCode = codePart.replace(/\s+/g, '').toUpperCase();
-            document.getElementById('error-code').value = finalCode || transcript.replace(/\s+/g, '').toUpperCase();
-            
+            // وضع الكود النهائي في مربع البحث وتشغيل دالة البحث
+            document.getElementById('error-code').value = finalCode;
             searchErrorCode();
         }
 
@@ -1012,8 +1077,8 @@
                 btn_facebook: " صفحة المطور على فيسبوك",
                 btn_guide: " الدليل الهندسي وشرح البرنامج",
                 btn_whatsapp: " تواصل عبر واتساب",
-                btn_add: " إضافة كود جديد",
-                btn_search: " شاشة البحث",
+                btn_add_text: " إضافة كود جديد",
+                btn_search_text: " شاشة البحث",
                 opt_ac: "مكيف هواء (Air Conditioner)",
                 opt_wm: "غسالة ملابس (Washing Machine)",
                 opt_dw: "غسالة صحون (Dishwasher)",
@@ -1029,7 +1094,7 @@
                 opt_plafonnier: "سقفي أرضي (Plafonnier)",
                 opt_portable: "متنقل منزلي (Portable)",
                 opt_vrv: "مركزي (VRV / VRF)",
-                placeholder: "اكتب رمز الخطأ مباشرة هنا (مثال: CH01, EC...)",
+                placeholder: "اكتب رمز الخطأ مباشرة هنا (مثال: CH01...)",
                 result: "لم يتم العثور على تشخيص مطابق. يمكنك إضافة هذا الكود عبر زر 'إضافة كود جديد'.",
                 error_code_prefix: "كود العطل:",
                 btn_add_database: "➕ أضف هذا الكود للموسوعة",
@@ -1046,8 +1111,8 @@
                 btn_facebook: " Developer's Facebook Page",
                 btn_guide: " Engineering Guide & Features",
                 btn_whatsapp: " Contact via WhatsApp",
-                btn_add: " Add New Code",
-                btn_search: " Search Screen",
+                btn_add_text: " Add New Code",
+                btn_search_text: " Search Screen",
                 opt_ac: "Air Conditioner",
                 opt_wm: "Washing Machine",
                 opt_dw: "Dishwasher",
@@ -1063,7 +1128,7 @@
                 opt_plafonnier: "Ceiling/Floor",
                 opt_portable: "Portable",
                 opt_vrv: "VRV / VRF",
-                placeholder: "Type error code here (e.g., CH01, EC...)",
+                placeholder: "Type error code here (e.g., CH01...)",
                 result: "No matching diagnosis found. You can add this code via the 'Add New Code' button.",
                 error_code_prefix: "Error Code:",
                 btn_add_database: "➕ Add to Database",
@@ -1080,8 +1145,8 @@
                 btn_facebook: " Page Facebook du Développeur",
                 btn_guide: " Guide d'Ingénierie",
                 btn_whatsapp: " Contact via WhatsApp",
-                btn_add: " Ajouter un Nouveau Code",
-                btn_search: " Écran de Recherche",
+                btn_add_text: " Ajouter un Nouveau Code",
+                btn_search_text: " Écran de Recherche",
                 opt_ac: "Climatiseur",
                 opt_wm: "Lave-linge",
                 opt_dw: "Lave-vaisselle",
@@ -1097,7 +1162,7 @@
                 opt_plafonnier: "Plafonnier",
                 opt_portable: "Portable",
                 opt_vrv: "VRV / VRF",
-                placeholder: "Tapez le code d'erreur ici (ex: CH01, EC...)",
+                placeholder: "Tapez le code d'erreur ici (ex: CH01...)",
                 result: "Aucun diagnostic correspondant trouvé. Vous pouvez l'ajouter via le bouton.",
                 error_code_prefix: "Code d'erreur:",
                 btn_add_database: "➕ Ajouter à la base",
@@ -1114,8 +1179,8 @@
                 btn_facebook: " Facebook del Desarrollador",
                 btn_guide: " Guía de Ingeniería",
                 btn_whatsapp: " Contacto vía WhatsApp",
-                btn_add: " Agregar Nuevo Código",
-                btn_search: " Pantalla de Búsqueda",
+                btn_add_text: " Agregar Nuevo Código",
+                btn_search_text: " Pantalla de Búsqueda",
                 opt_ac: "Aire Acondicionado",
                 opt_wm: "Lavadora",
                 opt_dw: "Lavavajillas",
@@ -1131,7 +1196,7 @@
                 opt_plafonnier: "Plafón",
                 opt_portable: "Portátil",
                 opt_vrv: "VRV / VRF",
-                placeholder: "Escriba el código de error aquí (ej: CH01, EC...)",
+                placeholder: "Escriba el código de error aquí (ej: CH01...)",
                 result: "No se encontró ningún diagnóstico. Puede agregarlo a través del botón.",
                 error_code_prefix: "Código de error:",
                 btn_add_database: "➕ Agregar a la base",
@@ -1148,8 +1213,8 @@
                 btn_facebook: " Страница Facebook",
                 btn_guide: " Инженерное руководство",
                 btn_whatsapp: " Связаться в WhatsApp",
-                btn_add: " Добавить новый код",
-                btn_search: " Экран поиска",
+                btn_add_text: " Добавить новый код",
+                btn_search_text: " Экран поиска",
                 opt_ac: "Кондиционер",
                 opt_wm: "Стиральная машина",
                 opt_dw: "Посудомоечная машина",
@@ -1194,7 +1259,7 @@
                 });
 
                 document.getElementById('error-code').placeholder = translations[currentLang].placeholder;
-                searchErrorCode(); // تحديث فوري للغة النتيجة المعروضة
+                searchErrorCode();
             });
         });
     </script>
