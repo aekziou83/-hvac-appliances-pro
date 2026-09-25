@@ -357,6 +357,7 @@
 
         <div class="search-filters">
             
+            <!-- 1. القائمة المخصصة لنوع الجهاز -->
             <div class="custom-select-container" id="device-container">
                 <div class="select-box" onclick="toggleDropdown('device-list', 'device-container')">
                     <div class="select-content">
@@ -373,6 +374,7 @@
                 </ul>
             </div>
 
+            <!-- 2. القائمة المخصصة للماركات -->
             <div class="custom-select-container" id="brand-container">
                 <div class="select-box" onclick="toggleDropdown('brand-list', 'brand-container')">
                     <div class="select-content">
@@ -435,6 +437,7 @@
                 </ul>
             </div>
 
+            <!-- 3. القائمة المخصصة للتقنية -->
             <div class="custom-select-container" id="tech-wrapper">
                 <div class="select-box" onclick="toggleDropdown('tech-list', 'tech-wrapper')">
                     <div class="select-content">
@@ -450,6 +453,7 @@
                 </ul>
             </div>
 
+            <!-- 4. القائمة المخصصة للأشكال -->
             <div class="custom-select-container" id="shape-wrapper">
                 <div class="select-box" onclick="toggleDropdown('shape-list', 'shape-wrapper')">
                     <div class="select-content">
@@ -469,6 +473,7 @@
                 </ul>
             </div>
 
+            <!-- 5. منطقة البحث مع زر الميكروفون الأخضر -->
             <div class="search-input-area">
                 <div class="code-input-wrapper">
                     <span class="icon-emoji" style="color:var(--text-muted); font-size:1.4rem;">⌨️</span>
@@ -479,6 +484,7 @@
                 </button>
             </div>
 
+            <!-- شريط التسجيل المنبثق -->
             <div class="recording-overlay" id="recording-overlay">
                 <span class="record-time" id="record-timer">0:00</span>
                 <div class="record-wave"></div>
@@ -486,6 +492,7 @@
                     <button type="button" class="btn-cancel-record" id="cancel-record-btn" title="إلغاء">
                         <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </button>
+                    <!-- إرسال يدوي كإجراء احتياطي -->
                     <button type="button" class="btn-send-record" id="send-record-btn" title="إرسال (بحث)">
                         <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>
@@ -494,6 +501,7 @@
 
         </div>
 
+        <!-- مربع عرض نتيجة البحث -->
         <div class="result-message" id="result-message">
             <!-- سيتم حقن النتيجة هنا -->
         </div>
@@ -532,20 +540,17 @@
         ];
 
         // =========================================================================
-        // ميزة البحث الصوتي التلقائي (Auto-Submit) والمترجم الاحترافي جداً
+        // ميزة البحث الصوتي التلقائي السريع
         // =========================================================================
         let recognition = null;
         let isRecording = false;
-        let recordInterval;
-        let recordSeconds = 0;
         let silenceTimer = null;
         let hasProcessedVoice = false; 
 
         function startVoiceSearch() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
             if (!SpeechRecognition) {
-                alert(translations[currentLang].no_speech_support || "عذراً، متصفحك لا يدعم البحث الصوتي.");
+                alert("عذراً، متصفحك لا يدعم البحث الصوتي.");
                 return;
             }
 
@@ -556,31 +561,18 @@
                 const langMap = { 'ar': 'ar-DZ', 'en': 'en-US', 'fr': 'fr-FR', 'es': 'es-ES', 'ru': 'ru-RU' };
                 recognition.lang = langMap[currentLang] || 'ar-DZ';
                 
-                // إيقاف الاستماع المستمر لتفعيل البحث التلقائي بمجرد السكوت
                 recognition.continuous = false; 
                 recognition.interimResults = true;
                 recognition.maxAlternatives = 1;
 
-                const micBtnMain = document.getElementById('start-record-btn');
                 const overlay = document.getElementById('recording-overlay');
-                const timerDisplay = document.getElementById('record-timer');
+                document.getElementById('start-record-btn').style.display = 'none';
+                overlay.classList.add('active');
 
                 isRecording = true;
                 hasProcessedVoice = false; 
-                recordSeconds = 0;
-                timerDisplay.innerText = "0:00";
-                micBtnMain.style.display = 'none';
-                overlay.classList.add('active');
+                document.getElementById('error-code').value = '';
 
-                clearInterval(recordInterval);
-                recordInterval = setInterval(() => {
-                    recordSeconds++;
-                    let mins = Math.floor(recordSeconds / 60);
-                    let secs = recordSeconds % 60;
-                    timerDisplay.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-                }, 1000);
-
-                // الالتقاط التلقائي (Auto-Submit) بمجرد الصمت
                 recognition.onresult = function(event) {
                     let interimTranscript = '';
                     let finalStr = '';
@@ -596,7 +588,7 @@
 
                     clearTimeout(silenceTimer);
                     
-                    // المستشعر: إذا صمت المستخدم لمدة 1.2 ثانية يغلق ويبحث تلقائياً
+                    // المستشعر: 1.2 ثانية صمت تعني إغلاق وبحث تلقائي فوري
                     silenceTimer = setTimeout(() => {
                         if (isRecording && !hasProcessedVoice && document.getElementById('error-code').value.trim() !== '') {
                             hasProcessedVoice = true; 
@@ -608,7 +600,6 @@
 
                 recognition.onerror = function(event) {
                     stopRecordingUI();
-                    console.error("Speech error:", event.error);
                 };
 
                 recognition.onend = function() {
@@ -626,13 +617,11 @@
 
             } catch(e) {
                 stopRecordingUI();
-                alert("حدث خطأ في الميكروفون: " + e.message);
             }
         }
 
         function stopRecordingUI() {
             isRecording = false;
-            clearInterval(recordInterval);
             clearTimeout(silenceTimer);
             document.getElementById('recording-overlay').classList.remove('active');
             document.getElementById('start-record-btn').style.display = 'flex';
@@ -656,34 +645,30 @@
         });
 
         // =========================================================================
-        // المترجم الاحترافي: تنظيف صارم للنصوص واستخراج الكود
+        // المترجم الخرافي (الضربة القاضية لمشاكل النطق)
         // =========================================================================
         function extractTechnicalCode(text) {
             let code = text.toLowerCase();
             
-            // 1. إزالة جميع الكلمات المزعجة والدارجة لضمان بقاء الكود فقط
+            // 1. تدمير كل الكلمات الجانبية والدارجة والماركات
             const removeWords = [
                 "ابحث", "عن", "كود", "عطل", "رقم", "غسالة", "صحون", "ملابس", "مكيف", "ثلاجة", "تكييف", 
                 "عندي", "مشكلة", "في", "ايرور", "غلطة", "رمز", "ماشينة", "ماعن", "فريجيدار", "كليماتيزور", 
                 "قش", "حوايج", "تاع", "دير", "ديال", "واش", "كليم", "كونجيلاتور", "براد", "جلاية", "مواعين", 
                 "سبلت", "سبليت", "ماكينة", "اطباق", "بتاع", "حق", "شنو", "وش", "ايش", "سامسونج", "سامسونغ", 
                 "إل جي", "ال جي", "بوش", "ميديا", "كوندور", "بيكو", "دايكن", "code", "erreur", "error", 
-                "cherche", "lave", "vaisselle", "linge", "climatiseur", "frigo", "samsung", "lg", "bosch", 
-                "midea", "condor", "beko", "air", "conditioner", "dishwasher", "washer", "afficher", "affiche"
+                "cherche", "lave", "vaisselle", "linge", "climatiseur", "frigo"
             ];
             
             removeWords.forEach(w => {
                 code = code.replace(new RegExp(`\\b${w}\\b`, "gi"), " "); 
             });
 
-            // 2. إصلاحات مخصصة لأخطاء جوجل الشائعة التي واجهتك في الصور
+            // 2. إصلاح المشاكل المعقدة جداً لجوجل
             const exactFixes = {
-                // مشكلة نطق AC
                 'كنت قاسي': 'ac', 'كانت قاسي': 'ac', 'قاسي': 'ac', 'casey': 'ac', 'كاتي': 'ac', 'كات': 'ac', 'ايه سي': 'ac', 'إيه سي': 'ac',
-                // مشاكل نطق الحروف
                 'aussi': 'oc', 'أصير': 'oc', 'اصير': 'oc', 'أوسي': 'oc', 'اوسي': 'oc', 'zero c': '0c', 'زيرو سي': '0c',
-                'ايه': 'a', 'إيه': 'a',
-                'ice': 'ec', 'اي سي': 'ec', 'إي سي': 'ec', 'ايه سي': 'ac',
+                'ice': 'ec', 'اي سي': 'ec', 'إي سي': 'ec',
                 'دي سي': 'dc', 'بي إي': 'pe', 'بي اي': 'pe', 'تي إي': 'te', 'تي اي': 'te',
                 'أف إي': 'fe', 'اف اي': 'fe', 'إل إي': 'le', 'ال اي': 'le', 'إي وان': 'e1', 'اي وان': 'e1'
             };
@@ -691,9 +676,26 @@
                 code = code.replace(new RegExp(`\\b${bad}\\b`, "gi"), good);
             }
 
-            // 3. تحويل الأرقام المنطوقة إلى أرقام فعلية
+            // 3. تحويل الحروف العربية المفردة (تمت إضافة "اه" و "او" لحل مشكلتك الأخيرة)
+            const phonetics = {
+                'اه': 'e', 'إيه': 'e', 'ايه': 'e', 'إي': 'e', 'اي': 'e', 'إی': 'e', 'e': 'e', 'ae': 'e',
+                'أو': 'o', 'او': 'o', 'أوه': 'o', 'o': 'o',
+                'سي': 'c', 'سى': 'c', 'ci': 'c', 'si': 'c', 'cé': 'c', 'se': 'c', 'c': 'c',
+                'أف': 'f', 'اف': 'f', 'إف': 'f', 'f': 'f',
+                'أش': 'h', 'اش': 'h', 'إتش': 'h', 'اتش': 'h', 'h': 'h',
+                'بي': 'p', 'p': 'p',
+                'دي': 'd', 'd': 'd',
+                'إل': 'l', 'ال': 'l', 'l': 'l',
+                'تي': 't', 'ثي': 't', 't': 't',
+                'إس': 's', 'اس': 's', 's': 's'
+            };
+            for (const [word, letter] of Object.entries(phonetics)) {
+                code = code.replace(new RegExp(`\\b${word}\\b`, "gi"), letter);
+            }
+
+            // 4. تحويل الأرقام المنطوقة 
             const numbers = {
-                'واحد': '1', 'un': '1', 'one': '1', 'وحيد': '1', 'وان': '1',
+                'واحد': '1', 'un': '1', 'one': '1', 'وان': '1',
                 'زوج': '2', 'اثنين': '2', 'اتنين': '2', 'جوج': '2', 'deux': '2', 'two': '2', 'تو': '2',
                 'ثلاثة': '3', 'تلاتة': '3', 'تلت': '3', 'trois': '3', 'three': '3', 'ثري': '3',
                 'اربعة': '4', 'رابعة': '4', 'ربع': '4', 'quatre': '4', 'four': '4', 'فور': '4',
@@ -708,25 +710,10 @@
                 code = code.replace(new RegExp(`\\b${word}\\b`, "gi"), digit);
             }
 
-            // 4. الترجمة الصوتية للحروف
-            const phonetics = {
-                'سي': 'c', 'سى': 'c', 'ci': 'c', 'si': 'c', 'cé': 'c', 'se': 'c', 'c': 'c',
-                'إي': 'e', 'اي': 'e', 'إی': 'e', 'e': 'e',
-                'أو': 'o', 'او': 'o', 'أوه': 'o', 'o': 'o',
-                'أف': 'f', 'اف': 'f', 'إف': 'f', 'f': 'f',
-                'أش': 'h', 'اش': 'h', 'إتش': 'h', 'اتش': 'h', 'h': 'h',
-                'بي': 'p', 'p': 'p',
-                'دي': 'd', 'd': 'd',
-                'إل': 'l', 'ال': 'l', 'l': 'l',
-                'تي': 't', 'ثي': 't', 't': 't',
-                'إس': 's', 'اس': 's', 's': 's'
-            };
-            for (const [word, letter] of Object.entries(phonetics)) {
-                code = code.replace(new RegExp(`\\b${word}\\b`, "gi"), letter);
-            }
-
-            // 5. مسح جميع الفراغات والرموز ودمج الكود
+            // 5. التدمير النهائي لأي حرف عربي متبقي لكي يتبقى فقط الكود الإنجليزي والأرقام!
             code = code.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+            
+            // استخراج أول كود مطابق
             const match = code.match(/[A-Z0-9]{1,6}/);
             return match ? match[0] : code;
         }
@@ -758,11 +745,11 @@
             else if (/condor|كوندور/.test(lowerTranscript)) clickOption('brand-list', 'condor');
             else if (/beko|بيكو/.test(lowerTranscript)) clickOption('brand-list', 'beko');
 
-            // استخراج الكود الصافي ووضعه في مربع البحث
+            // استخراج الكود الصافي بفضل الفلتر الخرافي ووضعه في مربع البحث
             const finalCode = extractTechnicalCode(lowerTranscript);
             document.getElementById('error-code').value = finalCode;
             
-            // تشغيل البحث
+            // تشغيل البحث فورا دون ضغط المستخدم
             searchErrorCode();
         }
 
@@ -779,7 +766,7 @@
 
             if (currentValues.brand === 'all') {
                 resultBox.style.display = 'block';
-                const warningMsg = translations[currentLang].select_brand_first || "يرجى تحديد الماركة أولاً";
+                const warningMsg = translations[currentLang].select_brand_first || "يرجى تحديد الماركة أولاً لتجنب التشخيص الخاطئ.";
                 resultBox.innerHTML = `
                     <div style="text-align: center;">
                         <span style="font-size:2rem;">⚠️</span><br><br>
@@ -804,9 +791,9 @@
             resultBox.style.display = 'block';
 
             if (results.length > 0) {
-                const codePrefix = translations[currentLang].error_code_prefix;
-                const noImageTxt = translations[currentLang].no_image;
-                const noSchTxt = translations[currentLang].no_schematic;
+                const codePrefix = translations[currentLang].error_code_prefix || "كود العطل:";
+                const noImageTxt = translations[currentLang].no_image || "صورة العطل غير متوفرة";
+                const noSchTxt = translations[currentLang].no_schematic || "المخطط غير متوفر";
                 
                 let combinedHtml = '';
                 
@@ -850,7 +837,7 @@
                 resultBox.style.backgroundColor = "rgba(16, 185, 129, 0.1)";
             } else {
                 const notFoundMsg = translations[currentLang].result || "لم يتم العثور على تشخيص مطابق.";
-                const btnMsg = translations[currentLang].btn_add_database || "➕ أضف هذا الكود";
+                const btnMsg = translations[currentLang].btn_add_database || "➕ أضف هذا الكود للموسوعة";
                 
                 resultBox.innerHTML = `
                     <div style="text-align: center;">
