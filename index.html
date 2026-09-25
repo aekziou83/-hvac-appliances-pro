@@ -357,6 +357,7 @@
 
         <div class="search-filters">
             
+            <!-- 1. القائمة المخصصة لنوع الجهاز -->
             <div class="custom-select-container" id="device-container">
                 <div class="select-box" onclick="toggleDropdown('device-list', 'device-container')">
                     <div class="select-content">
@@ -373,6 +374,7 @@
                 </ul>
             </div>
 
+            <!-- 2. القائمة المخصصة للماركات -->
             <div class="custom-select-container" id="brand-container">
                 <div class="select-box" onclick="toggleDropdown('brand-list', 'brand-container')">
                     <div class="select-content">
@@ -435,6 +437,7 @@
                 </ul>
             </div>
 
+            <!-- 3. القائمة المخصصة للتقنية -->
             <div class="custom-select-container" id="tech-wrapper">
                 <div class="select-box" onclick="toggleDropdown('tech-list', 'tech-wrapper')">
                     <div class="select-content">
@@ -450,6 +453,7 @@
                 </ul>
             </div>
 
+            <!-- 4. القائمة المخصصة للأشكال -->
             <div class="custom-select-container" id="shape-wrapper">
                 <div class="select-box" onclick="toggleDropdown('shape-list', 'shape-wrapper')">
                     <div class="select-content">
@@ -469,6 +473,7 @@
                 </ul>
             </div>
 
+            <!-- 5. منطقة البحث مع زر الميكروفون الأخضر -->
             <div class="search-input-area">
                 <div class="code-input-wrapper">
                     <span class="icon-emoji" style="color:var(--text-muted); font-size:1.4rem;">⌨️</span>
@@ -479,6 +484,7 @@
                 </button>
             </div>
 
+            <!-- شريط التسجيل المنبثق -->
             <div class="recording-overlay" id="recording-overlay">
                 <span class="record-time" id="record-timer">0:00</span>
                 <div class="record-wave"></div>
@@ -486,6 +492,7 @@
                     <button type="button" class="btn-cancel-record" id="cancel-record-btn" title="إلغاء">
                         <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </button>
+                    <!-- إرسال يدوي كإجراء احتياطي -->
                     <button type="button" class="btn-send-record" id="send-record-btn" title="إرسال (بحث)">
                         <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>
@@ -494,6 +501,7 @@
 
         </div>
 
+        <!-- مربع عرض نتيجة البحث -->
         <div class="result-message" id="result-message">
             <!-- سيتم حقن النتيجة هنا -->
         </div>
@@ -532,11 +540,12 @@
         ];
 
         // =========================================================================
-        // ميزة البحث الصوتي التلقائي السريع
+        // ميزة البحث الصوتي التلقائي السريع مع إصلاح مشكلة التجمد
         // =========================================================================
         let recognition = null;
         let isRecording = false;
         let silenceTimer = null;
+        let recordInterval; 
         let hasProcessedVoice = false; 
 
         function startVoiceSearch() {
@@ -592,7 +601,6 @@
 
                     clearTimeout(silenceTimer);
                     
-                    // المستشعر: 1.2 ثانية صمت تعني إغلاق وبحث تلقائي فوري
                     silenceTimer = setTimeout(() => {
                         if (isRecording && !hasProcessedVoice && document.getElementById('error-code').value.trim() !== '') {
                             hasProcessedVoice = true; 
@@ -650,12 +658,12 @@
         });
 
         // =========================================================================
-        // المترجم الخرافي (الضربة القاضية لمشاكل النطق مع التحديثات الجديدة)
+        // المترجم الخرافي (Phonetic AI Filter) 
         // =========================================================================
         function extractTechnicalCode(text) {
             let code = text.toLowerCase();
             
-            // 1. تدمير كل الكلمات الجانبية والدارجة والماركات
+            // 1. تدمير كل الكلمات الجانبية والدارجة 
             const removeWords = [
                 "ابحث", "عن", "كود", "عطل", "رقم", "غسالة", "صحون", "ملابس", "مكيف", "ثلاجة", "تكييف", 
                 "عندي", "مشكلة", "في", "ايرور", "غلطة", "رمز", "ماشينة", "ماعن", "فريجيدار", "كليماتيزور", 
@@ -669,23 +677,18 @@
                 code = code.replace(new RegExp(`\\b${w}\\b`, "gi"), " "); 
             });
 
-            // 2. إصلاح المشاكل المعقدة جداً لجوجل (بما في ذلك الأخطاء الجديدة من الصور)
+            // 2. إصلاح الأخطاء المعقدة التي ظهرت في الصور
             const exactFixes = {
-                // مشاكل نطق الحروف
                 'كنت قاسي': 'ac', 'كانت قاسي': 'ac', 'قاسي': 'ac', 'casey': 'ac', 'كاتي': 'ac', 'كات': 'ac', 'ايه سي': 'ac', 'إيه سي': 'ac',
-                'aussi': 'oc', 'أصير': 'oc', 'اصير': 'oc', 'أوسي': 'oc', 'اوسي': 'oc', 'zero c': '0c', 'زيرو سي': '0c',
-                'ice': 'ec', 'اي سي': 'ec', 'إي سي': 'ec',
+                'aussi': 'oc', 'أصير': 'oc', 'اصير': 'oc', 'أوسي': 'oc', 'اوسي': 'oc', 'عاصي': 'oc', 'أصي': 'oc', 'zero c': '0c', 'زيرو سي': '0c',
+                'ice': 'ec', 'اي سي': 'ec', 'إي سي': 'ec', 'ici': 'ec',
                 'دي سي': 'dc', 'بي إي': 'pe', 'بي اي': 'pe', 'تي إي': 'te', 'تي اي': 'te',
                 'أف إي': 'fe', 'اف اي': 'fe', 'إل إي': 'le', 'ال اي': 'le', 'إي وان': 'e1', 'اي وان': 'e1',
-                // الأخطاء الجديدة المكتشفة
-                'آسيا': 'ac', 'اسي': 'ac', 'أسي': 'ac', // لـ AC
-                'راسي': 'rc', 'رسي': 'rc', // لـ RC
-                'عاش': 'h', 'اتش': 'h', 'إتش': 'h', // لـ H
-                'عاصي': 'oc', 'أصي': 'oc', // لـ OC
-                'آسف': 'sf', 'اسف': 'sf', // لـ SF
-                'في': 'v', // لـ V 
-                'passer': 'pc', // لـ PC
-                'ici': 'ec' // لـ EC
+                'آسيا': 'ac', 'اسي': 'ac', 'أسي': 'ac',
+                'راسي': 'rc', 'رسي': 'rc', 
+                'عاش': 'h', 'اتش': 'h', 'إتش': 'h', 
+                'آسف': 'sf', 'اسف': 'sf', 
+                'passer': 'pc'
             };
             for (const [bad, good] of Object.entries(exactFixes)) {
                 code = code.replace(new RegExp(`\\b${bad}\\b`, "gi"), good);
@@ -696,7 +699,7 @@
                 'اه': 'e', 'إيه': 'e', 'ايه': 'e', 'إي': 'e', 'اي': 'e', 'إی': 'e', 'e': 'e', 'ae': 'e',
                 'أو': 'o', 'او': 'o', 'أوه': 'o', 'o': 'o',
                 'سي': 'c', 'سى': 'c', 'ci': 'c', 'si': 'c', 'cé': 'c', 'se': 'c', 'c': 'c',
-                'أف': 'f', 'اف': 'f', 'إف': 'f', 'f': 'f',
+                'أف': 'f', 'اف': 'f', 'إف': 'f', 'f': 'f', 'في': 'v', 'v': 'v',
                 'أش': 'h', 'اش': 'h', 'إتش': 'h', 'اتش': 'h', 'h': 'h',
                 'بي': 'p', 'p': 'p',
                 'دي': 'd', 'd': 'd',
@@ -725,7 +728,7 @@
                 code = code.replace(new RegExp(`\\b${word}\\b`, "gi"), digit);
             }
 
-            // 5. التدمير النهائي لأي حرف عربي متبقي لكي يتبقى فقط الكود الإنجليزي والأرقام!
+            // 5. التدمير النهائي لأي حرف عربي متبقي 
             code = code.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
             
             // استخراج أول كود مطابق
@@ -746,13 +749,12 @@
                 }
             };
 
-            // التحديد التلقائي للجهاز
+            // التحديد التلقائي للجهاز والماركة
             if (/صحون|dish|vaisselle|vajillas|посудо|ماعن|مواعين|جلاية|اطباق/.test(lowerTranscript)) clickOption('device-list', 'dw');
             else if (/ملابس|washing|linge|lavadora|стирал|قش|حوايج|صابونة|ماكينة غسيل/.test(lowerTranscript)) clickOption('device-list', 'wm');
             else if (/مكيف|تكييف|air|climatiseur|acondicionado|кондицион|كليم|سبلت|سبليت/.test(lowerTranscript)) clickOption('device-list', 'ac');
             else if (/ثلاجة|fridge|réfrigérateur|refrigerador|холодиль|فريجيدار|براد|فريزر|كونجيلاتور/.test(lowerTranscript)) clickOption('device-list', 'fridge');
 
-            // التحديد التلقائي للماركة
             if (/samsung|سامسونج|سامسونغ/.test(lowerTranscript)) clickOption('brand-list', 'samsung');
             else if (/lg|ال جي|إل جي/.test(lowerTranscript)) clickOption('brand-list', 'lg');
             else if (/bosch|بوش/.test(lowerTranscript)) clickOption('brand-list', 'bosch');
@@ -760,11 +762,10 @@
             else if (/condor|كوندور/.test(lowerTranscript)) clickOption('brand-list', 'condor');
             else if (/beko|بيكو/.test(lowerTranscript)) clickOption('brand-list', 'beko');
 
-            // استخراج الكود الصافي بفضل الفلتر الخرافي ووضعه في مربع البحث
+            // استخراج الكود الصافي بفضل الفلتر 
             const finalCode = extractTechnicalCode(lowerTranscript);
             document.getElementById('error-code').value = finalCode;
             
-            // تشغيل البحث فورا دون ضغط المستخدم
             searchErrorCode();
         }
 
