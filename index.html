@@ -357,7 +357,6 @@
 
         <div class="search-filters">
             
-            <!-- 1. القائمة المخصصة لنوع الجهاز -->
             <div class="custom-select-container" id="device-container">
                 <div class="select-box" onclick="toggleDropdown('device-list', 'device-container')">
                     <div class="select-content">
@@ -374,7 +373,6 @@
                 </ul>
             </div>
 
-            <!-- 2. القائمة المخصصة للماركات -->
             <div class="custom-select-container" id="brand-container">
                 <div class="select-box" onclick="toggleDropdown('brand-list', 'brand-container')">
                     <div class="select-content">
@@ -437,7 +435,6 @@
                 </ul>
             </div>
 
-            <!-- 3. القائمة المخصصة للتقنية -->
             <div class="custom-select-container" id="tech-wrapper">
                 <div class="select-box" onclick="toggleDropdown('tech-list', 'tech-wrapper')">
                     <div class="select-content">
@@ -453,7 +450,6 @@
                 </ul>
             </div>
 
-            <!-- 4. القائمة المخصصة للأشكال -->
             <div class="custom-select-container" id="shape-wrapper">
                 <div class="select-box" onclick="toggleDropdown('shape-list', 'shape-wrapper')">
                     <div class="select-content">
@@ -473,7 +469,6 @@
                 </ul>
             </div>
 
-            <!-- 5. منطقة البحث مع زر الميكروفون الأخضر -->
             <div class="search-input-area">
                 <div class="code-input-wrapper">
                     <span class="icon-emoji" style="color:var(--text-muted); font-size:1.4rem;">⌨️</span>
@@ -484,7 +479,6 @@
                 </button>
             </div>
 
-            <!-- شريط التسجيل المنبثق -->
             <div class="recording-overlay" id="recording-overlay">
                 <span class="record-time" id="record-timer">0:00</span>
                 <div class="record-wave"></div>
@@ -492,7 +486,6 @@
                     <button type="button" class="btn-cancel-record" id="cancel-record-btn" title="إلغاء">
                         <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </button>
-                    <!-- إرسال يدوي كخيار بديل -->
                     <button type="button" class="btn-send-record" id="send-record-btn" title="إرسال (بحث)">
                         <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>
@@ -501,7 +494,6 @@
 
         </div>
 
-        <!-- مربع عرض نتيجة البحث -->
         <div class="result-message" id="result-message">
             <!-- سيتم حقن النتيجة هنا -->
         </div>
@@ -564,7 +556,7 @@
                 const langMap = { 'ar': 'ar-DZ', 'en': 'en-US', 'fr': 'fr-FR', 'es': 'es-ES', 'ru': 'ru-RU' };
                 recognition.lang = langMap[currentLang] || 'ar-DZ';
                 
-                // إيقاف الاستماع المستمر لتفعيل البحث التلقائي
+                // إيقاف الاستماع المستمر لتفعيل البحث التلقائي بمجرد السكوت
                 recognition.continuous = false; 
                 recognition.interimResults = true;
                 recognition.maxAlternatives = 1;
@@ -588,6 +580,7 @@
                     timerDisplay.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
                 }, 1000);
 
+                // الالتقاط التلقائي (Auto-Submit) بمجرد الصمت
                 recognition.onresult = function(event) {
                     let interimTranscript = '';
                     let finalStr = '';
@@ -599,21 +592,18 @@
                         }
                     }
                     
-                    // وضع النص المستمع حالياً في المربع
-                    let currentText = finalStr || interimTranscript;
-                    document.getElementById('error-code').value = currentText;
+                    document.getElementById('error-code').value = finalStr || interimTranscript;
 
-                    // تصفير مؤقت الصمت في كل مرة يسمع فيها صوتاً جديداً
                     clearTimeout(silenceTimer);
                     
-                    // مستشعر الصمت: إذا صمت المستخدم لمدة 1.5 ثانية يغلق ويبحث تلقائياً
+                    // المستشعر: إذا صمت المستخدم لمدة 1.2 ثانية يغلق ويبحث تلقائياً
                     silenceTimer = setTimeout(() => {
                         if (isRecording && !hasProcessedVoice && document.getElementById('error-code').value.trim() !== '') {
                             hasProcessedVoice = true; 
                             stopRecordingUI(); 
                             processVoiceCommand(document.getElementById('error-code').value); 
                         }
-                    }, 1500);
+                    }, 1200);
                 };
 
                 recognition.onerror = function(event) {
@@ -686,18 +676,19 @@
                 code = code.replace(new RegExp(`\\b${w}\\b`, "gi"), " "); 
             });
 
-            // 2. إصلاحات مخصصة لأخطاء جوجل المعروفة في نطق الكود التقني
+            // 2. إصلاحات مخصصة لأخطاء جوجل الشائعة التي واجهتك في الصور
             const exactFixes = {
-                // إصلاح نطق AC (أ-سي) الذي يترجمه جوجل لـ قاسي
-                'كنت قاسي': 'ac', 'كانت قاسي': 'ac', 'قاسي': 'ac', 
-                // إصلاحات أخرى ضرورية
+                // مشكلة نطق AC
+                'كنت قاسي': 'ac', 'كانت قاسي': 'ac', 'قاسي': 'ac', 'casey': 'ac', 'كاتي': 'ac', 'كات': 'ac', 'ايه سي': 'ac', 'إيه سي': 'ac',
+                // مشاكل نطق الحروف
                 'aussi': 'oc', 'أصير': 'oc', 'اصير': 'oc', 'أوسي': 'oc', 'اوسي': 'oc', 'zero c': '0c', 'زيرو سي': '0c',
-                'ice': 'ec', 'اي سي': 'ec', 'إي سي': 'ec', 'ايه سي': 'ec',
+                'ايه': 'a', 'إيه': 'a',
+                'ice': 'ec', 'اي سي': 'ec', 'إي سي': 'ec', 'ايه سي': 'ac',
                 'دي سي': 'dc', 'بي إي': 'pe', 'بي اي': 'pe', 'تي إي': 'te', 'تي اي': 'te',
                 'أف إي': 'fe', 'اف اي': 'fe', 'إل إي': 'le', 'ال اي': 'le', 'إي وان': 'e1', 'اي وان': 'e1'
             };
             for (const [bad, good] of Object.entries(exactFixes)) {
-                code = code.replace(new RegExp(bad, "gi"), good);
+                code = code.replace(new RegExp(`\\b${bad}\\b`, "gi"), good);
             }
 
             // 3. تحويل الأرقام المنطوقة إلى أرقام فعلية
@@ -720,7 +711,7 @@
             // 4. الترجمة الصوتية للحروف
             const phonetics = {
                 'سي': 'c', 'سى': 'c', 'ci': 'c', 'si': 'c', 'cé': 'c', 'se': 'c', 'c': 'c',
-                'إي': 'e', 'اي': 'e', 'إی': 'e', 'ايه': 'e', 'e': 'e',
+                'إي': 'e', 'اي': 'e', 'إی': 'e', 'e': 'e',
                 'أو': 'o', 'او': 'o', 'أوه': 'o', 'o': 'o',
                 'أف': 'f', 'اف': 'f', 'إف': 'f', 'f': 'f',
                 'أش': 'h', 'اش': 'h', 'إتش': 'h', 'اتش': 'h', 'h': 'h',
