@@ -1,0 +1,75 @@
+name: Build Android PRO APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Prepare web assets
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
+
+      - name: Install Capacitor & Build Android Project
+        run: |
+          npm install
+          npx cap add android
+          npx cap sync android
+          sed -i 's/<\/manifest>/<uses-permission android:name="android.permission.RECORD_AUDIO" \/>\n<\/manifest>/' android/app/src/main/AndroidManifest.xml
+
+      - name: Generate Official App Icon & Splash
+        run: |
+          ICON_SRC=$(find . -maxdepth 1 -type f \( -iname "icon.png" -o -iname "icon.jpg" -o -iname "icon.jpeg" -o -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" \) | head -n 1 || true)
+          if [ -n "$ICON_SRC" ]; then
+            echo "Using icon source: $ICON_SRC"
+            command -v convert >/dev/null 2>&1 || (sudo apt-get update && sudo apt-get install -y imagemagick)
+            mkdir -p assets
+            convert "$ICON_SRC" -resize 1024x1024^ -gravity center -extent 1024x1024 assets/icon-only.png
+            cp assets/icon-only.png assets/icon-foreground.png
+            convert -size 1024x1024 xc:"#0b0c10" assets/icon-background.png
+            convert -size 2732x2732 xc:"#0b0c10" \( assets/icon-only.png -resize 900x900 \) -gravity center -composite assets/splash.png
+            npx -y @capacitor/assets generate --android --iconBackgroundColor '#0b0c10' --splashBackgroundColor '#0b0c10'
+          else
+            echo "ERROR: No image file found in repository root!"
+            exit 1
+          fi
+
+      - name: Compile Android APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload Ready APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: HVAC-Appliances-PRO-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Publish Direct Download Link (GitHub Release)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk HVAC-Appliances-PRO.apk
+          gh release create v1.0 HVAC-Appliances-PRO.apk --title "الموسوعة الهندسية PRO v1.0" --notes "النسخة الرسمية لأندرويد" || gh release upload v1.0 HVAC-Appliances-PRO.apk --clobber
