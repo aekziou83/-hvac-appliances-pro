@@ -1,0 +1,331 @@
+name: Build Android APK PRO
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Prepare web assets in www
+        run: |
+          rm -rf www
+          mkdir -p www
+          cp index.html www/index.html
+          if [ -d "images" ]; then
+            cp -r images www/images
+          fi
+
+      - name: Install Capacitor dependencies
+        run: |
+          if [ ! -f package.json ]; then npm init -y; fi
+          npm install @capacitor/core@^6.0.0 @capacitor/cli@^6.0.0 @capacitor/android@^6.0.0 @capacitor/app@^6.0.0
+
+      - name: Add Android platform
+        run: |
+          rm -rf android
+          npx cap add android
+
+      - name: Inject Microphone, Queries & AndroidNativeBridge
+        run: |
+          python3 << 'EOF'
+          import json, os
+
+          with open("capacitor.config.json", "r", encoding="utf-8") as f:
+              cfg = json.load(f)
+          app_id = cfg.get("appId", "com.zinnour.hvacpro")
+
+          manifest_path = "android/app/src/main/AndroidManifest.xml"
+          with open(manifest_path, "r", encoding="utf-8") as f:
+              manifest = f.read()
+
+          inject_block = ""
+          if "android.permission.RECORD_AUDIO" not in manifest:
+              inject_block += '    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n'
+          if "android.speech.action.RECOGNIZE_SPEECH" not in manifest:
+              inject_block += (
+                  '    <queries>\n'
+                  '        <intent>\n'
+                  '            <action android:name="android.speech.RecognitionService" />\n'
+                  '        </intent>\n'
+                  '        <intent>\n'
+                  '            <action android:name="android.speech.action.RECOGNIZE_SPEECH" />\n'
+                  '        </intent>\n'
+                  '    </queries>\n'
+              )
+
+          if inject_block:
+              manifest = manifest.replace("<application", inject_block + "    <application", 1)
+              with open(manifest_path, "w", encoding="utf-8") as f:
+                  f.write(manifest)
+
+          java_dir = os.path.join("android/app/src/main/java", *app_id.split("."))
+          os.makedirs(java_dir, exist_ok=True)
+          main_activity_path = os.path.join(java_dir, "MainActivity.java")
+
+          java_code = r'''package __APP_ID__;
+
+          import android.app.Activity;
+          import android.content.ContentValues;
+          import android.content.Context;
+          import android.content.Intent;
+          import android.net.Uri;
+          import android.os.Build;
+          import android.os.Bundle;
+          import android.os.Environment;
+          import android.print.PrintAttributes;
+          import android.print.PrintDocumentAdapter;
+          import android.print.PrintManager;
+          import android.provider.MediaStore;
+          import android.speech.RecognizerIntent;
+          import android.webkit.JavascriptInterface;
+          import android.webkit.WebView;
+
+          import androidx.activity.result.ActivityResultLauncher;
+          import androidx.activity.result.contract.ActivityResultContracts;
+
+          import com.getcapacitor.BridgeActivity;
+
+          import org.json.JSONObject;
+
+          import java.io.File;
+          import java.io.FileOutputStream;
+          import java.io.OutputStream;
+          import java.nio.charset.StandardCharsets;
+          import java.util.ArrayList;
+
+          public class MainActivity extends BridgeActivity {
+
+              private ActivityResultLauncher<Intent> voiceLauncher;
+
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+
+                  voiceLauncher = registerForActivityResult(
+                      new ActivityResultContracts.StartActivityForResult(),
+                      result -> {
+                          WebView webView = getBridge() != null ? getBridge().getWebView() : null;
+                          if (webView != null && result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                              ArrayList<String> matches = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                              if (matches != null && !matches.isEmpty()) {
+                                  String spoken = matches.get(0);
+                                  webView.post(() -> webView.evaluateJavascript(
+                                      "window.onNativeVoiceResult(" + JSONObject.quote(spoken) + ");", null
+                                  ));
+                              }
+                          }
+                      }
+                  );
+
+                  WebView webView = getBridge() != null ? getBridge().getWebView() : null;
+                  if (webView != null) {
+                      webView.addJavascriptInterface(new NativeBridge(), "AndroidNativeBridge");
+                  }
+              }
+
+              public class NativeBridge {
+                  @JavascriptInterface
+                  public void startVoiceRecognition(String langTag, String promptText) {
+                      runOnUiThread(() -> {
+                          Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                          intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                          intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, (langTag != null && !langTag.isEmpty()) ? langTag : "ar");
+                          intent.putExtra(RecognizerIntent.EXTRA_PROMPT, (promptText != null) ? promptText : "Speak error code");
+                          try {
+                              voiceLauncher.launch(intent);
+                          } catch (Exception e) {
+                              WebView webView = getBridge() != null ? getBridge().getWebView() : null;
+                              if (webView != null) {
+                                  webView.post(() -> webView.evaluateJavascript("window.onNativeVoiceError('NO_SPEECH_SERVICE');", null));
+                              }
+                          }
+                      });
+                  }
+
+                  @JavascriptInterface
+                  public void printPage(String jobName) {
+                      runOnUiThread(() -> {
+                          WebView webView = getBridge() != null ? getBridge().getWebView() : null;
+                          PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+                          if (printManager != null && webView != null) {
+                              String name = (jobName != null && !jobName.isEmpty()) ? jobName : "HVAC-PRO";
+                              PrintDocumentAdapter adapter = webView.createPrintDocumentAdapter(name);
+                              printManager.print(name, adapter, new PrintAttributes.Builder().build());
+                          }
+                      });
+                  }
+
+                  @JavascriptInterface
+                  public void shareText(String title, String text) {
+                      runOnUiThread(() -> {
+                          Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                          sendIntent.setType("text/plain");
+                          sendIntent.putExtra(Intent.EXTRA_SUBJECT, title != null ? title : "HVAC PRO");
+                          sendIntent.putExtra(Intent.EXTRA_TEXT, text != null ? text : "");
+                          startActivity(Intent.createChooser(sendIntent, title != null ? title : "Share"));
+                      });
+                  }
+
+                  @JavascriptInterface
+                  public boolean saveHtmlToDownloads(String fileName, String htmlContent) {
+                      try {
+                          byte[] data = htmlContent.getBytes(StandardCharsets.UTF_8);
+                          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                              ContentValues values = new ContentValues();
+                              values.put(MediaStore.Downloads.DISPLAY_NAME, fileName);
+                              values.put(MediaStore.Downloads.MIME_TYPE, "text/html");
+                              values.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+                              Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+                              if (uri != null) {
+                                  try (OutputStream os = getContentResolver().openOutputStream(uri)) {
+                                      if (os != null) os.write(data);
+                                  }
+                                  return true;
+                              }
+                          } else {
+                              File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                              File file = new File(dir, fileName);
+                              try (FileOutputStream fos = new FileOutputStream(file)) {
+                                  fos.write(data);
+                              }
+                              return true;
+                          }
+                      } catch (Exception ignored) {}
+                      return false;
+                  }
+              }
+          }
+          '''.replace("__APP_ID__", app_id)
+
+          cleaned_java = "\n".join(line[10:] if line.startswith("          ") else line for line in java_code.splitlines())
+          with open(main_activity_path, "w", encoding="utf-8") as f:
+              f.write(cleaned_java)
+          EOF
+
+      - name: Inject Custom App Icon
+        run: |
+          python3 -c "import PIL" 2>/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq python3-pil)
+          python3 << 'EOF'
+          import os
+          from PIL import Image
+
+          candidates = [
+              "icon.png", "icon.jpg", "icon.jpeg",
+              "images/icon.png", "images/icon.jpg", "images/icon.jpeg",
+              "IMG_0322.jpeg", "IMG_0322.jpg", "IMG_0322.png"
+          ]
+          icon_src = next((p for p in candidates if os.path.exists(p)), None)
+
+          if not icon_src:
+              print("No custom icon found. Keeping default.")
+          else:
+              print("Applying custom icon from:", icon_src)
+              img = Image.open(icon_src).convert("RGBA")
+              w, h = img.size
+              side = min(w, h)
+              left = (w - side) // 2
+              top = (h - side) // 2
+              img_sq = img.crop((left, top, left + side, top + side))
+
+              bg = img_sq.getpixel((0, 0))
+              if bg[3] < 255:
+                  bg = (11, 12, 16, 255)
+
+              resample = getattr(Image, "Resampling", Image).LANCZOS
+              res_root = "android/app/src/main/res"
+
+              densities = {
+                  "mipmap-mdpi": (48, 108),
+                  "mipmap-hdpi": (72, 162),
+                  "mipmap-xhdpi": (96, 216),
+                  "mipmap-xxhdpi": (144, 324),
+                  "mipmap-xxxhdpi": (192, 432),
+              }
+
+              for folder, (legacy_sz, fg_sz) in densities.items():
+                  out_dir = os.path.join(res_root, folder)
+                  os.makedirs(out_dir, exist_ok=True)
+
+                  legacy_img = img_sq.resize((legacy_sz, legacy_sz), resample)
+                  legacy_img.save(os.path.join(out_dir, "ic_launcher.png"))
+                  legacy_img.save(os.path.join(out_dir, "ic_launcher_round.png"))
+
+                  fg_canvas = Image.new("RGBA", (fg_sz, fg_sz), bg)
+                  inner_sz = int(fg_sz * 0.72)
+                  inner_img = img_sq.resize((inner_sz, inner_sz), resample)
+                  offset = (fg_sz - inner_sz) // 2
+                  fg_canvas.paste(inner_img, (offset, offset), inner_img)
+                  fg_canvas.save(os.path.join(out_dir, "ic_launcher_foreground.png"))
+
+              hex_bg = "#{:02x}{:02x}{:02x}".format(bg[0], bg[1], bg[2])
+              values_dir = os.path.join(res_root, "values")
+              os.makedirs(values_dir, exist_ok=True)
+              with open(os.path.join(values_dir, "app_icon_bg.xml"), "w", encoding="utf-8") as bf:
+                  bf.write(f'<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="app_icon_bg">{hex_bg}</color>\n</resources>\n')
+
+              anydpi_dir = os.path.join(res_root, "mipmap-anydpi-v26")
+              os.makedirs(anydpi_dir, exist_ok=True)
+              adaptive_xml = (
+                  '<?xml version="1.0" encoding="utf-8"?>\n'
+                  '<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">\n'
+                  '    <background android:drawable="@color/app_icon_bg"/>\n'
+                  '    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>\n'
+                  '</adaptive-icon>\n'
+              )
+              for xml_name in ["ic_launcher.xml", "ic_launcher_round.xml"]:
+                  with open(os.path.join(anydpi_dir, xml_name), "w", encoding="utf-8") as xf:
+                      xf.write(adaptive_xml)
+              print("Custom Android icon injected successfully.")
+          EOF
+
+      - name: Sync Capacitor Android
+        run: npx cap sync android
+
+      - name: Build Debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Prepare Release APK file
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk HVAC-Appliances-PRO.apk
+
+      - name: Update latest tag to newest commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -f latest
+          git push -f origin latest
+
+      - name: Publish APK to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: HVAC Appliances PRO APK
+          body: Latest Android PRO APK build
+          files: HVAC-Appliances-PRO.apk
+          overwrite_files: true
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
