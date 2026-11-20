@@ -1,8 +1,0 @@
-{
-  "appId": "com.zinnour.hvacpro",
-  "appName": "الموسوعة الهندسية PRO",
-  "webDir": "www",
-  "server": {
-    "androidScheme": "https"
-  }
-}
